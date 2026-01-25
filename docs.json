@@ -1,0 +1,121 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "OneTest",
+  "colors": {
+    "primary": "#6704DE",
+    "light": "#DFC5FE",
+    "dark": "#5003B8",
+    "background": {
+      "dark": "#0F0F0F"
+    },
+    "anchors": {
+      "from": "#6704DE",
+      "to": "#DFC5FE"
+    }
+  },
+  "favicon": "/favicon.png",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "getting-started/quickstart",
+              "getting-started/what-is-onetest",
+              "getting-started/your-first-test"
+            ]
+          },
+          {
+            "group": "Using OneTest",
+            "pages": [
+              "ui/test-management",
+              "ui/creating-tests",
+              "ui/running-tests",
+              "ui/viewing-results"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "resources/faq",
+              "resources/best-practices"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "AI Assistant",
+        "groups": [
+          {
+            "group": "AI Assistant",
+            "pages": [
+              "ai/overview",
+              "ai/generate-tests",
+              "ai/search-tests",
+              "ai/ask-questions",
+              "ai/best-practices"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "OQL",
+        "groups": [
+          {
+            "group": "OQL Query Language",
+            "pages": [
+              "oql/overview",
+              "oql/syntax",
+              "oql/examples",
+              "oql/field-reference"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Workflows",
+        "groups": [
+          {
+            "group": "Common Workflows",
+            "pages": [
+              "workflows/smoke-tests",
+              "workflows/regression-tests",
+              "workflows/organizing-tests",
+              "workflows/team-collaboration"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/onetest-ai",
+          "icon": "github"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.png",
+    "dark": "/logo/dark.png"
+  },
+  "navbar": {
+    "links": [],
+    "primary": {
+      "type": "button",
+      "label": "Get Started",
+      "href": "https://tms.onetest.ai"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/onetest-ai"
+    }
+  }
+}

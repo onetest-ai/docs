@@ -1,0 +1,261 @@
+---
+title: OQL Field Reference
+description: All searchable fields in OneTest Query Language
+icon: list
+---
+
+Complete reference of all fields you can query in OQL.
+
+## Test Case Fields
+
+### Identifiers & Metadata
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `identifier` | string | Test case ID | `identifier ^ "TC-10"` |
+| `title` | string | Test case title | `title ~ "login"` |
+| `description` | string | Test description | `description ~ "authentication"` |
+| `test_type` | string | manual, automated, api | `test_type = manual` |
+| `status` | string | draft, active, archived | `status = active` |
+| `priority` | string | p0, p1, p2, p3, p4 | `priority IN (p0, p1)` |
+
+### Dates & Times
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `created_at` | datetime | When created | `created_at >= -7d` |
+| `updated_at` | datetime | Last modified | `updated_at >= startOfMonth()` |
+| `last_run` | datetime | Last execution | `last_run >= 2024-01-01` |
+| `approved_at` | datetime | When approved | `approved_at IS NOT NULL` |
+
+### Organization
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `folder_id` | uuid | Parent folder | `folder_id IS NOT NULL` |
+| `folder_path` | string | Folder path | `folder_path ~ "/auth/"` |
+| `tags` | array | Test tags | `tags CONTAINS "smoke"` |
+| `component` | string | Component name | `component = "checkout"` |
+
+### Quality Metrics
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `pass_rate` | number | 0.0 to 1.0 | `pass_rate > 0.9` |
+| `execution_count` | number | Times executed | `execution_count >= 10` |
+| `avg_duration` | number | Avg time (seconds) | `avg_duration < 300` |
+| `failure_count` | number | Times failed | `failure_count > 0` |
+| `is_flaky` | boolean | Inconsistent results | `is_flaky = true` |
+
+### Ownership
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `created_by` | string | Creator user ID | `created_by = "user_123"` |
+| `updated_by` | string | Last editor | `updated_by = "current_user"` |
+| `assigned_to` | string | Assignee | `assigned_to = "current_user"` |
+| `reviewer` | string | Reviewer | `reviewer IS NOT NULL` |
+| `team` | string | Team name | `team = "qa"` |
+
+### Automation
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `automated` | boolean | Is automated | `automated = true` |
+| `automation_status` | string | Status | `automation_status = "in_progress"` |
+| `automation_test_id` | string | External test ID | `automation_test_id ~ "selenium"` |
+| `automation_framework` | string | Framework used | `automation_framework = "playwright"` |
+
+### Requirements
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `requirements` | array | Requirement IDs | `requirements CONTAINS "US-123"` |
+| `dependencies` | array | Dependent tests | `dependencies IS NOT NULL` |
+| `defect_links` | array | Linked bugs | `defect_links CONTAINS "JIRA-456"` |
+| `known_issues` | array | Known issues | `known_issues IS NULL` |
+
+## Test Run Fields
+
+### Run Metadata
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `run_id` | uuid | Run identifier | `run_id = "abc123..."` |
+| `run_name` | string | Run name | `run_name ~ "nightly"` |
+| `run_status` | string | Status | `run_status = "in_progress"` |
+| `environment` | string | Environment | `environment = "staging"` |
+| `build` | string | Build version | `build = "2.1.0"` |
+
+### Run Timing
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `run_started_at` | datetime | Run start time | `run_started_at >= -24h` |
+| `run_completed_at` | datetime | Run end time | `run_completed_at IS NOT NULL` |
+| `run_duration` | number | Total duration (s) | `run_duration < 3600` |
+
+### Run Results
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `run_passed` | number | Tests passed | `run_passed > 0` |
+| `run_failed` | number | Tests failed | `run_failed = 0` |
+| `run_skipped` | number | Tests skipped | `run_skipped > 0` |
+| `run_blocked` | number | Tests blocked | `run_blocked = 0` |
+| `run_pass_rate` | number | Pass percentage | `run_pass_rate >= 0.95` |
+
+## Execution Fields
+
+### Execution Status
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `execution_status` | string | Result | `execution_status = "failed"` |
+| `executed_by` | string | Executor | `executed_by = "user_123"` |
+| `executed_at` | datetime | Execution time | `executed_at >= -7d` |
+| `execution_duration` | number | Duration (s) | `execution_duration > 300` |
+
+### Execution Details
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `failure_reason` | string | Why it failed | `failure_reason ~ "timeout"` |
+| `error_message` | string | Error details | `error_message IS NOT NULL` |
+| `screenshots` | array | Screenshot URLs | `screenshots IS NOT NULL` |
+| `logs` | string | Execution logs | `logs ~ "ERROR"` |
+
+## Special Fields
+
+### System Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `product_id` | uuid | Product | Filtered automatically by context |
+| `version_number` | number | Test version | `version_number > 1` |
+| `is_deleted` | boolean | Soft deleted | Usually filtered automatically |
+
+### Computed Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `age_days` | number | Days since creation | `age_days > 30` |
+| `days_since_run` | number | Days since last run | `days_since_run > 7` |
+| `has_failures` | boolean | Ever failed | `has_failures = true` |
+| `coverage_score` | number | Coverage metric | `coverage_score < 0.8` |
+
+## Field Type Details
+
+### String Fields
+
+Case-insensitive by default. Use pattern operators:
+
+```oql
+title ~ "login"           # Contains
+title ^ "TC-"            # Starts with
+title $ "test"           # Ends with
+```
+
+### Number Fields
+
+Support comparison and range operations:
+
+```oql
+priority < p2            # Less than
+version >= 2             # Greater or equal
+age_days BETWEEN 7 AND 30  # Range
+```
+
+### Boolean Fields
+
+```oql
+automated = true
+is_flaky = false
+```
+
+### Datetime Fields
+
+Support ISO dates and relative dates:
+
+```oql
+created_at = "2024-01-15"
+created_at >= -7d
+created_at >= startOfMonth()
+```
+
+### Array Fields
+
+Support contains operations:
+
+```oql
+tags CONTAINS "smoke"
+tags CONTAINS ANY (smoke, regression)
+tags CONTAINS ALL (smoke, critical)
+requirements IS NOT NULL
+```
+
+## Platform-Specific Fields
+
+### Web Testing
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `browser` | string | Browser type | `browser = "chrome"` |
+| `viewport_size` | string | Screen size | `viewport_size = "1920x1080"` |
+| `responsive` | boolean | Responsive test | `responsive = true` |
+
+### Mobile Testing
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `platform` | string | ios, android | `platform = "ios"` |
+| `device` | string | Device model | `device ~ "iPhone"` |
+| `os_version` | string | OS version | `os_version ^ "15"` |
+
+### API Testing
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `endpoint` | string | API endpoint | `endpoint ~ "/users"` |
+| `http_method` | string | GET, POST, etc | `http_method = "POST"` |
+| `expected_status` | number | HTTP status | `expected_status = 200` |
+
+## Tips
+
+<Tip>
+Not sure what field to use? Ask the AI:
+
+```
+What fields can I search for automated tests?
+```
+
+The AI will suggest appropriate fields and show examples.
+</Tip>
+
+<Note>
+Custom fields are also searchable using dot notation:
+
+```oql
+custom_fields.jira_ticket = "PROJ-123"
+```
+</Note>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Query Examples"
+    icon="lightbulb"
+    href="/oql/examples"
+  >
+    Real-world query examples
+  </Card>
+
+  <Card
+    title="Syntax Reference"
+    icon="code"
+    href="/oql/syntax"
+  >
+    Complete OQL syntax
+  </Card>
+</CardGroup>

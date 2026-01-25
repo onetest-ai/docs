@@ -1,0 +1,244 @@
+---
+title: What is OneTest?
+description: Learn about OneTest and how it simplifies testing
+icon: circle-question
+---
+
+OneTest is an AI-powered testing platform that makes it easy to create, organize, and run tests for your applications.
+
+## Why OneTest?
+
+Traditional testing tools can be complex and time-consuming. OneTest simplifies testing with modern AI capabilities and intuitive workflows.
+
+<CardGroup cols={3}>
+  <Card title="AI Assistant" icon="robot">
+    Chat with an AI to create tests, find issues, and get insights—no scripting required.
+  </Card>
+
+  <Card title="Simple Test Management" icon="list-check">
+    Create tests in seconds, organize with folders and tags, track runs and results.
+  </Card>
+
+  <Card title="Powerful Search (OQL)" icon="magnifying-glass">
+    Find tests instantly with natural language queries.
+  </Card>
+</CardGroup>
+
+### AI Assistant in Action
+
+<Tabs>
+  <Tab title="Create Tests">
+    Simply describe what you want to test:
+
+    ```
+    You: "Create a login test for me"
+
+    AI: I'll create a test case for login...
+    ✓ Created TC-0001: Verify user login with valid credentials
+    ```
+  </Tab>
+
+  <Tab title="Search Tests">
+    Use natural language to find tests:
+
+    ```
+    Show me failed tests from yesterday
+    Find all smoke tests for the login feature
+    ```
+  </Tab>
+
+  <Tab title="Get Insights">
+    Ask questions about your test suite:
+
+    ```
+    What's the pass rate for checkout tests this sprint?
+    Which tests are failing most often?
+    ```
+  </Tab>
+</Tabs>
+
+## Who is it for?
+
+<CardGroup cols={2}>
+  <Card title="QA Engineers" icon="flask">
+    Create and execute test cases efficiently with AI assistance
+  </Card>
+
+  <Card title="Test Managers" icon="chart-line">
+    Track coverage, quality metrics, and team progress
+  </Card>
+
+  <Card title="Developers" icon="code">
+    Run smoke tests before deployment and catch issues early
+  </Card>
+
+  <Card title="Product Teams" icon="users">
+    Understand test coverage and quality trends
+  </Card>
+</CardGroup>
+
+## How it works
+
+<Steps>
+  <Step title="Create Tests">
+    **Using the UI:**
+    1. Click "+ New Test Case"
+    2. Fill in title and steps
+    3. Save
+
+    **Using AI:**
+    ```
+    "Create a test for password reset flow"
+    ```
+
+    The AI generates a complete test case for you.
+  </Step>
+
+  <Step title="Organize Tests">
+    Group tests with:
+    - **Folders** - By feature (Login, Checkout, Settings)
+    - **Tags** - By type (smoke, regression, api)
+    - **Suites** - For specific runs (Nightly, Pre-deploy)
+  </Step>
+
+  <Step title="Run Tests">
+    1. Select tests or a suite
+    2. Choose environment (Staging, Production)
+    3. Click "Run"
+    4. Track progress in real-time
+  </Step>
+
+  <Step title="Track Results">
+    Monitor key metrics:
+    - ✅ **Pass Rate** - What percentage passed?
+    - ⏱️ **Duration** - How long did it take?
+    - 📊 **Trends** - Is quality improving?
+    - 🐛 **Failures** - What broke?
+  </Step>
+</Steps>
+
+## Key Concepts
+
+<AccordionGroup>
+  <Accordion title="Test Cases" icon="file-lines">
+    A test case describes **what** to test and **how** to test it.
+
+    **Example:**
+    ```
+    Title: User can reset password via email
+
+    Steps:
+    1. Click "Forgot Password"
+    2. Enter email address
+    3. Click "Send Reset Link"
+    4. Check email inbox
+    5. Click reset link
+    6. Enter new password
+    7. Log in with new password
+
+    Expected: User successfully resets password and can log in
+    ```
+  </Accordion>
+
+  <Accordion title="Test Runs" icon="play">
+    A test run is an **execution** of test cases against a specific build or environment.
+
+    **Example:**
+    ```
+    Run Name: Staging Smoke Tests - Build 245
+    Environment: Staging
+    Tests: 25 smoke tests
+    Status: 24 passed, 1 failed
+    Duration: 15 minutes
+    ```
+  </Accordion>
+
+  <Accordion title="Test Suites" icon="layer-group">
+    A suite is a **collection** of related tests that run together.
+
+    **Common Suites:**
+    - **Smoke** - Critical paths (5-15 tests, 15 mins)
+    - **Regression** - Full coverage (100+ tests, 2+ hours)
+    - **Feature** - Specific feature tests
+  </Accordion>
+
+  <Accordion title="Tags" icon="tags">
+    Labels to categorize tests across folders.
+
+    **Common Tags:**
+    ```
+    smoke, regression, api, ui, mobile,
+    critical, high-priority, automated
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## What makes OneTest different?
+
+<Tabs>
+  <Tab title="Traditional Tools">
+    <Warning>
+    ❌ Complex configuration<br/>
+    ❌ Manual test creation<br/>
+    ❌ Hard to search and filter<br/>
+    ❌ Separate tools for different needs
+    </Warning>
+  </Tab>
+
+  <Tab title="OneTest">
+    <Check>Zero configuration - works out of the box</Check>
+    <Check>AI-powered test creation</Check>
+    <Check>Natural language search (OQL)</Check>
+    <Check>All-in-one platform</Check>
+  </Tab>
+</Tabs>
+
+## Getting Started
+
+Ready to create your first test?
+
+<CardGroup cols={2}>
+  <Card
+    title="Quick Start"
+    icon="rocket"
+    href="/getting-started/quickstart"
+  >
+    Create and run your first test in 5 minutes
+  </Card>
+
+  <Card
+    title="Your First Test"
+    icon="file-plus"
+    href="/getting-started/your-first-test"
+  >
+    Detailed walkthrough of creating a test
+  </Card>
+</CardGroup>
+
+## Need Help?
+
+<CardGroup cols={3}>
+  <Card
+    title="Chat with AI"
+    icon="comments"
+    href="/ai/overview"
+  >
+    Ask the AI assistant anything
+  </Card>
+
+  <Card
+    title="Common Workflows"
+    icon="book-open"
+    href="/workflows/smoke-tests"
+  >
+    Step-by-step guides
+  </Card>
+
+  <Card
+    title="FAQ"
+    icon="circle-question"
+    href="/resources/faq"
+  >
+    Frequently asked questions
+  </Card>
+</CardGroup>

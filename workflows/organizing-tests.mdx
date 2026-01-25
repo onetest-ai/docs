@@ -1,0 +1,522 @@
+---
+title: Organizing Tests
+description: Best practices for structuring your test suite
+icon: folder-tree
+---
+
+<Note>This page is under construction. More content coming soon!</Note>
+
+## Why Organization Matters
+
+A well-organized test suite is:
+- **Easy to navigate**: Find tests quickly
+- **Maintainable**: Clear structure makes updates simple
+- **Scalable**: Grows cleanly as product expands
+- **Collaborative**: Team can work efficiently
+
+<Warning>
+Poor organization leads to duplicate tests, missed coverage, and wasted time.
+</Warning>
+
+## Organization Methods
+
+OneTest provides multiple ways to organize tests:
+
+<CardGroup cols={3}>
+  <Card
+    title="Folders"
+    icon="folder"
+  >
+    Hierarchical structure for logical grouping
+  </Card>
+
+  <Card
+    title="Tags"
+    icon="tag"
+  >
+    Flexible labels for categorization
+  </Card>
+
+  <Card
+    title="Custom Fields"
+    icon="input-text"
+  >
+    Product-specific metadata
+  </Card>
+</CardGroup>
+
+## Folder Structure Strategies
+
+<Tabs>
+  <Tab title="By Feature">
+    ### Organize by Product Features
+
+    Recommended for most teams.
+
+    ```
+    📁 Authentication
+       📁 Login
+          ✅ Valid credentials
+          ✅ Invalid password
+          ✅ Locked account
+       📁 Registration
+          ✅ New user signup
+          ✅ Email verification
+       📁 Password Reset
+          ✅ Request reset link
+          ✅ Reset with valid token
+
+    📁 User Profile
+       📁 View Profile
+       📁 Edit Profile
+       📁 Upload Avatar
+
+    📁 Products
+       📁 Browse Products
+       📁 Search Products
+       📁 Product Details
+       📁 Reviews
+
+    📁 Shopping Cart
+       📁 Add to Cart
+       📁 Update Quantity
+       📁 Remove Items
+
+    📁 Checkout
+       📁 Shipping Information
+       📁 Payment
+       📁 Order Confirmation
+    ```
+
+    **Pros:**
+    - Mirrors product structure
+    - Easy for new team members
+    - Scales well
+
+    **Cons:**
+    - May need reorganization after refactoring
+  </Tab>
+
+  <Tab title="By User Journey">
+    ### Organize by User Flows
+
+    Good for customer-centric products.
+
+    ```
+    📁 New User Journey
+       ✅ Discover product
+       ✅ Sign up
+       ✅ Complete onboarding
+       ✅ First action
+
+    📁 Purchase Journey
+       ✅ Browse catalog
+       ✅ Add to cart
+       ✅ Checkout
+       ✅ Payment
+       ✅ Confirmation
+
+    📁 Return User Journey
+       ✅ Login
+       ✅ View history
+       ✅ Repeat action
+       ✅ Logout
+
+    📁 Admin Journey
+       ✅ Login as admin
+       ✅ Access dashboard
+       ✅ Manage users
+       ✅ Generate reports
+    ```
+
+    **Pros:**
+    - Reflects real user behavior
+    - Easy to identify gaps
+    - Clear end-to-end scenarios
+
+    **Cons:**
+    - Tests may span multiple features
+    - Can have overlapping tests
+  </Tab>
+
+  <Tab title="By Test Type">
+    ### Organize by Testing Type
+
+    Common in mature testing organizations.
+
+    ```
+    📁 Functional Tests
+       📁 Smoke Tests
+       📁 Regression Tests
+       📁 Integration Tests
+
+    📁 Non-Functional Tests
+       📁 Performance Tests
+       📁 Security Tests
+       📁 Usability Tests
+       📁 Accessibility Tests
+
+    📁 Platform Tests
+       📁 Web Tests
+       📁 Mobile - iOS
+       📁 Mobile - Android
+       📁 API Tests
+
+    📁 Environment Tests
+       📁 Dev Tests
+       📁 Staging Tests
+       📁 Production Smoke Tests
+    ```
+
+    **Pros:**
+    - Clear separation of concerns
+    - Easy to run specific test types
+
+    **Cons:**
+    - May duplicate structure
+    - Less intuitive for new team members
+  </Tab>
+
+  <Tab title="Hybrid">
+    ### Combine Multiple Strategies
+
+    Most flexible approach.
+
+    ```
+    📁 Smoke Tests (by type)
+       ✅ Login
+       ✅ Homepage loads
+       ✅ Add to cart
+       ✅ Checkout
+
+    📁 Features (by feature)
+       📁 Authentication
+       📁 Products
+       📁 Orders
+
+    📁 User Journeys (by flow)
+       📁 First-time Buyer
+       📁 Returning Customer
+
+    📁 Platforms (by platform)
+       📁 Web
+       📁 iOS App
+       📁 Android App
+    ```
+
+    **Pros:**
+    - Maximum flexibility
+    - Accommodates different needs
+
+    **Cons:**
+    - Can become confusing
+    - Requires discipline to maintain
+  </Tab>
+</Tabs>
+
+## Effective Tagging Strategy
+
+Tags provide cross-cutting categorization:
+
+<AccordionGroup>
+  <Accordion title="Priority Tags" icon="exclamation">
+    **Purpose:** Indicate criticality
+
+    - `p0` or `critical`: Must pass before release
+    - `p1` or `high`: Important, impacts core functionality
+    - `p2` or `medium`: Standard functionality
+    - `p3` or `low`: Nice to have
+    - `p4` or `trivial`: Optional
+
+    ```oql
+    priority = p0  # Built-in field
+    # OR
+    tags CONTAINS "critical"
+    ```
+  </Accordion>
+
+  <Accordion title="Test Type Tags" icon="vial">
+    **Purpose:** Categorize by testing approach
+
+    - `smoke`: Critical path verification
+    - `regression`: Full suite before release
+    - `sanity`: Quick verification
+    - `exploratory`: Ad-hoc testing
+    - `security`: Security-focused tests
+    - `performance`: Load/stress tests
+    - `accessibility`: A11y tests
+
+    ```oql
+    tags CONTAINS "smoke" OR tags CONTAINS "regression"
+    ```
+  </Accordion>
+
+  <Accordion title="Platform Tags" icon="laptop-mobile">
+    **Purpose:** Identify target platform
+
+    - `web`: Web application tests
+    - `mobile`: Mobile-specific
+    - `ios`: iOS app
+    - `android`: Android app
+    - `api`: API/backend tests
+    - `desktop`: Desktop application
+
+    ```oql
+    tags CONTAINS ANY (ios, android)
+    ```
+  </Accordion>
+
+  <Accordion title="Feature Tags" icon="puzzle-piece">
+    **Purpose:** Link to features/components
+
+    - `auth`, `login`, `signup`
+    - `cart`, `checkout`, `payment`
+    - `search`, `filter`, `sort`
+    - `profile`, `settings`
+    - `notifications`, `email`
+
+    ```oql
+    tags CONTAINS "checkout" AND tags CONTAINS "payment"
+    ```
+  </Accordion>
+
+  <Accordion title="Sprint/Release Tags" icon="calendar">
+    **Purpose:** Track when tests were added
+
+    - `sprint-24`: Tests for sprint 24
+    - `v2.1.0`: Tests for version 2.1.0
+    - `q1-2024`: Tests added in Q1
+
+    ```oql
+    tags CONTAINS "sprint-24"
+    ```
+  </Accordion>
+
+  <Accordion title="Status Tags" icon="circle-dot">
+    **Purpose:** Track test lifecycle
+
+    - `draft`: Work in progress
+    - `ready-for-review`: Needs review
+    - `approved`: Ready to use
+    - `automated`: Has automation
+    - `flaky`: Inconsistent results
+    - `deprecated`: Being phased out
+
+    ```oql
+    tags CONTAINS "flaky" AND last_run >= -7d
+    ```
+
+    <Note>
+    Many of these have built-in status fields. Use tags only if you need custom statuses.
+    </Note>
+  </Accordion>
+</AccordionGroup>
+
+## Naming Conventions
+
+<Tabs>
+  <Tab title="Test Case Titles">
+    ### Clear, Descriptive Titles
+
+    **Format:** `Verify [action] [condition] [expected result]`
+
+    <CardGroup cols={1}>
+      <Card title="✅ Good Examples" icon="check">
+        - `Verify user can login with valid credentials`
+        - `Verify error message displays for invalid email format`
+        - `Verify shopping cart updates when quantity is changed`
+        - `Verify checkout completes successfully with credit card`
+      </Card>
+
+      <Card title="❌ Bad Examples" icon="xmark">
+        - `Login test` ← Too vague
+        - `Test #47` ← No context
+        - `Check if it works` ← What is "it"?
+        - `User does something and sees a thing` ← Too generic
+      </Card>
+    </CardGroup>
+
+    **Tips:**
+    - Start with action verb: "Verify", "Validate", "Confirm"
+    - Include condition being tested
+    - Be specific about expected outcome
+    - Keep under 80 characters if possible
+  </Tab>
+
+  <Tab title="Folder Names">
+    ### Folder Naming
+
+    **Rules:**
+    - Use Title Case: `User Profile`, not `user profile`
+    - Be concise but descriptive
+    - Avoid abbreviations unless universal (e.g., "API" is okay)
+    - Use plurals for collections: `Products`, not `Product`
+
+    **Examples:**
+    ```
+    ✅ Good:
+    📁 Authentication
+    📁 User Management
+    📁 Product Catalog
+    📁 Payment Processing
+
+    ❌ Bad:
+    📁 auth (unclear abbreviation)
+    📁 User_Management (underscores)
+    📁 product catalog (not title case)
+    📁 paymentprocessing (no spaces)
+    ```
+  </Tab>
+
+  <Tab title="Tags">
+    ### Tag Naming
+
+    **Rules:**
+    - Use lowercase
+    - Use hyphens for multi-word tags: `smoke-test`, not `smokeTest`
+    - Be consistent across team
+    - Avoid redundant tags
+
+    **Examples:**
+    ```
+    ✅ Good:
+    smoke, regression, critical, login, checkout, ios, android
+
+    ❌ Bad:
+    Smoke (capitalized)
+    smoke_test (underscore)
+    smokeTest (camelCase)
+    smoke-tests (plural when others are singular)
+    ```
+  </Tab>
+</Tabs>
+
+## Maintenance Best Practices
+
+<Steps>
+  <Step title="Regular Audits">
+    Review test suite quarterly:
+    - Remove obsolete tests
+    - Update outdated tests
+    - Consolidate duplicates
+    - Fix organizational issues
+
+    ```oql
+    # Find old draft tests
+    status = draft AND created_at < -90d
+
+    # Find tests without folders
+    folder_id IS NULL
+
+    # Find untagged tests
+    tags IS NULL OR tags = []
+    ```
+  </Step>
+
+  <Step title="Ownership">
+    Assign test ownership:
+    - Feature teams own their feature tests
+    - QA owns smoke/regression suites
+    - Individuals own exploratory tests
+
+    <Tip>
+    Use custom fields to track ownership: `owned_by: "payments-team"`
+    </Tip>
+  </Step>
+
+  <Step title="Documentation">
+    Document your structure:
+    - Create folder descriptions
+    - Define tag meanings
+    - Maintain test suite README
+    - Train new team members
+  </Step>
+
+  <Step title="Automation">
+    Automate organization tasks:
+    - Auto-tag based on folder location
+    - Bulk move tests between folders
+    - Generate coverage reports
+    - Alert on orphaned tests
+  </Step>
+</Steps>
+
+## Common Anti-Patterns
+
+<Warning>
+Avoid these common mistakes:
+</Warning>
+
+<AccordionGroup>
+  <Accordion title="Too Many Levels" icon="layer-group">
+    **Problem:** Deeply nested folders (&gt;5 levels)
+
+    ```
+    ❌ Bad:
+    📁 Web
+       📁 Desktop
+          📁 Chrome
+             📁 Windows
+                📁 Authentication
+                   📁 Login
+                      📁 Valid Credentials
+                         ✅ Test
+    ```
+
+    **Solution:** Flatten structure, use tags for additional categorization
+  </Accordion>
+
+  <Accordion title="Inconsistent Organization" icon="shuffle">
+    **Problem:** Some tests organized one way, others differently
+
+    **Solution:** Choose a strategy and stick to it. Migrate existing tests.
+  </Accordion>
+
+  <Accordion title="Tag Overload" icon="tags">
+    **Problem:** Too many tags (&gt;10 per test)
+
+    **Solution:** Use only meaningful tags. Remove redundant ones.
+  </Accordion>
+
+  <Accordion title="No Structure" icon="question">
+    **Problem:** All tests in root folder
+
+    **Solution:** Start organizing today! Create basic folders.
+  </Accordion>
+</AccordionGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Team Collaboration"
+    icon="users"
+    href="/workflows/team-collaboration"
+  >
+    Work together effectively
+  </Card>
+
+  <Card
+    title="OQL Examples"
+    icon="code"
+    href="/oql/examples"
+  >
+    Find tests with queries
+  </Card>
+
+  <Card
+    title="Best Practices"
+    icon="star"
+    href="/resources/best-practices"
+  >
+    General testing best practices
+  </Card>
+
+  <Card
+    title="Test Management"
+    icon="list-check"
+    href="/ui/test-management"
+  >
+    Back to test management
+  </Card>
+</CardGroup>

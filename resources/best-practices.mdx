@@ -1,0 +1,559 @@
+---
+title: Testing Best Practices
+description: Proven strategies for effective software testing
+icon: star
+---
+
+<Note>This page is under construction. More content coming soon!</Note>
+
+## Core Testing Principles
+
+<CardGroup cols={2}>
+  <Card
+    title="Test Early, Test Often"
+    icon="clock"
+  >
+    Catch bugs when they're cheapest to fix—during development
+  </Card>
+
+  <Card
+    title="Automate Wisely"
+    icon="robot"
+  >
+    Automate stable, repetitive tests. Keep exploratory testing manual.
+  </Card>
+
+  <Card
+    title="Test the Right Things"
+    icon="bullseye"
+  >
+    Focus on critical functionality and user journeys, not every edge case
+  </Card>
+
+  <Card
+    title="Make Tests Maintainable"
+    icon="wrench"
+  >
+    Clear, simple tests are easier to maintain than clever, complex ones
+  </Card>
+</CardGroup>
+
+## Writing Effective Test Cases
+
+<Tabs>
+  <Tab title="Clarity">
+    ### Write Clear, Unambiguous Tests
+
+    **Good test case characteristics:**
+    - **Specific**: No room for interpretation
+    - **Repeatable**: Anyone can execute and get same result
+    - **Self-contained**: Includes all necessary information
+    - **Actionable**: Clear steps to follow
+
+    <CodeGroup>
+    ```markdown ✅ Good Example
+    **Title**: Verify user can login with valid credentials
+
+    **Preconditions**:
+    - User account exists: test@example.com / Password123!
+    - User is not currently logged in
+
+    **Steps**:
+    1. Navigate to https://app.example.com/login
+       → Login page displays with email and password fields
+
+    2. Enter email: test@example.com
+       → Email field accepts input
+
+    3. Enter password: Password123!
+       → Password is masked with dots
+
+    4. Click "Login" button
+       → User is redirected to dashboard at /dashboard
+       → Welcome message displays: "Welcome, Test User"
+    ```
+
+    ```markdown ❌ Bad Example
+    **Title**: Login test
+
+    **Steps**:
+    1. Go to the site
+    2. Login
+    3. Check if it works
+    ```
+    </CodeGroup>
+  </Tab>
+
+  <Tab title="Scope">
+    ### One Test, One Purpose
+
+    **Do**: Test one thing per test case
+    ```markdown
+    ✅ Test: Verify user can login with valid credentials
+    ✅ Test: Verify error message for invalid password
+    ✅ Test: Verify error message for non-existent user
+    ```
+
+    **Don't**: Test multiple things in one test
+    ```markdown
+    ❌ Test: Verify entire user journey from signup to purchase
+    ```
+
+    **Why**: When the test fails, you immediately know what broke. Large tests are hard to debug and maintain.
+
+    <Tip>
+    If your test title includes "and", it's probably doing too much.
+    </Tip>
+  </Tab>
+
+  <Tab title="Independence">
+    ### Make Tests Independent
+
+    **Each test should:**
+    - Set up its own test data
+    - Not depend on other tests running first
+    - Clean up after itself (or use fresh test data)
+    - Be runnable in any order
+
+    **Example:**
+    ```markdown
+    ❌ Bad: Test depends on previous test
+    Test 1: Create user account
+    Test 2: Login with account from Test 1 ← Fails if Test 1 is skipped
+
+    ✅ Good: Each test is independent
+    Test 1: Verify user registration
+      - Creates test user
+      - Verifies creation
+      - Cleans up
+
+    Test 2: Verify login with valid credentials
+      - Uses pre-existing test account
+      - Doesn't depend on Test 1
+    ```
+  </Tab>
+
+  <Tab title="Data">
+    ### Use Good Test Data
+
+    **Test data best practices:**
+
+    1. **Realistic but not real**: Use fake data that looks real
+       - ✅ `john.smith@example.com`
+       - ❌ Real customer email addresses
+
+    2. **Descriptive**: Data should indicate its purpose
+       - ✅ `test_user_valid@example.com`
+       - ✅ `expired_credit_card_4111111111111111`
+
+    3. **Documented**: Include test data in test case
+       ```markdown
+       **Test Data**:
+       - Username: test@example.com
+       - Password: ValidPassword123!
+       - Expected result: Successful login
+       ```
+
+    4. **Isolated**: Don't share mutable test data between tests
+    5. **Fresh**: Use data that won't be affected by other tests
+  </Tab>
+</Tabs>
+
+## Test Organization
+
+<AccordionGroup>
+  <Accordion title="Use Meaningful Names" icon="tag">
+    **Test cases**: Start with action verb
+    - ✅ "Verify user can checkout with credit card"
+    - ❌ "Checkout test #42"
+
+    **Folders**: Group by feature or user journey
+    - ✅ `/Authentication/Login/`
+    - ❌ `/Tests/Stuff/More Stuff/`
+
+    **Tags**: Be consistent
+    - ✅ `smoke`, `regression`, `critical`
+    - ❌ `smoke`, `Smoke`, `SMOKE`, `smoke-test`
+  </Accordion>
+
+  <Accordion title="Prioritize Tests" icon="sort">
+    **Use priority levels:**
+    - **P0/Critical**: Blocks releases if failing
+    - **P1/High**: Important functionality
+    - **P2/Medium**: Standard features
+    - **P3/Low**: Nice to have
+    - **P4/Trivial**: Optional
+
+    **Run tests by priority:**
+    ```oql
+    priority = p0  # Run first
+    priority IN (p0, p1)  # Smoke suite
+    priority IN (p0, p1, p2)  # Full regression
+    ```
+  </Accordion>
+
+  <Accordion title="Track Coverage" icon="chart-pie">
+    **Ensure coverage of:**
+    - All critical user journeys
+    - All P0/P1 requirements
+    - Common error scenarios
+    - Edge cases for critical features
+
+    **Use OQL to find gaps:**
+    ```oql
+    # High priority features without tests
+    requirements ~ "US-" AND priority IN (p0, p1) AND test_count = 0
+
+    # Features not tested recently
+    status = active AND last_run < -30d AND priority IN (p0, p1)
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Automation Strategy
+
+<Tabs>
+  <Tab title="What to Automate">
+    ### Automate These Tests
+
+    **Good candidates for automation:**
+    - ✅ Smoke tests (run after every deployment)
+    - ✅ Regression tests (run before release)
+    - ✅ API tests (fast, stable, repeatable)
+    - ✅ Data-driven tests (same steps, different data)
+    - ✅ Tests run frequently (&gt;5 times per week)
+    - ✅ Stable tests (pass rate &gt;95%)
+
+    **Keep these manual:**
+    - ❌ Exploratory testing
+    - ❌ Usability testing
+    - ❌ Visual design testing
+    - ❌ Tests that change frequently
+    - ❌ Tests run rarely
+    - ❌ Tests with complex verification
+  </Tab>
+
+  <Tab title="Automation Pyramid">
+    ### Test Automation Pyramid
+
+    Follow the testing pyramid for balanced automation:
+
+    ```
+           /\
+          /UI\         10% - Slow, brittle, expensive
+         /----\
+        / API \        30% - Faster, more stable
+       /------\
+      /  Unit  \      60% - Fast, cheap, reliable
+     /----------\
+    ```
+
+    **Guidelines:**
+    - **Unit tests**: Most of your tests (60%)
+    - **API/Integration tests**: Moderate amount (30%)
+    - **UI tests**: Smallest amount (10%)
+
+    **Why**: Lower layers are faster, more reliable, and cheaper to maintain.
+  </Tab>
+
+  <Tab title="Maintenance">
+    ### Keep Automation Healthy
+
+    **Regular maintenance:**
+    - Fix failing tests immediately
+    - Remove flaky tests (fix or delete)
+    - Update for product changes
+    - Refactor for clarity
+    - Review every sprint
+
+    **Signs of poor automation:**
+    - Tests fail for no reason
+    - Team ignores failures
+    - Long execution times (&gt;1 hour)
+    - Hard to debug failures
+    - Requires "test environment expert" to run
+
+    <Warning>
+    If your team stops trusting automated tests, they become worthless. Maintain quality rigorously.
+    </Warning>
+  </Tab>
+</Tabs>
+
+## Test Execution
+
+<AccordionGroup>
+  <Accordion title="When to Run Tests" icon="calendar">
+    **Smoke tests**: After every deployment
+    - Quick verification (15-30 min)
+    - Critical paths only
+    - Blocks further testing if fails
+
+    **Regression tests**: Before releases
+    - Comprehensive validation (2-4 hours)
+    - All important features
+    - Blocks release if P0/P1 fail
+
+    **Exploratory tests**: Ongoing
+    - Ad-hoc testing
+    - New features
+    - Edge cases
+    - Unusual scenarios
+
+    **Automated tests**: Continuously
+    - On every commit (unit tests)
+    - Nightly (full regression)
+    - Pre-merge (affected tests)
+  </Accordion>
+
+  <Accordion title="Test Environments" icon="server">
+    **Environment strategy:**
+
+    1. **Development**: Developer local testing
+    2. **QA/Test**: QA team testing
+    3. **Staging**: Pre-production validation
+    4. **Production**: Smoke tests only
+
+    **Best practices:**
+    - Keep staging identical to production
+    - Use production-like data (anonymized)
+    - Isolate test data from production
+    - Refresh test environments regularly
+    - Document environment differences
+  </Accordion>
+
+  <Accordion title="Handling Failures" icon="triangle-exclamation">
+    **When a test fails:**
+
+    1. **Reproduce**: Can you reproduce the failure?
+       - Yes → Investigate
+       - No → Might be flaky, investigate further
+
+    2. **Classify**: What type of failure?
+       - Real bug → Create defect
+       - Test issue → Fix the test
+       - Environmental → Check environment
+       - Known issue → Link to existing bug
+
+    3. **Document**: Add details:
+       - Screenshots
+       - Logs
+       - Steps to reproduce
+       - Environment details
+
+    4. **Act**: Take appropriate action:
+       - Block release if P0/P1
+       - Assess risk if P2/P3
+       - Fix test if test issue
+  </Accordion>
+</AccordionGroup>
+
+## Team Collaboration
+
+<CardGroup cols={2}>
+  <Card
+    title="Shared Responsibility"
+    icon="users"
+  >
+    Everyone owns quality: devs write unit tests, QA writes integration tests, product defines acceptance criteria
+  </Card>
+
+  <Card
+    title="Clear Communication"
+    icon="comments"
+  >
+    Use test results to communicate: pass rate, coverage, trends, risks
+  </Card>
+
+  <Card
+    title="Review Tests"
+    icon="eye"
+  >
+    Review test cases like code: check for clarity, completeness, maintainability
+  </Card>
+
+  <Card
+    title="Share Knowledge"
+    icon="graduation-cap"
+  >
+    Document testing strategies, share test patterns, train new team members
+  </Card>
+</CardGroup>
+
+## Common Anti-Patterns
+
+<Warning>
+Avoid these testing mistakes:
+</Warning>
+
+<AccordionGroup>
+  <Accordion title="Testing Everything" icon="infinity">
+    **Problem**: Trying to test every possible scenario
+
+    **Why it's bad**: Wastes time, most tests add little value
+
+    **Solution**: Focus on:
+    - Critical user journeys
+    - High-risk areas
+    - Recently changed code
+    - Areas with frequent bugs
+  </Accordion>
+
+  <Accordion title="Test Automation for Everything" icon="robot">
+    **Problem**: Automating all tests blindly
+
+    **Why it's bad**: Some tests cost more to automate than run manually
+
+    **Solution**: Automate selectively based on:
+    - Frequency of execution
+    - Stability of feature
+    - Cost of automation vs manual
+    - ROI of automation
+  </Accordion>
+
+  <Accordion title="Ignoring Flaky Tests" icon="shuffle">
+    **Problem**: "Oh, that test is flaky, just re-run it"
+
+    **Why it's bad**: Erodes trust in test suite, masks real issues
+
+    **Solution**:
+    - Fix flaky tests immediately
+    - If can't fix, remove from suite
+    - Never accept "sometimes it fails"
+  </Accordion>
+
+  <Accordion title="No Test Maintenance" icon="wrench">
+    **Problem**: Writing tests but never updating them
+
+    **Why it's bad**: Tests become outdated, irrelevant, or broken
+
+    **Solution**:
+    - Review tests quarterly
+    - Update for product changes
+    - Remove obsolete tests
+    - Fix broken tests immediately
+  </Accordion>
+
+  <Accordion title="Testing Too Late" icon="clock">
+    **Problem**: Only testing at the end of development
+
+    **Why it's bad**: Bugs are expensive to fix late in cycle
+
+    **Solution**:
+    - Test during development
+    - Write tests first (TDD)
+    - Review requirements before coding
+    - Continuous testing in CI/CD
+  </Accordion>
+</AccordionGroup>
+
+## Metrics That Matter
+
+Track these metrics to improve testing:
+
+<CardGroup cols={3}>
+  <Card
+    title="Pass Rate"
+    icon="percent"
+  >
+    Target: &gt;95% for regression suite
+  </Card>
+
+  <Card
+    title="Coverage"
+    icon="chart-pie"
+  >
+    % of features with tests
+  </Card>
+
+  <Card
+    title="Defect Detection Rate"
+    icon="bug"
+  >
+    Bugs found in test vs production
+  </Card>
+
+  <Card
+    title="Cycle Time"
+    icon="clock"
+  >
+    Time from code to tested
+  </Card>
+
+  <Card
+    title="Automation Rate"
+    icon="robot"
+  >
+    % of tests automated
+  </Card>
+
+  <Card
+    title="Flaky Test Rate"
+    icon="shuffle"
+  >
+    Target: &lt;2%
+  </Card>
+</CardGroup>
+
+## Further Reading
+
+<CardGroup cols={2}>
+  <Card
+    title="Test Management"
+    icon="list-check"
+    href="/ui/test-management"
+  >
+    Learn about OneTest's features
+  </Card>
+
+  <Card
+    title="Smoke Testing"
+    icon="fire"
+    href="/workflows/smoke-tests"
+  >
+    Critical path testing workflow
+  </Card>
+
+  <Card
+    title="Regression Testing"
+    icon="rotate-left"
+    href="/workflows/regression-tests"
+  >
+    Comprehensive testing workflow
+  </Card>
+
+  <Card
+    title="Team Collaboration"
+    icon="users"
+    href="/workflows/team-collaboration"
+  >
+    Work together on testing
+  </Card>
+</CardGroup>
+
+## Recommended Books
+
+<AccordionGroup>
+  <Accordion title="Lessons Learned in Software Testing" icon="book">
+    By Cem Kaner, James Bach, and Bret Pettichord
+
+    Classic book with 293 lessons about software testing
+  </Accordion>
+
+  <Accordion title="Agile Testing" icon="book">
+    By Lisa Crispin and Janet Gregory
+
+    Testing in agile environments
+  </Accordion>
+
+  <Accordion title="Explore It!" icon="book">
+    By Elisabeth Hendrickson
+
+    Exploratory testing techniques
+  </Accordion>
+
+  <Accordion title="The Art of Software Testing" icon="book">
+    By Glenford J. Myers
+
+    Fundamentals of software testing (classic)
+  </Accordion>
+</AccordionGroup>

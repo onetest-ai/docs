@@ -1,0 +1,237 @@
+---
+title: Running Tests
+description: Execute and monitor test runs
+icon: play
+---
+
+<Note>This page is under construction. More content coming soon!</Note>
+
+## Running Tests
+
+Execute individual tests or entire test suites and monitor progress in real-time.
+
+## Execution Methods
+
+<Tabs>
+  <Tab title="Individual Test">
+    ### Run a Single Test
+
+    <Steps>
+      <Step title="Open the Test">
+        Navigate to the test case you want to run
+      </Step>
+
+      <Step title="Click Run">
+        Click the **"Run Test"** button
+      </Step>
+
+      <Step title="Execute Steps">
+        Follow the test steps and mark results:
+        - ✅ **Pass**: Step executed successfully
+        - ❌ **Fail**: Step failed (add failure details)
+        - ⏸️ **Skip**: Step was skipped
+        - 🚫 **Blocked**: Cannot execute due to blocker
+      </Step>
+
+      <Step title="Complete">
+        Mark the test as complete and add any notes
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Test Run">
+    ### Create a Test Run
+
+    <Steps>
+      <Step title="Select Tests">
+        Choose tests to include in the run
+      </Step>
+
+      <Step title="Create Run">
+        Click **"+ New Test Run"** and configure:
+        - **Name**: `Sprint 24 Regression`
+        - **Environment**: `Staging`
+        - **Build**: `2.1.0-rc1`
+      </Step>
+
+      <Step title="Assign Testers">
+        Assign tests to team members
+      </Step>
+
+      <Step title="Start Run">
+        Click **"Start Run"** to begin execution
+      </Step>
+
+      <Step title="Monitor Progress">
+        Track execution in real-time on the run dashboard
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Quick Run">
+    ### Quick Run from Search
+
+    <Steps>
+      <Step title="Search for Tests">
+        Use OQL or filters to find tests:
+        ```oql
+        tags CONTAINS "smoke" AND status = active
+        ```
+      </Step>
+
+      <Step title="Bulk Select">
+        Select all tests you want to run
+      </Step>
+
+      <Step title="Run Now">
+        Click **"Run Selected"**
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Test Run Dashboard
+
+Monitor your test run with real-time metrics:
+
+<CardGroup cols={3}>
+  <Card
+    title="Progress"
+    icon="chart-pie"
+  >
+    Overall completion percentage and status breakdown
+  </Card>
+
+  <Card
+    title="Execution Status"
+    icon="list-check"
+  >
+    See which tests are running, passed, failed, or blocked
+  </Card>
+
+  <Card
+    title="Team Activity"
+    icon="users"
+  >
+    Track who is executing which tests
+  </Card>
+</CardGroup>
+
+## Recording Results
+
+<AccordionGroup>
+  <Accordion title="Marking Steps" icon="check">
+    As you execute each step:
+    - Click **Pass** if the actual result matches expected
+    - Click **Fail** if results don't match (add screenshot/notes)
+    - Click **Skip** if step couldn't be tested
+    - Click **Blocked** if blocked by another issue
+  </Accordion>
+
+  <Accordion title="Adding Evidence" icon="image">
+    Attach supporting evidence:
+    - **Screenshots**: Capture what you see
+    - **Logs**: Paste relevant error logs
+    - **Videos**: Record complex issues
+    - **Files**: Attach test data or outputs
+  </Accordion>
+
+  <Accordion title="Defect Linking" icon="bug">
+    Link test failures to defects:
+    - Click **"Create Bug"** from failed test
+    - Or link to existing bug tracker issue (JIRA, GitHub, etc.)
+  </Accordion>
+
+  <Accordion title="Notes & Comments" icon="comment">
+    Add context for future reference:
+    - Observed behavior
+    - Environment specifics
+    - Workarounds tried
+    - Next steps
+  </Accordion>
+</AccordionGroup>
+
+## Test Run Configuration
+
+<Tabs>
+  <Tab title="Environment">
+    Select where tests will run:
+    - **Development**: Local testing
+    - **Staging**: Pre-production validation
+    - **Production**: Smoke tests in prod
+  </Tab>
+
+  <Tab title="Build">
+    Associate run with a specific build:
+    - Links results to version
+    - Enables trend analysis
+    - Tracks regression
+  </Tab>
+
+  <Tab title="Schedule">
+    Configure when to run:
+    - **Now**: Immediate execution
+    - **Scheduled**: Future date/time
+    - **Recurring**: Automated nightly/weekly runs
+  </Tab>
+
+  <Tab title="Notifications">
+    Get notified about:
+    - Run started
+    - Run completed
+    - Test failures
+    - Blockers encountered
+  </Tab>
+</Tabs>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card
+    title="Clear Test Runs"
+    icon="tag"
+  >
+    Name runs descriptively: "Sprint 24 Regression" not "Test Run 42"
+  </Card>
+
+  <Card
+    title="Document Failures"
+    icon="file-lines"
+  >
+    Always add screenshots and logs for failures
+  </Card>
+
+  <Card
+    title="Link Defects"
+    icon="link"
+  >
+    Connect failures to bug tracker for traceability
+  </Card>
+
+  <Card
+    title="Regular Smoke Tests"
+    icon="fire"
+  >
+    Run smoke tests after every deployment
+  </Card>
+</CardGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Viewing Results"
+    icon="chart-line"
+    href="/ui/viewing-results"
+  >
+    Analyze test results and trends
+  </Card>
+
+  <Card
+    title="Test Management"
+    icon="list-check"
+    href="/ui/test-management"
+  >
+    Back to test management overview
+  </Card>
+</CardGroup>

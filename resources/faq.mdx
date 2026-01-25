@@ -1,0 +1,357 @@
+---
+title: Frequently Asked Questions
+description: Common questions about OneTest
+icon: circle-question
+---
+
+<Note>This page is under construction. More content coming soon!</Note>
+
+## General Questions
+
+<AccordionGroup>
+  <Accordion title="What is OneTest?" icon="circle-question">
+    OneTest is an AI-powered testing platform that helps teams create, manage, and execute tests faster. It combines traditional test management with AI assistance to generate tests, search intelligently, and provide insights.
+
+    **Key features:**
+    - AI-powered test generation
+    - Powerful OQL query language
+    - Test execution tracking
+    - Team collaboration tools
+    - Artifacts and evidence storage
+  </Accordion>
+
+  <Accordion title="How is OneTest different from other test management tools?" icon="scale-balanced">
+    **What makes OneTest unique:**
+
+    - **AI-First Design**: Generate complete test cases by chatting with AI—no manual writing required
+    - **OQL Query Language**: Search tests like you search issues in JIRA
+    - **Modern Interface**: Clean, intuitive UI built for modern teams
+    - **Open Architecture**: Integrations with your existing tools
+    - **All-in-One**: Test management + artifacts + execution in one platform
+  </Accordion>
+
+  <Accordion title="Do I need to know how to code?" icon="code">
+    **No!** OneTest is designed for both technical and non-technical users:
+
+    - **Manual testers**: Create and execute tests through the UI
+    - **QA engineers**: Use OQL for advanced queries, integrate with CI/CD
+    - **Developers**: Write automated tests, use API
+    - **Product managers**: Review test coverage, track quality
+
+    The AI Assistant makes it even easier—just describe what you want to test in plain English.
+  </Accordion>
+
+  <Accordion title="What pricing plans are available?" icon="dollar-sign">
+    Visit [onetest.ai/pricing](https://onetest.ai/pricing) for current pricing information.
+
+    **Free trial:** 14 days, no credit card required
+    **Plans:** Starter, Professional, Enterprise
+    **Billing:** Monthly or annual
+  </Accordion>
+</AccordionGroup>
+
+## Getting Started
+
+<AccordionGroup>
+  <Accordion title="How do I create my first test?" icon="plus">
+    **Easiest way (AI):**
+    1. Press `Cmd/Ctrl + K` to open AI chat
+    2. Type: "Create a test for user login with valid credentials"
+    3. Review the generated test
+    4. Click Save
+
+    **Manual way:**
+    1. Go to Test Management
+    2. Click **"+ New Test"**
+    3. Fill in title, description, and steps
+    4. Click **Save**
+
+    See [Your First Test](/getting-started/your-first-test) for detailed walkthrough.
+  </Accordion>
+
+  <Accordion title="How do I invite team members?" icon="user-plus">
+    1. Go to **Settings** → **Members**
+    2. Click **"+ Invite Member"**
+    3. Enter email address
+    4. Select role (Owner or Member)
+    5. Click **Send Invite**
+
+    They'll receive an email invitation to join your product.
+  </Accordion>
+
+  <Accordion title="Can I import existing tests?" icon="file-import">
+    **Yes!** OneTest supports importing tests from:
+    - CSV files
+    - Excel spreadsheets
+    - JSON files
+    - Other test management tools (contact support)
+
+    **To import:**
+    1. Go to Test Management → **Import**
+    2. Upload your file
+    3. Map columns to OneTest fields
+    4. Review and confirm import
+  </Accordion>
+
+  <Accordion title="How do I integrate with CI/CD?" icon="code-branch">
+    OneTest provides REST APIs and webhooks for CI/CD integration:
+
+    **Example (GitHub Actions):**
+    ```yaml
+    - name: Run Tests
+      run: |
+        curl -X POST https://api.onetest.ai/v1/runs \
+          -H "Authorization: Bearer ${{ secrets.ONETEST_TOKEN }}" \
+          -d '{"filters": "tags CONTAINS smoke"}'
+    ```
+
+    See API documentation for details.
+  </Accordion>
+</AccordionGroup>
+
+## AI Assistant
+
+<AccordionGroup>
+  <Accordion title="How does the AI Assistant work?" icon="robot">
+    The AI Assistant uses Claude (by Anthropic) to understand your testing needs and generate complete test cases.
+
+    **It can:**
+    - Generate single tests or entire test suites
+    - Search existing tests using natural language
+    - Answer questions about your product
+    - Suggest test improvements
+    - Extract test cases from requirements
+
+    **It understands context:**
+    - Knows which product you're working on
+    - Sees your current page and selections
+    - Learns from your existing tests
+    - Adapts to your testing style
+  </Accordion>
+
+  <Accordion title="Is my data used to train AI models?" icon="shield-halved">
+    **No.** OneTest uses Claude's API with strict data protections:
+
+    - Your data is never used for training
+    - Conversations are encrypted
+    - Data stays in your region
+    - You control data retention
+
+    See our [Privacy Policy](https://onetest.ai/privacy) for details.
+  </Accordion>
+
+  <Accordion title="Can I customize AI behavior?" icon="sliders">
+    **Yes!** You can customize:
+
+    - **Personality**: Technical, friendly, concise, etc.
+    - **Detail level**: Brief or comprehensive test cases
+    - **Naming style**: Your preferred test naming conventions
+    - **Prompt templates**: Save prompts for common scenarios
+
+    Go to **Settings** → **AI Preferences** to customize.
+  </Accordion>
+
+  <Accordion title="What if the AI generates incorrect tests?" icon="triangle-exclamation">
+    The AI is very capable but not perfect:
+
+    **Always review generated tests:**
+    - Check steps make sense
+    - Verify expected results
+    - Add missing details
+    - Adjust to your standards
+
+    **Improve AI output:**
+    - Be specific in your prompts
+    - Provide more context
+    - Use examples
+    - Give feedback on generated tests
+
+    The AI learns from your edits and improves over time.
+  </Accordion>
+</AccordionGroup>
+
+## OQL Query Language
+
+<AccordionGroup>
+  <Accordion title="What is OQL?" icon="magnifying-glass">
+    **OQL (OneTest Query Language)** is a simple but powerful query language for finding tests, similar to JQL in JIRA.
+
+    **Example:**
+    ```oql
+    status = active AND priority IN (p0, p1) AND
+    tags CONTAINS "smoke"
+    ORDER BY created_at DESC
+    ```
+
+    See [OQL Overview](/oql/overview) for details.
+  </Accordion>
+
+  <Accordion title="Do I need to learn OQL?" icon="graduation-cap">
+    **Not required, but recommended** for power users:
+
+    - **Basic users**: Use simple filters in the UI
+    - **Advanced users**: Learn OQL for complex queries
+    - **AI users**: Ask AI to write OQL for you!
+
+    **Example with AI:**
+    ```
+    "Show me high priority tests that failed last week"
+    ```
+    AI generates: `priority IN (p0, p1) AND status = failed AND last_run >= -7d`
+  </Accordion>
+
+  <Accordion title="Can I save queries?" icon="bookmark">
+    **Yes!** Save frequently-used queries:
+
+    1. Write your OQL query
+    2. Click **"Save Query"**
+    3. Give it a name (e.g., "Critical Failed Tests")
+    4. Access from "Saved Queries" dropdown
+
+    Saved queries are shared with your team.
+  </Accordion>
+</AccordionGroup>
+
+## Test Execution
+
+<AccordionGroup>
+  <Accordion title="How do I run tests?" icon="play">
+    **Three ways to run tests:**
+
+    1. **Individual test**: Open test → Click "Run Test"
+    2. **Test run**: Select multiple tests → Click "Create Run"
+    3. **Automated**: Schedule tests or trigger from CI/CD
+
+    See [Running Tests](/ui/running-tests) for details.
+  </Accordion>
+
+  <Accordion title="Can tests be automated?" icon="robot">
+    **Yes!** OneTest supports:
+    - Manual test execution (click through UI)
+    - Automated test execution (API/Selenium/Playwright)
+    - Hybrid approach (some manual, some automated)
+
+    **For automation:**
+    - Mark tests as "automated"
+    - Link to automation test ID
+    - Execute via API
+    - Track automated results
+  </Accordion>
+
+  <Accordion title="How do I attach screenshots to test results?" icon="image">
+    **During test execution:**
+    1. Execute a test step
+    2. Click **"Add Evidence"**
+    3. Upload screenshot or drag & drop
+    4. Add optional description
+    5. Continue with next step
+
+    **Supported formats:** PNG, JPEG, GIF, PDF
+    **Storage:** Stored in Artifacts service
+  </Accordion>
+
+  <Accordion title="Can I run tests in parallel?" icon="arrows-split-up-and-left">
+    **Yes!** Distribute tests across team members:
+
+    1. Create a test run
+    2. Assign different tests to different team members
+    3. Everyone executes their assigned tests simultaneously
+    4. Monitor progress on run dashboard
+
+    This significantly speeds up test execution.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Tests are running slowly" icon="hourglass">
+    **Possible causes:**
+    - Too many steps per test
+    - Complex test data setup
+    - Slow environment
+    - Network issues
+
+    **Solutions:**
+    - Break large tests into smaller tests
+    - Optimize test data
+    - Use faster environment
+    - Check network connectivity
+    - Consider automation for repetitive tests
+  </Accordion>
+
+  <Accordion title="Can't find my tests" icon="magnifying-glass">
+    **Try these:**
+    1. Check filters—clear all filters and try again
+    2. Check folder—tests might be in subfolder
+    3. Check status—test might be archived
+    4. Use OQL: `title ~ "your search term"`
+    5. Use AI: "Find tests related to login"
+  </Accordion>
+
+  <Accordion title="AI Assistant is not responding" icon="circle-exclamation">
+    **Check:**
+    1. Internet connection
+    2. Browser console for errors
+    3. Try refreshing the page
+    4. Check system status page
+
+    If problem persists, contact support.
+  </Accordion>
+
+  <Accordion title="How do I reset my password?" icon="key">
+    1. Go to login page
+    2. Click **"Forgot Password?"**
+    3. Enter your email
+    4. Check email for reset link
+    5. Follow link to set new password
+
+    Or contact support if you need help.
+  </Accordion>
+</AccordionGroup>
+
+## Support
+
+<CardGroup cols={2}>
+  <Card
+    title="Email Support"
+    icon="envelope"
+    href="mailto:support@onetest.ai"
+  >
+    support@onetest.ai
+  </Card>
+
+  <Card
+    title="Documentation"
+    icon="book"
+    href="/introduction"
+  >
+    Browse our comprehensive docs
+  </Card>
+
+  <Card
+    title="GitHub Issues"
+    icon="github"
+    href="https://github.com/onetest-ai/onetest/issues"
+  >
+    Report bugs or request features
+  </Card>
+
+  <Card
+    title="Status Page"
+    icon="signal"
+    href="https://status.onetest.ai"
+  >
+    Check system status
+  </Card>
+</CardGroup>
+
+## Still have questions?
+
+<Card
+  title="Contact Support"
+  icon="headset"
+  href="mailto:support@onetest.ai"
+>
+  Our team is here to help! Email us at support@onetest.ai
+</Card>

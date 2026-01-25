@@ -1,0 +1,396 @@
+---
+title: OQL Examples
+description: Real-world OneTest Query Language examples
+icon: lightbulb
+---
+
+Real-world OQL query examples for common testing scenarios.
+
+## Test Management
+
+<AccordionGroup>
+  <Accordion title="Find All Smoke Tests" icon="fire">
+    ```oql
+    tags CONTAINS "smoke" AND status = active
+    ORDER BY priority ASC
+    ```
+
+    Returns all active smoke tests, sorted by priority.
+  </Accordion>
+
+  <Accordion title="Failed Tests from Last Run" icon="triangle-exclamation">
+    ```oql
+    status = failed AND last_run >= -7d
+    ORDER BY last_run DESC
+    ```
+
+    Tests that failed in the last week.
+  </Accordion>
+
+  <Accordion title="High Priority Tests" icon="exclamation">
+    ```oql
+    priority IN (p0, p1) AND status != archived
+    ORDER BY created_at DESC
+    ```
+
+    All P0 and P1 tests that aren't archived.
+  </Accordion>
+
+  <Accordion title="Tests Never Run" icon="circle-xmark">
+    ```oql
+    last_run IS NULL AND status = active
+    ORDER BY created_at ASC
+    ```
+
+    Active tests that have never been executed.
+  </Accordion>
+
+  <Accordion title="Recently Updated Tests" icon="clock">
+    ```oql
+    updated_at >= -14d
+    ORDER BY updated_at DESC
+    LIMIT 50
+    ```
+
+    Tests modified in the last 2 weeks.
+  </Accordion>
+
+  <Accordion title="Deprecated Tests to Archive" icon="box-archive">
+    ```oql
+    tags CONTAINS "deprecated" AND
+    last_run < -90d AND
+    status != archived
+    ```
+
+    Deprecated tests not run in 3 months.
+  </Accordion>
+</AccordionGroup>
+
+## Feature-Specific
+
+<AccordionGroup>
+  <Accordion title="Authentication Tests" icon="user-lock">
+    ```oql
+    (title ~ "login" OR title ~ "auth" OR title ~ "signup") AND
+    tags CONTAINS ANY (smoke, regression) AND
+    status = active
+    ORDER BY priority ASC
+    ```
+
+    Important authentication tests.
+  </Accordion>
+
+  <Accordion title="API Tests for Endpoint" icon="code">
+    ```oql
+    tags CONTAINS "api" AND
+    title ~ "/users" AND
+    test_type = automated
+    ```
+
+    Automated API tests for users endpoint.
+  </Accordion>
+
+  <Accordion title="Mobile-Specific Tests" icon="mobile">
+    ```oql
+    tags CONTAINS ANY (ios, android, mobile) AND
+    status = active
+    ORDER BY platform, priority
+    ```
+
+    All mobile tests grouped by platform.
+  </Accordion>
+
+  <Accordion title="Payment Flow Tests" icon="credit-card">
+    ```oql
+    (title ~ "payment" OR title ~ "checkout" OR tags CONTAINS "payment") AND
+    priority IN (p0, p1, p2)
+    ORDER BY priority ASC, title ASC
+    ```
+
+    Critical payment-related tests.
+  </Accordion>
+</AccordionGroup>
+
+## Quality Analysis
+
+<AccordionGroup>
+  <Accordion title="Flaky Tests" icon="shuffle">
+    ```oql
+    pass_rate < 0.8 AND
+    pass_rate > 0 AND
+    execution_count >= 5 AND
+    status = active
+    ORDER BY pass_rate ASC
+    ```
+
+    Tests with inconsistent results (60-80% pass rate).
+  </Accordion>
+
+  <Accordion title="Slow Tests" icon="hourglass">
+    ```oql
+    avg_duration > 300 AND
+    status = active
+    ORDER BY avg_duration DESC
+    LIMIT 20
+    ```
+
+    Tests taking longer than 5 minutes on average.
+  </Accordion>
+
+  <Accordion title="Tests Failing in Production" icon="server">
+    ```oql
+    environment = production AND
+    status = failed AND
+    last_run >= -24h
+    ORDER BY priority ASC
+    ```
+
+    Recent production failures.
+  </Accordion>
+
+  <Accordion title="Untriaged Failures" icon="circle-dot">
+    ```oql
+    status = failed AND
+    defect_links IS NULL AND
+    last_run >= -7d
+    ```
+
+    Failed tests without linked bugs.
+  </Accordion>
+</AccordionGroup>
+
+## Sprint & Release Planning
+
+<AccordionGroup>
+  <Accordion title="Tests for Current Sprint" icon="calendar">
+    ```oql
+    tags CONTAINS "sprint-24" AND
+    status IN (active, approved)
+    ORDER BY priority ASC
+    ```
+
+    Tests tagged for sprint 24.
+  </Accordion>
+
+  <Accordion title="Release Blockers" icon="stop">
+    ```oql
+    priority = p0 AND
+    (status = failed OR status = blocked) AND
+    tags CONTAINS "release"
+    ```
+
+    Critical tests blocking release.
+  </Accordion>
+
+  <Accordion title="Regression Suite" icon="list-check">
+    ```oql
+    tags CONTAINS "regression" AND
+    status = active AND
+    automated = true
+    ORDER BY folder_path, priority
+    ```
+
+    Automated regression tests by folder.
+  </Accordion>
+
+  <Accordion title="Tests Created This Sprint" icon="plus">
+    ```oql
+    created_at >= startOfMonth() AND
+    created_by = "current_user"
+    ORDER BY created_at DESC
+    ```
+
+    Your tests from this month.
+  </Accordion>
+</AccordionGroup>
+
+## Team & Ownership
+
+<AccordionGroup>
+  <Accordion title="My Tests" icon="user">
+    ```oql
+    created_by = "current_user"
+    ORDER BY updated_at DESC
+    ```
+
+    All tests you created.
+  </Accordion>
+
+  <Accordion title="Tests Assigned to Me" icon="user-check">
+    ```oql
+    assigned_to = "current_user" AND
+    status IN (active, in_review)
+    ```
+
+    Tests assigned to you.
+  </Accordion>
+
+  <Accordion title="Tests Pending Review" icon="eye">
+    ```oql
+    status = in_review AND
+    reviewer = "current_user"
+    ORDER BY created_at ASC
+    ```
+
+    Tests waiting for your review.
+  </Accordion>
+
+  <Accordion title="Team's Work This Week" icon="users">
+    ```oql
+    team = "qa" AND
+    created_at >= startOfWeek()
+    ORDER BY created_at DESC
+    ```
+
+    QA team's tests from this week.
+  </Accordion>
+</AccordionGroup>
+
+## Organization & Cleanup
+
+<AccordionGroup>
+  <Accordion title="Tests Without Tags" icon="tag">
+    ```oql
+    tags IS NULL OR tags = []
+    ORDER BY created_at DESC
+    LIMIT 100
+    ```
+
+    Untagged tests needing organization.
+  </Accordion>
+
+  <Accordion title="Tests Not in Folders" icon="folder-open">
+    ```oql
+    folder_id IS NULL AND
+    status = active
+    ```
+
+    Tests at root level.
+  </Accordion>
+
+  <Accordion title="Duplicate Tests" icon="copy">
+    ```oql
+    title ~ "copy" OR title ~ "duplicate"
+    ORDER BY title ASC
+    ```
+
+    Potentially duplicate tests by name.
+  </Accordion>
+
+  <Accordion title="Old Draft Tests" icon="file-pen">
+    ```oql
+    status = draft AND
+    created_at < -30d
+    ORDER BY created_at ASC
+    ```
+
+    Draft tests older than 30 days.
+  </Accordion>
+</AccordionGroup>
+
+## Advanced Combinations
+
+<AccordionGroup>
+  <Accordion title="Complex Coverage Analysis" icon="chart-pie">
+    ```oql
+    (tags CONTAINS "smoke" OR priority = p0) AND
+    status = active AND
+    (last_run IS NULL OR last_run < -7d) AND
+    automated = false
+    ORDER BY priority ASC, created_at DESC
+    ```
+
+    Critical manual tests needing execution.
+  </Accordion>
+
+  <Accordion title="Environment-Specific Issues" icon="server">
+    ```oql
+    status = failed AND
+    environment = staging AND
+    (environment != production OR
+     last_run_production = passed) AND
+    last_run >= -24h
+    ```
+
+    Tests failing in staging but passing (or not run) in production.
+  </Accordion>
+
+  <Accordion title="Automation Candidates" icon="robot">
+    ```oql
+    automated = false AND
+    execution_count >= 10 AND
+    pass_rate > 0.9 AND
+    avg_duration < 600 AND
+    tags CONTAINS ANY (smoke, regression)
+    ORDER BY execution_count DESC
+    ```
+
+    Stable manual tests run frequently (good automation candidates).
+  </Accordion>
+
+  <Accordion title="Quality Trend Analysis" icon="chart-line">
+    ```oql
+    status = active AND
+    last_run >= -30d AND
+    (
+      (pass_rate < 0.7 AND pass_rate_previous_month > 0.9) OR
+      (avg_duration > avg_duration_previous_month * 1.5)
+    )
+    ORDER BY pass_rate ASC
+    ```
+
+    Tests with declining quality or performance.
+  </Accordion>
+</AccordionGroup>
+
+## Tips for Writing Queries
+
+<CardGroup cols={2}>
+  <Card title="Start Simple" icon="seedling">
+    Begin with one condition and add more:
+    ```oql
+    status = active
+    → status = active AND priority = p1
+    → status = active AND priority = p1 AND tags CONTAINS "smoke"
+    ```
+  </Card>
+
+  <Card title="Use Parentheses" icon="brackets">
+    Make complex logic clear:
+    ```oql
+    (A OR B) AND (C OR D)
+    ```
+  </Card>
+
+  <Card title="Order Matters" icon="sort">
+    Put most selective conditions first for better performance:
+    ```oql
+    priority = p0 AND status = active  # Better
+    status = active AND priority = p0  # Still works, but less optimal
+    ```
+  </Card>
+
+  <Card title="Save Frequent Queries" icon="bookmark">
+    Save complex queries for reuse instead of rewriting them
+  </Card>
+</CardGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Syntax Reference"
+    icon="code"
+    href="/oql/syntax"
+  >
+    Complete OQL syntax documentation
+  </Card>
+
+  <Card
+    title="Field Reference"
+    icon="list"
+    href="/oql/field-reference"
+  >
+    All searchable fields
+  </Card>
+</CardGroup>

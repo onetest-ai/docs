@@ -1,0 +1,370 @@
+---
+title: OQL Syntax Reference
+description: Complete OneTest Query Language syntax documentation
+icon: code
+---
+
+Complete syntax reference for OneTest Query Language (OQL).
+
+## Query Structure
+
+```oql
+<filter_expression> [ORDER BY <field> [ASC|DESC]] [LIMIT <n>] [OFFSET <n>]
+```
+
+All parts except the filter expression are optional.
+
+## Operators
+
+### Comparison Operators
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `=` | Equals | `status = active` |
+| `!=` | Not equals | `priority != p4` |
+| `>` | Greater than | `version > 2.0` |
+| `>=` | Greater or equal | `created_at >= 2024-01-01` |
+| `<` | Less than | `priority < p2` |
+| `<=` | Less or equal | `updated_at <= -7d` |
+| `IS NULL` | Field is null | `last_run IS NULL` |
+| `IS NOT NULL` | Field is not null | `folder_id IS NOT NULL` |
+| `BETWEEN` | Value in range | `created_at BETWEEN 2024-01-01 AND 2024-12-31` |
+
+### String Pattern Operators
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `~` | Contains (case-insensitive) | `title ~ "login"` |
+| `!~` | Does not contain | `description !~ "deprecated"` |
+| `^` | Starts with | `identifier ^ "TC-10"` |
+| `$` | Ends with | `title $ "test"` |
+
+### List Operators
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `IN` | Value in list | `priority IN (p1, p2, p3)` |
+| `NOT IN` | Value not in list | `status NOT IN (archived, deleted)` |
+
+### Array Operators
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `CONTAINS` | Array contains value | `tags CONTAINS "smoke"` |
+| `NOT CONTAINS` | Array does not contain | `tags NOT CONTAINS "deprecated"` |
+| `CONTAINS ANY` | Array contains any value | `tags CONTAINS ANY (smoke, regression)` |
+| `CONTAINS ALL` | Array contains all values | `tags CONTAINS ALL (smoke, critical)` |
+
+### Logical Operators
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `AND` | Both conditions must be true | `status = active AND priority = p1` |
+| `OR` | Either condition must be true | `priority = p1 OR priority = p2` |
+| `NOT` | Negate condition | `NOT status = archived` |
+| `( )` | Group conditions | `(status = active OR status = approved) AND priority = p1` |
+
+## Data Types
+
+### Strings
+
+Enclose in double or single quotes:
+
+```oql
+title = "User Login"
+title = 'User Login'
+```
+
+<Tip>
+Use quotes for strings with spaces or special characters.
+</Tip>
+
+### Numbers
+
+No quotes needed:
+
+```oql
+version = 2
+priority_number > 1
+```
+
+### Booleans
+
+```oql
+automated = true
+is_flaky = false
+```
+
+### Dates
+
+<Tabs>
+  <Tab title="ISO Format">
+    ```oql
+    created_at = 2024-01-15
+    created_at = "2024-01-15T10:30:00Z"
+    ```
+  </Tab>
+
+  <Tab title="Relative Dates">
+    ```oql
+    created_at >= -7d        # 7 days ago
+    created_at >= -2w        # 2 weeks ago
+    created_at >= -3M        # 3 months ago
+    created_at >= -1y        # 1 year ago
+    ```
+
+    Units: `d` (days), `w` (weeks), `M` (months), `y` (years)
+  </Tab>
+
+  <Tab title="Date Functions">
+    ```oql
+    created_at >= startOfWeek()
+    created_at >= startOfMonth()
+    created_at >= startOfQuarter()
+    created_at >= startOfYear()
+    created_at <= endOfWeek()
+    created_at <= endOfMonth()
+    created_at <= endOfQuarter()
+    created_at <= endOfYear()
+    ```
+  </Tab>
+</Tabs>
+
+### Null Values
+
+```oql
+last_run IS NULL
+description IS NOT NULL
+```
+
+## Field Names
+
+Field names are case-sensitive:
+
+```oql
+✅ status = active
+❌ Status = active
+❌ STATUS = active
+```
+
+For fields with spaces or special characters, use quotes:
+
+```oql
+"custom field" = "value"
+```
+
+## Ordering
+
+<Tabs>
+  <Tab title="Single Field">
+    ```oql
+    ORDER BY created_at DESC
+    ORDER BY priority ASC
+    ORDER BY title
+    ```
+
+    Default order is `ASC` (ascending).
+  </Tab>
+
+  <Tab title="Multiple Fields">
+    ```oql
+    ORDER BY priority ASC, created_at DESC
+    ORDER BY status, priority, title
+    ```
+
+    Sorts by first field, then second, etc.
+  </Tab>
+</Tabs>
+
+## Pagination
+
+```oql
+# First 50 results
+LIMIT 50
+
+# Next 50 results
+LIMIT 50 OFFSET 50
+
+# Third page (rows 101-150)
+LIMIT 50 OFFSET 100
+```
+
+<Note>
+`OFFSET` requires `LIMIT` to be specified.
+</Note>
+
+## Examples by Complexity
+
+<Tabs>
+  <Tab title="Simple">
+    ```oql
+    # Single condition
+    status = active
+
+    # With ordering
+    status = active ORDER BY created_at DESC
+
+    # With limit
+    priority = p1 LIMIT 10
+    ```
+  </Tab>
+
+  <Tab title="Moderate">
+    ```oql
+    # AND condition
+    status = active AND priority IN (p1, p2)
+
+    # OR condition
+    priority = p1 OR tags CONTAINS "critical"
+
+    # Pattern matching
+    title ~ "login" AND status != archived
+
+    # Date filtering
+    created_at >= -30d ORDER BY created_at DESC LIMIT 100
+    ```
+  </Tab>
+
+  <Tab title="Complex">
+    ```oql
+    # Multiple conditions with grouping
+    (status = active OR status = approved) AND
+    priority IN (p0, p1, p2) AND
+    tags CONTAINS ANY (smoke, regression) AND
+    created_at >= -90d
+    ORDER BY priority ASC, created_at DESC
+    LIMIT 50
+
+    # Array operations
+    tags CONTAINS ALL (smoke, critical) AND
+    tags NOT CONTAINS "deprecated" AND
+    last_run >= -7d
+
+    # Null checks and comparisons
+    last_run IS NOT NULL AND
+    last_run < updated_at AND
+    status = active
+    ```
+  </Tab>
+</Tabs>
+
+## Operator Precedence
+
+From highest to lowest:
+
+1. `( )` - Parentheses
+2. `NOT` - Logical NOT
+3. `=, !=, >, >=, <, <=, ~, ^, $, IN, CONTAINS` - Comparison operators
+4. `AND` - Logical AND
+5. `OR` - Logical OR
+
+<Tip>
+Use parentheses to make precedence explicit: `(A OR B) AND C`
+</Tip>
+
+## Common Patterns
+
+<AccordionGroup>
+  <Accordion title="Find by Multiple Tags">
+    ```oql
+    # Has all these tags
+    tags CONTAINS ALL (smoke, critical, login)
+
+    # Has any of these tags
+    tags CONTAINS ANY (smoke, regression)
+
+    # Has this tag but not that tag
+    tags CONTAINS "smoke" AND tags NOT CONTAINS "deprecated"
+    ```
+  </Accordion>
+
+  <Accordion title="Date Ranges">
+    ```oql
+    # This month
+    created_at >= startOfMonth()
+
+    # Last 7 days
+    created_at >= -7d
+
+    # Specific range
+    created_at BETWEEN 2024-01-01 AND 2024-12-31
+
+    # Before a date
+    created_at < 2024-06-01
+    ```
+  </Accordion>
+
+  <Accordion title="Multiple Priorities">
+    ```oql
+    # Any of these priorities
+    priority IN (p0, p1, p2)
+
+    # Higher priority than P2
+    priority < p2
+
+    # Exclude low priorities
+    priority NOT IN (p3, p4)
+    ```
+  </Accordion>
+
+  <Accordion title="Text Search">
+    ```oql
+    # Contains word
+    title ~ "login"
+
+    # Starts with
+    identifier ^ "TC-10"
+
+    # Ends with
+    title $ "test"
+
+    # Multiple words (any)
+    title ~ "login" OR title ~ "authentication"
+
+    # Multiple words (all)
+    title ~ "login" AND description ~ "valid credentials"
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Validation Rules
+
+<Warning>
+- Field names must exist in the schema
+- Operators must match field types (can't use `~` on numbers)
+- Date formats must be valid ISO 8601
+- Array operators only work on array fields
+- Priority values must be valid (p0-p4)
+</Warning>
+
+## Error Messages
+
+Common errors and how to fix them:
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `Unknown field: xyz` | Field doesn't exist | Check [field reference](/oql/field-reference) |
+| `Invalid operator for field type` | Wrong operator for field | Use comparison operators for numbers, pattern operators for strings |
+| `Invalid date format` | Bad date syntax | Use ISO 8601: `2024-01-15` or relative: `-7d` |
+| `Expected AND/OR` | Missing logical operator | Add `AND` or `OR` between conditions |
+| `Unclosed quote` | Missing closing quote | Ensure all strings have matching quotes |
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Query Examples"
+    icon="lightbulb"
+    href="/oql/examples"
+  >
+    Real-world OQL examples
+  </Card>
+
+  <Card
+    title="Field Reference"
+    icon="list"
+    href="/oql/field-reference"
+  >
+    All searchable fields
+  </Card>
+</CardGroup>

@@ -1,0 +1,298 @@
+---
+title: Viewing Results
+description: Analyze test results and execution metrics
+icon: chart-line
+---
+
+<Note>This page is under construction. More content coming soon!</Note>
+
+## Test Results Overview
+
+OneTest provides comprehensive views of test execution results, trends, and analytics.
+
+## Result Views
+
+<Tabs>
+  <Tab title="Run Summary">
+    ### Test Run Summary
+
+    High-level metrics for each test run:
+
+    <CardGroup cols={4}>
+      <Card
+        title="Pass Rate"
+        icon="percent"
+      >
+        Percentage of passed tests
+      </Card>
+
+      <Card
+        title="Total Tests"
+        icon="hashtag"
+      >
+        Number of tests executed
+      </Card>
+
+      <Card
+        title="Duration"
+        icon="clock"
+      >
+        Total execution time
+      </Card>
+
+      <Card
+        title="Status"
+        icon="circle-check"
+      >
+        In Progress, Completed, or Aborted
+      </Card>
+    </CardGroup>
+
+    **Status Breakdown:**
+    - ✅ **Passed**: Tests that passed all steps
+    - ❌ **Failed**: Tests with one or more failed steps
+    - ⏸️ **Skipped**: Tests that were skipped
+    - 🚫 **Blocked**: Tests blocked by dependencies
+  </Tab>
+
+  <Tab title="Detailed Results">
+    ### Individual Test Results
+
+    View execution details for each test:
+
+    - **Execution timestamp**: When the test ran
+    - **Executor**: Who ran the test
+    - **Duration**: How long it took
+    - **Step results**: Pass/fail status for each step
+    - **Evidence**: Screenshots, logs, videos
+    - **Defects**: Linked bugs or issues
+    - **Environment**: Where it ran
+    - **Build**: Version tested
+  </Tab>
+
+  <Tab title="Trends">
+    ### Historical Trends
+
+    Track quality over time:
+
+    - **Pass rate trend**: Are we improving?
+    - **Flaky tests**: Tests with inconsistent results
+    - **Slow tests**: Execution time increases
+    - **Failure patterns**: Common failure reasons
+    - **Coverage trends**: Test execution frequency
+  </Tab>
+
+  <Tab title="Analytics">
+    ### Test Analytics
+
+    Deeper insights into test quality:
+
+    - **Coverage by feature**: Which areas are well-tested?
+    - **Risk assessment**: High-priority untested areas
+    - **Automation candidates**: Frequently-run manual tests
+    - **Test debt**: Outdated or deprecated tests
+    - **Team productivity**: Tests created/executed by team
+  </Tab>
+</Tabs>
+
+## Result Dashboards
+
+<AccordionGroup>
+  <Accordion title="Test Run Dashboard" icon="chart-bar">
+    Real-time view of active test runs:
+
+    **Widgets:**
+    - Progress bar (% complete)
+    - Status pie chart (pass/fail/skip/blocked)
+    - Test list with individual status
+    - Assignee breakdown
+    - Timeline view
+    - Recent failures
+  </Accordion>
+
+  <Accordion title="Quality Dashboard" icon="chart-line">
+    Overall product quality metrics:
+
+    **Metrics:**
+    - Pass rate over time (line chart)
+    - Test execution velocity
+    - Defect trends
+    - Coverage by priority
+    - Risk areas (low-coverage high-priority features)
+  </Accordion>
+
+  <Accordion title="Team Dashboard" icon="users">
+    Team productivity and workload:
+
+    **Insights:**
+    - Tests executed per person
+    - Execution time by team member
+    - Test creation velocity
+    - Review backlog
+    - Assigned vs completed tests
+  </Accordion>
+
+  <Accordion title="Build Dashboard" icon="code-branch">
+    Quality per build/release:
+
+    **Track:**
+    - Pass rate by build
+    - New failures introduced
+    - Regression detection
+    - Build quality trends
+    - Release readiness
+  </Accordion>
+</AccordionGroup>
+
+## Filtering & Sorting Results
+
+Use powerful filters to find what matters:
+
+<CodeGroup>
+```oql Find Recent Failures
+status = failed AND execution_date >= -7d
+ORDER BY execution_date DESC
+```
+
+```oql Flaky Tests
+pass_rate < 0.8 AND pass_rate > 0 AND execution_count >= 5
+ORDER BY pass_rate ASC
+```
+
+```oql Slow Tests
+avg_duration > 300
+ORDER BY avg_duration DESC
+```
+
+```oql Untested High Priority
+status = active AND priority IN (p0, p1) AND last_run IS NULL
+ORDER BY priority ASC
+```
+</CodeGroup>
+
+## Exporting Results
+
+<Tabs>
+  <Tab title="Reports">
+    ### Generate Reports
+
+    Create shareable reports:
+
+    - **Executive Summary**: High-level metrics for stakeholders
+    - **Detailed Test Report**: Complete execution details
+    - **Failure Analysis**: Deep dive into failures
+    - **Trend Report**: Historical quality trends
+    - **Coverage Report**: Feature coverage analysis
+
+    **Formats:** PDF, Excel, HTML
+  </Tab>
+
+  <Tab title="Integrations">
+    ### Push to Other Tools
+
+    Send results to external systems:
+
+    - **Slack**: Notify team on completion
+    - **JIRA**: Create/update issues for failures
+    - **Email**: Send reports to stakeholders
+    - **Webhook**: Custom integrations
+  </Tab>
+
+  <Tab title="API Access">
+    ### Programmatic Access
+
+    Access results via API:
+
+    ```bash
+    # Get test run results
+    GET /api/v1/runs/{run_id}/results
+
+    # Get execution details
+    GET /api/v1/executions/{execution_id}
+
+    # Query results with OQL
+    POST /api/v1/products/{id}/search/executions
+    ```
+  </Tab>
+</Tabs>
+
+## Understanding Metrics
+
+<AccordionGroup>
+  <Accordion title="Pass Rate" icon="percent">
+    **Formula:** `(Passed Tests / Total Tests) × 100`
+
+    **Interpretation:**
+    - **≥95%**: Excellent quality
+    - **90-94%**: Good quality
+    - **80-89%**: Needs attention
+    - **&lt;80%**: Critical issues
+
+    <Tip>
+    Track pass rate trends, not just absolute values. A declining trend indicates growing technical debt.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Flaky Tests" icon="shuffle">
+    Tests that pass sometimes and fail other times without code changes.
+
+    **Detection:** Tests with:
+    - Pass rate between 20% and 80%
+    - At least 5 executions
+    - No pattern to failures
+
+    **Action:** Fix or remove flaky tests—they erode confidence in your test suite.
+  </Accordion>
+
+  <Accordion title="Test Velocity" icon="gauge">
+    **Formula:** `Tests Executed / Time Period`
+
+    Measures how quickly you're validating changes. Higher velocity means faster feedback loops.
+  </Accordion>
+
+  <Accordion title="Coverage" icon="chart-pie">
+    Percentage of features/requirements that have associated tests.
+
+    **Types:**
+    - **Feature coverage**: Features with tests
+    - **Requirement coverage**: Requirements with tests
+    - **Priority coverage**: P0/P1 features with tests
+    - **Execution coverage**: Tests run in last N days
+  </Accordion>
+</AccordionGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Test Management"
+    icon="list-check"
+    href="/ui/test-management"
+  >
+    Back to test management overview
+  </Card>
+
+  <Card
+    title="OQL Queries"
+    icon="magnifying-glass"
+    href="/oql/examples"
+  >
+    Learn advanced filtering with OQL
+  </Card>
+
+  <Card
+    title="Workflows"
+    icon="diagram-project"
+    href="/workflows/smoke-tests"
+  >
+    Common testing workflows
+  </Card>
+
+  <Card
+    title="Best Practices"
+    icon="star"
+    href="/resources/best-practices"
+  >
+    Testing best practices
+  </Card>
+</CardGroup>

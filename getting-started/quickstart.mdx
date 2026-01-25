@@ -1,0 +1,363 @@
+---
+title: Quick Start Guide
+description: Get up and running with OneTest in under 5 minutes
+icon: rocket
+---
+
+Get up and running with OneTest in under 5 minutes. This guide will walk you through creating your first test, running it, and viewing results.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+<Check>A OneTest account ([Sign up here](https://tms.onetest.ai))</Check>
+<Check>Access to the OneTest web application</Check>
+<Check>Basic understanding of software testing concepts</Check>
+
+<Tip>
+If you're new to testing, check out [What is OneTest?](/getting-started/what-is-onetest) first for a gentle introduction.
+</Tip>
+
+## Step 1: Create Your First Product
+
+A **product** is a workspace that contains all your tests, test runs, and settings.
+
+<Steps>
+  <Step title="Create New Product">
+    Click **"+ New Product"** in the top navigation
+  </Step>
+
+  <Step title="Fill in Details">
+    Enter the following information:
+    - **Name:** `My First App`
+    - **Description:** `Testing my web application`
+    - **Type:** `Web Application`
+  </Step>
+
+  <Step title="Save">
+    Click **"Create Product"**
+  </Step>
+</Steps>
+
+<Frame>
+  <img src="/images/create-product.png" alt="Create Product" />
+</Frame>
+
+<Note>
+You can create multiple products for different applications or teams.
+</Note>
+
+## Step 2: Create Your First Test Case
+
+Now let's create a simple test case. We'll use the AI Assistant to make it quick!
+
+<Tabs>
+  <Tab title="Using AI (Recommended)">
+    <Steps>
+      <Step title="Open AI Chat">
+        Press `Cmd/Ctrl + K` to open the chat
+      </Step>
+
+      <Step title="Ask AI to Create Test">
+        Type:
+        ```
+        Create a test for login with valid credentials
+        ```
+      </Step>
+
+      <Step title="Review Generated Test">
+        Watch the AI create your test automatically
+      </Step>
+
+      <Step title="Save">
+        Click **"Save"** when you're happy with it
+      </Step>
+    </Steps>
+
+    **Example AI Output:**
+
+    ```markdown
+    ✅ Created TC-0001: Verify successful login with valid credentials
+
+    Title: Verify successful login with valid credentials
+    Type: Manual
+    Priority: P2
+    Tags: smoke, login, authentication
+
+    Preconditions:
+    - User has a valid account
+    - User is not already logged in
+
+    Test Steps:
+    1. Navigate to the login page
+       Expected: Login form is displayed with username and password fields
+
+    2. Enter valid username: test@example.com
+       Expected: Username field accepts the input
+
+    3. Enter valid password
+       Expected: Password is masked with dots (••••)
+
+    4. Click the "Login" button
+       Expected: User is redirected to the dashboard within 2 seconds
+
+    5. Verify user name is displayed in the header
+       Expected: Header shows "Welcome, Test User"
+
+    Pass Criteria:
+    - User successfully logs in without errors
+    - Dashboard loads within 2 seconds
+    - User session is created
+    ```
+
+    <Tip>
+    AI-generated tests are usually more detailed and follow best practices automatically!
+    </Tip>
+  </Tab>
+
+  <Tab title="Manual Creation">
+    <Steps>
+      <Step title="Navigate to Test Management">
+        Go to the **Test Management** page
+      </Step>
+
+      <Step title="Create New Test">
+        Click **"+ New Test Case"** button
+      </Step>
+
+      <Step title="Fill Basic Info">
+        - **Title:** `Verify successful login with valid credentials`
+        - **Type:** `Manual`
+        - **Priority:** `P2`
+        - **Tags:** Add `smoke` and `login`
+      </Step>
+
+      <Step title="Add Test Steps">
+        For each step:
+        - Click **"+ Add Step"**
+        - Enter **Action:** (e.g., `Navigate to login page`)
+        - Enter **Expected Result:** (e.g., `Login form is displayed`)
+      </Step>
+
+      <Step title="Save">
+        Click **"Save Test Case"**
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Step 3: Run Your First Test
+
+Now let's execute the test case you just created.
+
+<Steps>
+  <Step title="Go to Test Management">
+    Navigate to the **Test Management** page
+  </Step>
+
+  <Step title="Find Your Test">
+    Locate your test case (TC-0001)
+  </Step>
+
+  <Step title="Start Run">
+    Click the **"▶ Run"** button
+  </Step>
+
+  <Step title="Configure Run">
+    In the dialog, enter:
+    - **Run Name:** `First Test Run - Staging`
+    - **Environment:** Select `Staging` (or create one)
+    - **Build:** Select a build or leave empty
+  </Step>
+
+  <Step title="Execute">
+    Click **"Start Run"**
+  </Step>
+</Steps>
+
+<Frame>
+  <img src="/images/start-run.png" alt="Start Test Run" />
+</Frame>
+
+## Step 4: Execute and Record Results
+
+OneTest will take you to the **Test Execution** page where you can record your results as you test.
+
+### Recording Results
+
+For each test step:
+
+1. **Perform the action** (e.g., navigate to login page)
+2. **Observe the result**
+3. **Click the status:**
+   - ✅ **Pass** - Everything works as expected
+   - ❌ **Fail** - Something doesn't match the expected result
+   - ⏭️ **Skip** - Step wasn't executed
+   - 🚫 **Blocked** - Can't proceed due to an issue
+4. Add notes if needed (especially for failures!)
+
+### Example Execution
+
+```markdown
+Step 1: Navigate to login page
+Status: ✅ Pass
+Notes: Login form loaded correctly
+
+Step 2: Enter valid username
+Status: ✅ Pass
+
+Step 3: Enter valid password
+Status: ✅ Pass
+Notes: Password was properly masked
+
+Step 4: Click Login button
+Status: ❌ Fail
+Notes: Got error "Server timeout" - dashboard didn't load
+
+Step 5: Verify user name
+Status: 🚫 Blocked
+Notes: Could not complete due to step 4 failure
+```
+
+When done, click **"Complete Execution"**.
+
+## Step 5: View Your Results
+
+After completing the test run, you'll see a summary:
+
+### Run Summary
+
+| Metric | Value |
+|--------|-------|
+| **Total Tests** | 1 |
+| **Passed** | 0 |
+| **Failed** | 1 |
+| **Blocked** | 0 |
+| **Pass Rate** | 0% |
+| **Duration** | 8 minutes |
+
+### What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Tests Passed" icon="party-horn">
+    - Continue creating more test cases
+    - Build a smoke test suite
+    - Set up automated runs
+  </Card>
+
+  <Card title="Tests Failed" icon="magnifying-glass">
+    - Review failure notes
+    - Report bugs to your team
+    - Retest after fixes
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+Congratulations! You've created and run your first test. Now you can:
+
+<CardGroup cols={3}>
+  <Card
+    title="Generate Tests with AI"
+    icon="wand-magic-sparkles"
+    href="/ai/generate-tests"
+  >
+    Create tests faster with AI assistance
+  </Card>
+
+  <Card
+    title="Organize Tests"
+    icon="folder-tree"
+    href="/workflows/organizing-tests"
+  >
+    Use folders and tags effectively
+  </Card>
+
+  <Card
+    title="Learn OQL"
+    icon="magnifying-glass"
+    href="/oql/overview"
+  >
+    Search tests with powerful queries
+  </Card>
+
+  <Card
+    title="Set Up Environments"
+    icon="server"
+    href="/ui/environments"
+  >
+    Configure staging and production
+  </Card>
+
+  <Card
+    title="Plan Releases"
+    icon="calendar"
+    href="/ui/releases"
+  >
+    Manage releases and sprints
+  </Card>
+
+  <Card
+    title="Invite Team"
+    icon="users"
+    href="/ui/team-members"
+  >
+    Collaborate with your team
+  </Card>
+</CardGroup>
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="How many test cases can I create?">
+    Unlimited! Create as many as you need to properly test your application.
+  </Accordion>
+
+  <Accordion title="Can I automate test execution?">
+    Manual tests record human execution. For automation, integrate with tools like Selenium or Playwright (coming soon).
+  </Accordion>
+
+  <Accordion title="Can I import existing tests?">
+    Yes! Use the AI to convert existing test documentation:
+
+    ```
+    Create tests from this document: [paste your test doc]
+    ```
+  </Accordion>
+
+  <Accordion title="How do I organize many tests?">
+    Use **folders** for hierarchy and **tags** for cross-cutting concerns:
+    - Folders: By feature (Login, Checkout, Profile)
+    - Tags: By type (smoke, regression, api)
+
+    [→ Learn more about organizing tests](/workflows/organizing-tests)
+  </Accordion>
+</AccordionGroup>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Ask the AI" icon="robot" href="#">
+    Press `Cmd/Ctrl + K` and ask anything
+  </Card>
+
+  <Card title="Community Support" icon="discord" href="https://github.com/onetest-ai/discussions">
+    Join the community discussions
+  </Card>
+
+  <Card title="Report Issues" icon="bug" href="https://github.com/onetest-ai/issues">
+    Found a bug? Let us know
+  </Card>
+
+  <Card title="Email Support" icon="envelope" href="mailto:support@onetest.ai">
+    Get help from our team
+  </Card>
+</CardGroup>
+
+<Card
+  title="Ready to level up?"
+  icon="sparkles"
+  href="/ai/generate-tests"
+>
+  Try generating multiple tests with AI next! 🚀
+</Card>

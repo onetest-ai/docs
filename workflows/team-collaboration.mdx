@@ -1,0 +1,436 @@
+---
+title: Team Collaboration
+description: Work together effectively on testing
+icon: users
+---
+
+<Note>This page is under construction. More content coming soon!</Note>
+
+## Collaborative Testing
+
+OneTest enables teams to work together seamlessly on test creation, execution, and analysis.
+
+## Team Features
+
+<CardGroup cols={2}>
+  <Card
+    title="Product Members"
+    icon="user-plus"
+  >
+    Invite team members with role-based access (Owner, Member)
+  </Card>
+
+  <Card
+    title="Test Assignment"
+    icon="user-check"
+  >
+    Assign tests to specific team members for execution
+  </Card>
+
+  <Card
+    title="Real-time Updates"
+    icon="rotate"
+  >
+    See test run progress as team members execute tests
+  </Card>
+
+  <Card
+    title="Comments & Notes"
+    icon="comment"
+  >
+    Discuss test cases and results within the platform
+  </Card>
+</CardGroup>
+
+## Team Workflows
+
+<Tabs>
+  <Tab title="Test Creation">
+    ### Collaborative Test Writing
+
+    <Steps>
+      <Step title="Define Test Scope">
+        Team lead creates test outline or uses AI to generate drafts
+      </Step>
+
+      <Step title="Assign for Detail">
+        Assign incomplete tests to domain experts:
+        - Frontend tests → Frontend engineers
+        - API tests → Backend engineers
+        - Mobile tests → Mobile team
+      </Step>
+
+      <Step title="Review & Refine">
+        Team members review each other's tests:
+        - Check for completeness
+        - Verify steps are clear
+        - Ensure expected results are specific
+      </Step>
+
+      <Step title="Approve">
+        QA lead or team lead approves final tests
+      </Step>
+    </Steps>
+
+    <Tip>
+    Use the AI Assistant to generate initial test drafts, then have team members refine the details.
+    </Tip>
+  </Tab>
+
+  <Tab title="Test Execution">
+    ### Distributed Test Execution
+
+    <Steps>
+      <Step title="Create Test Run">
+        QA lead or release manager creates test run for sprint/release
+      </Step>
+
+      <Step title="Distribute Tests">
+        Assign tests to team members:
+        - Balance workload
+        - Consider expertise (assign API tests to API experts)
+        - Account for time zones (for global teams)
+      </Step>
+
+      <Step title="Execute in Parallel">
+        Team members execute their assigned tests simultaneously
+      </Step>
+
+      <Step title="Monitor Progress">
+        Team lead monitors run dashboard:
+        - Track completion percentage
+        - Identify blockers
+        - Reassign stuck tests
+      </Step>
+
+      <Step title="Triage Together">
+        Team discusses failures:
+        - Real bugs → Create defects
+        - Test issues → Fix tests
+        - Environmental → Investigate environment
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Maintenance">
+    ### Team Test Maintenance
+
+    <Steps>
+      <Step title="Assign Ownership">
+        Assign test folders to feature teams:
+        - Authentication → Auth team
+        - Payment → Payments team
+        - Search → Search team
+      </Step>
+
+      <Step title="Regular Reviews">
+        Teams review their tests quarterly:
+        - Update for product changes
+        - Remove obsolete tests
+        - Fix flaky tests
+        - Improve clarity
+      </Step>
+
+      <Step title="Cross-team Collaboration">
+        For tests spanning multiple features:
+        - Tag with multiple teams
+        - Assign primary owner
+        - Schedule joint reviews
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Best Practices for Teams
+
+<AccordionGroup>
+  <Accordion title="Clear Ownership" icon="user">
+    **Why:** Prevents "bystander effect" where no one maintains tests
+
+    **How:**
+    - Assign tests to specific people or teams
+    - Use custom field: `owner: "auth-team"`
+    - Make ownership visible in test metadata
+    - Review ownership quarterly
+
+    ```oql
+    # Find unowned tests
+    status = active AND owner IS NULL
+    ```
+  </Accordion>
+
+  <Accordion title="Standardized Templates" icon="file-lines">
+    **Why:** Ensures consistency across team
+
+    **How:**
+    - Create test case templates
+    - Document test writing guidelines
+    - Use AI prompts for consistent generation
+    - Review new tests for adherence
+
+    <Tip>
+    Save common AI prompts as prompt templates for the whole team to use.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Regular Sync Meetings" icon="calendar">
+    **Why:** Keeps team aligned on testing strategy
+
+    **Agenda:**
+    - Review pass rates and trends
+    - Discuss flaky tests
+    - Identify coverage gaps
+    - Plan upcoming test work
+    - Share best practices
+
+    **Frequency:** Weekly or bi-weekly
+  </Accordion>
+
+  <Accordion title="Shared Test Libraries" icon="book">
+    **Why:** Prevents duplicate effort
+
+    **How:**
+    - Create reusable test steps
+    - Share test data sets
+    - Document common workflows
+    - Use saved OQL queries
+    - Build test case templates
+  </Accordion>
+
+  <Accordion title="Knowledge Sharing" icon="graduation-cap">
+    **Why:** Improves team capability
+
+    **How:**
+    - Document domain knowledge
+    - Pair testing sessions
+    - Internal testing workshops
+    - Share test case examples
+    - Code review for test automation
+  </Accordion>
+</AccordionGroup>
+
+## Team Roles & Responsibilities
+
+<Tabs>
+  <Tab title="QA Lead">
+    ### QA Lead Responsibilities
+
+    **Test Strategy:**
+    - Define testing approach
+    - Set quality gates
+    - Choose test types and coverage targets
+
+    **Team Management:**
+    - Assign tests to team members
+    - Monitor test execution progress
+    - Balance workload
+
+    **Quality Oversight:**
+    - Review test results
+    - Triage failures with team
+    - Make release decisions
+  </Tab>
+
+  <Tab title="QA Engineer">
+    ### QA Engineer Responsibilities
+
+    **Test Creation:**
+    - Write detailed test cases
+    - Create automation scripts
+    - Document edge cases
+
+    **Test Execution:**
+    - Execute assigned tests
+    - Document results thoroughly
+    - Report bugs with evidence
+
+    **Maintenance:**
+    - Keep tests up to date
+    - Fix flaky tests
+    - Improve test coverage
+  </Tab>
+
+  <Tab title="Developer">
+    ### Developer Involvement
+
+    **Unit/Integration Tests:**
+    - Write automated tests for code changes
+    - Ensure tests pass before committing
+
+    **Collaboration:**
+    - Review test cases for new features
+    - Help QA understand technical implementation
+    - Fix failing tests
+
+    **Knowledge Sharing:**
+    - Document APIs and behaviors
+    - Explain complex logic
+    - Pair with QA on technical tests
+  </Tab>
+
+  <Tab title="Product Owner">
+    ### Product Owner Role
+
+    **Acceptance Criteria:**
+    - Define clear acceptance criteria for features
+    - Review test coverage for user stories
+
+    **Prioritization:**
+    - Help prioritize test execution
+    - Identify critical user paths
+
+    **Sign-off:**
+    - Review test results before release
+    - Make go/no-go decisions
+  </Tab>
+</Tabs>
+
+## Communication Tools
+
+<CardGroup cols={2}>
+  <Card
+    title="In-App Comments"
+    icon="comment"
+  >
+    Comment directly on test cases and results
+  </Card>
+
+  <Card
+    title="Slack Integration"
+    icon="slack"
+  >
+    Get notifications in your team Slack channel
+  </Card>
+
+  <Card
+    title="Email Notifications"
+    icon="envelope"
+  >
+    Receive alerts for test failures and completions
+  </Card>
+
+  <Card
+    title="Status Dashboards"
+    icon="chart-line"
+  >
+    Shared dashboards for team visibility
+  </Card>
+</CardGroup>
+
+## Handling Conflicts
+
+<AccordionGroup>
+  <Accordion title="Concurrent Edits" icon="code-merge">
+    **Problem:** Two people edit the same test simultaneously
+
+    **Solution:**
+    - OneTest uses versioning—both edits are saved
+    - Compare versions and merge manually
+    - Communicate before major test updates
+    - Use assignment to indicate "I'm working on this"
+  </Accordion>
+
+  <Accordion title="Disagreements on Test Approach" icon="message">
+    **Problem:** Team members have different opinions on how to test
+
+    **Solution:**
+    - Discuss in team meeting
+    - Document testing standards
+    - Defer to QA lead for final decision
+    - Try both approaches and compare
+  </Accordion>
+
+  <Accordion title="Test Ownership Disputes" icon="user-group">
+    **Problem:** Unclear who owns certain tests
+
+    **Solution:**
+    - Default to feature team ownership
+    - For cross-cutting tests, assign primary owner
+    - Document ownership in test metadata
+    - Review ownership during test audits
+  </Accordion>
+</AccordionGroup>
+
+## Metrics for Team Performance
+
+Track these metrics to improve team effectiveness:
+
+<CardGroup cols={3}>
+  <Card
+    title="Test Velocity"
+    icon="gauge"
+  >
+    Tests created/executed per sprint
+  </Card>
+
+  <Card
+    title="Coverage Growth"
+    icon="chart-line"
+  >
+    Percentage of features with tests
+  </Card>
+
+  <Card
+    title="Defect Detection Rate"
+    icon="bug"
+  >
+    Bugs found vs. bugs escaped to production
+  </Card>
+
+  <Card
+    title="Cycle Time"
+    icon="clock"
+  >
+    Time from test creation to execution
+  </Card>
+
+  <Card
+    title="Pass Rate Trend"
+    icon="trending-up"
+  >
+    Quality improvement over time
+  </Card>
+
+  <Card
+    title="Automation Ratio"
+    icon="robot"
+  >
+    Automated vs. manual tests
+  </Card>
+</CardGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Organizing Tests"
+    icon="folder-tree"
+    href="/workflows/organizing-tests"
+  >
+    Structure for team collaboration
+  </Card>
+
+  <Card
+    title="Best Practices"
+    icon="star"
+    href="/resources/best-practices"
+  >
+    Testing best practices for teams
+  </Card>
+
+  <Card
+    title="Smoke Tests"
+    icon="fire"
+    href="/workflows/smoke-tests"
+  >
+    Critical path testing workflow
+  </Card>
+
+  <Card
+    title="Regression Tests"
+    icon="rotate-left"
+    href="/workflows/regression-tests"
+  >
+    Comprehensive testing workflow
+  </Card>
+</CardGroup>

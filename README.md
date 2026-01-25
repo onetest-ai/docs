@@ -1,43 +1,63 @@
-# Mintlify Starter Kit
+# OneTest Documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+This directory contains the OneTest documentation built with [Mintlify](https://mintlify.com).
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## Local Development
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+To run the documentation locally:
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+```bash
+# Install Mintlify CLI
+npm install -g mintlify
 
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
-
-```
-npm i -g mint
+# Start the dev server
+cd docs
+mintlify dev
 ```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+The documentation will be available at `http://localhost:3000`.
+
+## Deployment
+
+This documentation is automatically deployed to Mintlify hosting when pushed to the main branch.
+
+To deploy:
+1. Push changes to the `main` branch
+2. Mintlify will automatically build and deploy
+
+## Structure
 
 ```
-mint dev
+docs/
+├── ai/                    # AI Assistant documentation
+├── getting-started/       # Getting Started guides
+├── oql/                   # OQL query language docs
+├── ui/                    # UI feature documentation
+├── workflows/             # Workflow guides
+├── resources/             # FAQ and best practices
+├── logo/                  # Logo files
+├── introduction.mdx       # Home page
+├── favicon.png           # Site favicon
+└── mint.json             # Mintlify configuration
 ```
 
-View your local preview at `http://localhost:3000`.
+## Making Changes
 
-## Publishing changes
+1. Edit MDX files directly
+2. Test locally with `mintlify dev`
+3. Commit and push to trigger deployment
+4. Changes will be live in ~1 minute
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+## Configuration
 
-## Need help?
+All documentation settings are in `mint.json`:
+- Navigation structure
+- Branding (colors, logo)
+- Social links
+- Tabs and groups
 
-### Troubleshooting
+## Learn More
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+- [Mintlify Documentation](https://mintlify.com/docs)
+- [OneTest Website](https://onetest.ai)
+- [OneTest GitHub](https://github.com/onetest-ai)

@@ -1,0 +1,353 @@
+---
+title: Smoke Testing Workflow
+description: Run critical path tests after every deployment
+icon: fire
+---
+
+<Note>This page is under construction. More content coming soon!</Note>
+
+## What are Smoke Tests?
+
+Smoke tests are a subset of critical tests that verify the most important functionality of your application. They ensure the system is stable enough for further testing.
+
+<Tip>
+Think of smoke tests as "build verification tests"—if smoke tests fail, the build is not ready for deeper testing.
+</Tip>
+
+## When to Run Smoke Tests
+
+<CardGroup cols={2}>
+  <Card
+    title="After Deployment"
+    icon="rocket"
+  >
+    Verify deployment was successful and core features work
+  </Card>
+
+  <Card
+    title="After Build"
+    icon="code-branch"
+  >
+    Validate new build before handing off to QA
+  </Card>
+
+  <Card
+    title="On Schedule"
+    icon="calendar"
+  >
+    Automated nightly runs to catch environmental issues
+  </Card>
+
+  <Card
+    title="Before Release"
+    icon="box"
+  >
+    Final sanity check before releasing to production
+  </Card>
+</CardGroup>
+
+## Creating a Smoke Test Suite
+
+<Steps>
+  <Step title="Identify Critical Paths">
+    What functionality is absolutely essential?
+
+    Examples:
+    - User can log in
+    - User can view homepage
+    - User can add item to cart
+    - User can complete checkout
+    - User can log out
+  </Step>
+
+  <Step title="Tag Tests as Smoke">
+    Use OQL to find and tag your critical tests:
+
+    ```oql
+    priority IN (p0, p1) AND component IN (login, checkout, core)
+    ```
+
+    Then bulk-tag them with `smoke`
+  </Step>
+
+  <Step title="Keep It Small">
+    Smoke tests should be:
+    - **Fast**: Complete in &lt;15 minutes
+    - **Focused**: Only critical functionality
+    - **Stable**: No flaky tests allowed
+    - **Independent**: No complex dependencies
+
+    <Warning>
+    If your smoke suite takes &gt;30 minutes, it's too large. Split into smoke + sanity suites.
+    </Warning>
+  </Step>
+
+  <Step title="Automate Where Possible">
+    Automate smoke tests to run:
+    - After every deployment (CI/CD pipeline)
+    - On a schedule (nightly builds)
+    - Before release (release gate)
+  </Step>
+</Steps>
+
+## Running Smoke Tests
+
+<Tabs>
+  <Tab title="Manual Execution">
+    ### Run Smoke Suite Manually
+
+    <Steps>
+      <Step title="Select Tests">
+        Use OQL to filter smoke tests:
+        ```oql
+        tags CONTAINS "smoke" AND status = active
+        ORDER BY priority ASC
+        ```
+      </Step>
+
+      <Step title="Create Test Run">
+        Click **"+ New Test Run"**:
+        - **Name**: `Smoke Tests - Build 2.1.0`
+        - **Environment**: `Staging` or `Production`
+        - **Build**: `2.1.0`
+      </Step>
+
+      <Step title="Execute">
+        Run tests in order of priority (P0 first, then P1)
+      </Step>
+
+      <Step title="Report">
+        If any test fails, **STOP** and report immediately. Don't proceed with further testing until smoke tests pass.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Automated (CI/CD)">
+    ### Integrate with CI/CD Pipeline
+
+    ```yaml
+    # Example: GitHub Actions workflow
+    name: Smoke Tests
+
+    on:
+      deployment_status
+
+    jobs:
+      smoke-tests:
+        runs-on: ubuntu-latest
+        if: github.event.deployment_status.state == 'success'
+
+        steps:
+          - name: Run Smoke Tests
+            run: |
+              # Use OneTest API to trigger smoke test run
+              curl -X POST https://api.onetest.ai/v1/runs \
+                -H "Authorization: Bearer ${{ secrets.ONETEST_API_KEY }}" \
+                -d '{
+                  "name": "Smoke Tests - ${{ github.sha }}",
+                  "environment": "${{ github.event.deployment_status.environment }}",
+                  "filters": "tags CONTAINS \"smoke\" AND status = active"
+                }'
+
+          - name: Wait for Results
+            run: |
+              # Poll for results and fail if smoke tests fail
+              # ... polling logic ...
+
+          - name: Notify Team
+            if: failure()
+            uses: slack-notify-action
+    ```
+  </Tab>
+
+  <Tab title="Scheduled">
+    ### Schedule Regular Smoke Tests
+
+    Set up automated recurring runs:
+
+    <Steps>
+      <Step title="Create Saved Query">
+        Save your smoke test filter:
+        ```oql
+        tags CONTAINS "smoke" AND status = active
+        ```
+      </Step>
+
+      <Step title="Configure Schedule">
+        - **Frequency**: Nightly, or after business hours
+        - **Environment**: Staging or Production
+        - **Notification**: Alert on failure
+      </Step>
+
+      <Step title="Monitor">
+        Check dashboard each morning for overnight results
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Example Smoke Test Suite
+
+<AccordionGroup>
+  <Accordion title="E-Commerce Smoke Tests" icon="cart-shopping">
+    **Critical Paths:**
+    1. Homepage loads successfully
+    2. User can search for products
+    3. User can view product details
+    4. User can add product to cart
+    5. User can view cart
+    6. User can proceed to checkout
+    7. User can complete payment
+    8. User receives order confirmation
+
+    **Total Time:** ~8 minutes
+    **Priority:** All P0 tests
+  </Accordion>
+
+  <Accordion title="SaaS Application Smoke Tests" icon="cloud">
+    **Critical Paths:**
+    1. Landing page loads
+    2. User can sign up
+    3. User can log in
+    4. Dashboard displays data
+    5. User can create new item
+    6. User can edit item
+    7. User can delete item
+    8. User can log out
+
+    **Total Time:** ~10 minutes
+    **Priority:** All P0 tests
+  </Accordion>
+
+  <Accordion title="API Smoke Tests" icon="code">
+    **Critical Endpoints:**
+    1. Health check returns 200
+    2. Authentication endpoint works
+    3. GET /users returns data
+    4. POST /users creates user
+    5. PUT /users/{id} updates user
+    6. DELETE /users/{id} removes user
+    7. Database connection is healthy
+    8. Cache is accessible
+
+    **Total Time:** ~2 minutes
+    **Priority:** All P0 tests
+  </Accordion>
+</AccordionGroup>
+
+## Smoke Test Best Practices
+
+<CardGroup cols={2}>
+  <Card
+    title="Keep It Fast"
+    icon="bolt"
+  >
+    Target &lt;15 minutes total execution time
+  </Card>
+
+  <Card
+    title="Zero Flaky Tests"
+    icon="shield-check"
+  >
+    Remove or fix any flaky tests immediately
+  </Card>
+
+  <Card
+    title="Run on Real Environments"
+    icon="server"
+  >
+    Test on staging or production-like environments
+  </Card>
+
+  <Card
+    title="Block on Failure"
+    icon="hand"
+  >
+    Failing smoke tests should block deployment
+  </Card>
+
+  <Card
+    title="Version Control"
+    icon="code-branch"
+  >
+    Track which build/version was tested
+  </Card>
+
+  <Card
+    title="Clear Reporting"
+    icon="chart-bar"
+  >
+    Make results visible to entire team
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Smoke Tests Taking Too Long" icon="clock">
+    **Problem:** Smoke suite takes &gt;30 minutes
+
+    **Solutions:**
+    - Review tests—are they all truly critical?
+    - Remove redundant test steps
+    - Parallelize test execution
+    - Consider splitting into smoke + sanity suites
+  </Accordion>
+
+  <Accordion title="Flaky Smoke Tests" icon="exclamation-triangle">
+    **Problem:** Smoke tests sometimes pass, sometimes fail
+
+    **Solutions:**
+    - Identify the flaky tests using pass rate analysis
+    - Fix root cause (timing issues, environment problems, etc.)
+    - Remove flaky tests from smoke suite temporarily
+    - Add explicit waits/retries in test steps
+  </Accordion>
+
+  <Accordion title="Smoke Tests Always Fail" icon="circle-xmark">
+    **Problem:** Smoke tests consistently fail after deployment
+
+    **Solutions:**
+    - Check if deployment actually completed
+    - Verify environment is accessible
+    - Review recent code changes
+    - Check for database migration issues
+    - Validate configuration/environment variables
+  </Accordion>
+</AccordionGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Regression Testing"
+    icon="rotate-left"
+    href="/workflows/regression-tests"
+  >
+    Comprehensive testing workflow
+  </Card>
+
+  <Card
+    title="Organizing Tests"
+    icon="folder-tree"
+    href="/workflows/organizing-tests"
+  >
+    Best practices for test organization
+  </Card>
+
+  <Card
+    title="OQL Examples"
+    icon="code"
+    href="/oql/examples"
+  >
+    Learn to filter tests with OQL
+  </Card>
+
+  <Card
+    title="Best Practices"
+    icon="star"
+    href="/resources/best-practices"
+  >
+    General testing best practices
+  </Card>
+</CardGroup>

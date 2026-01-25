@@ -1,0 +1,349 @@
+---
+title: AI Assistant Overview
+description: Your intelligent testing companion powered by Claude
+icon: sparkles
+---
+
+The OneTest AI Assistant is your intelligent testing companion that helps you create tests, search your test suite, analyze results, and get instant answers—all through natural conversation.
+
+## What Can the AI Do?
+
+<CardGroup cols={2}>
+  <Card title="Generate Tests" icon="wand-magic-sparkles" href="/ai/generate-tests">
+    Create complete, detailed test cases in seconds by describing what you want to test
+  </Card>
+
+  <Card title="Search Tests" icon="magnifying-glass" href="/ai/search-tests">
+    Find tests using natural language instead of complex filters
+  </Card>
+
+  <Card title="Ask Questions" icon="circle-question" href="/ai/ask-questions">
+    Get instant answers about your tests, runs, and quality metrics
+  </Card>
+
+  <Card title="Best Practices" icon="lightbulb" href="/ai/best-practices">
+    Learn how to get the most out of the AI Assistant
+  </Card>
+</CardGroup>
+
+## How to Access the AI
+
+<Steps>
+  <Step title="Open the Chat">
+    Press `Cmd + K` (Mac) or `Ctrl + K` (Windows/Linux)
+  </Step>
+
+  <Step title="Type Your Request">
+    Describe what you want in plain English
+  </Step>
+
+  <Step title="Review Results">
+    The AI will generate tests, search results, or answers
+  </Step>
+
+  <Step title="Take Action">
+    Save, refine, or continue the conversation
+  </Step>
+</Steps>
+
+## Common Use Cases
+
+<Tabs>
+  <Tab title="Generate Tests">
+    **Create a single test:**
+    ```
+    Create a test for login with valid credentials
+    ```
+
+    **Create multiple tests:**
+    ```
+    Generate smoke tests for the checkout flow
+    ```
+
+    **From requirements:**
+    ```
+    Create tests for this user story: [paste story]
+    ```
+
+    **From documentation:**
+    ```
+    Generate tests from these API docs: [paste or upload]
+    ```
+
+    <Tip>
+    The AI generates complete tests with:
+    - Clear titles
+    - Step-by-step instructions
+    - Expected results
+    - Preconditions
+    - Tags
+    </Tip>
+  </Tab>
+
+  <Tab title="Search Tests">
+    **By status:**
+    ```
+    Show me all failed tests from yesterday
+    ```
+
+    **By feature:**
+    ```
+    Find all smoke tests for login
+    ```
+
+    **By metadata:**
+    ```
+    Which tests haven't been run in the last 30 days?
+    ```
+
+    **Complex queries:**
+    ```
+    Show P1 tests that failed in staging but passed in dev
+    ```
+
+    <Tip>
+    The AI translates your natural language into precise OQL queries automatically.
+    </Tip>
+  </Tab>
+
+  <Tab title="Ask Questions">
+    **About quality:**
+    ```
+    What's the pass rate for checkout tests this sprint?
+    ```
+
+    **About coverage:**
+    ```
+    Which features don't have any smoke tests?
+    ```
+
+    **About trends:**
+    ```
+    Are we seeing more failures than usual?
+    ```
+
+    **About specific tests:**
+    ```
+    Why is TC-0042 failing?
+    ```
+
+    <Tip>
+    The AI has access to all your test data and can provide instant insights.
+    </Tip>
+  </Tab>
+
+  <Tab title="Get Help">
+    **Learn features:**
+    ```
+    How do I organize tests with folders?
+    ```
+
+    **Understand concepts:**
+    ```
+    What's the difference between a test case and a test run?
+    ```
+
+    **Troubleshoot:**
+    ```
+    Why can't I delete this test?
+    ```
+
+    **Get suggestions:**
+    ```
+    What tests should I create for a new feature?
+    ```
+  </Tab>
+</Tabs>
+
+## Example Conversations
+
+<AccordionGroup>
+  <Accordion title="Creating a Login Test" icon="user-lock">
+    **You:** Create a test for login with valid credentials
+
+    **AI:** I'll create a comprehensive login test for you.
+
+    **Generated Test:**
+    ```
+    TC-0042: Verify successful login with valid credentials
+
+    Type: Manual
+    Priority: P2
+    Tags: smoke, login, authentication
+
+    Preconditions:
+    - User has a valid account in the system
+    - User is not currently logged in
+    - Login page is accessible
+
+    Test Steps:
+    1. Navigate to the login page
+       Expected: Login form displays with username and password fields
+
+    2. Enter valid username: test@example.com
+       Expected: Username field accepts input
+
+    3. Enter valid password
+       Expected: Password is masked (•••)
+
+    4. Click "Login" button
+       Expected: User redirected to dashboard within 2 seconds
+
+    5. Verify user session
+       Expected: User name displayed in header: "Welcome, Test User"
+
+    Pass Criteria:
+    - Login succeeds without errors
+    - Dashboard loads within 2 seconds
+    - Session is created and persists
+    ```
+
+    **AI:** Would you like me to create additional test cases for invalid credentials or edge cases?
+  </Accordion>
+
+  <Accordion title="Finding Failed Tests" icon="triangle-exclamation">
+    **You:** Show me tests that failed in the last production run
+
+    **AI:** I found 3 tests that failed in the most recent production run:
+
+    1. **TC-0156: Checkout with saved payment method**
+       - Failed at: Step 4 (Payment processing)
+       - Error: Payment gateway timeout
+       - Last passed: 2 days ago
+
+    2. **TC-0089: User profile update**
+       - Failed at: Step 3 (Save changes)
+       - Error: 500 Internal Server Error
+       - Last passed: 1 week ago
+
+    3. **TC-0234: Search with special characters**
+       - Failed at: Step 2 (Execute search)
+       - Error: Invalid query format
+       - First failure
+
+    Would you like me to:
+    - Create bug reports for these failures?
+    - Show the full test execution details?
+    - Compare with staging results?
+  </Accordion>
+
+  <Accordion title="Analyzing Test Coverage" icon="chart-pie">
+    **You:** Do we have enough smoke tests for the authentication feature?
+
+    **AI:** Let me analyze your authentication test coverage:
+
+    **Current Coverage:**
+    - ✅ Login with valid credentials (TC-0042)
+    - ✅ Logout (TC-0043)
+    - ✅ Session timeout (TC-0198)
+    - ⚠️ Login with invalid credentials (missing)
+    - ⚠️ Password reset flow (TC-0167 exists but not tagged 'smoke')
+    - ⚠️ "Remember me" functionality (missing)
+    - ⚠️ Account lockout after failed attempts (missing)
+
+    **Recommendation:**
+    You have 3 smoke tests for authentication, but I recommend adding 4 more to cover critical failure scenarios and security features.
+
+    Would you like me to:
+    1. Generate the missing smoke tests?
+    2. Update TC-0167 to include 'smoke' tag?
+    3. Create a complete authentication test suite?
+  </Accordion>
+</AccordionGroup>
+
+## AI Capabilities
+
+The AI Assistant can:
+
+<CardGroup cols={3}>
+  <Card title="Understand Context" icon="brain">
+    Knows what page you're on and what you're working with
+  </Card>
+
+  <Card title="Access Your Data" icon="database">
+    Can see all your tests, runs, and results
+  </Card>
+
+  <Card title="Learn Patterns" icon="chart-network">
+    Recognizes your team's testing patterns and conventions
+  </Card>
+
+  <Card title="Generate Content" icon="file-pen">
+    Creates tests, tags, and documentation
+  </Card>
+
+  <Card title="Analyze Trends" icon="chart-line">
+    Identifies quality trends and potential issues
+  </Card>
+
+  <Card title="Provide Insights" icon="lightbulb">
+    Offers recommendations based on best practices
+  </Card>
+</CardGroup>
+
+## Tips for Better Results
+
+<Note>
+**Be specific:** Instead of "create a test," try "create a test for user registration with email verification"
+</Note>
+
+<Tip>
+**Provide context:** Mention the feature, user story, or requirement you're testing
+</Tip>
+
+<Tip>
+**Ask follow-ups:** The AI remembers your conversation, so you can refine and iterate
+</Tip>
+
+<Tip>
+**Upload documents:** You can paste or upload requirements, user stories, or API docs
+</Tip>
+
+<Warning>
+**Review AI output:** Always review generated tests to ensure they match your specific requirements
+</Warning>
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Cmd/Ctrl + K` | Open AI chat |
+| `Esc` | Close chat |
+| `↑` | Edit last message |
+| `Cmd/Ctrl + Enter` | Send message |
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Generate Your First Test"
+    icon="wand-magic-sparkles"
+    href="/ai/generate-tests"
+  >
+    Learn how to create tests with AI
+  </Card>
+
+  <Card
+    title="Search Like a Pro"
+    icon="magnifying-glass"
+    href="/ai/search-tests"
+  >
+    Master natural language search
+  </Card>
+
+  <Card
+    title="Ask Better Questions"
+    icon="circle-question"
+    href="/ai/ask-questions"
+  >
+    Get more insights from the AI
+  </Card>
+
+  <Card
+    title="Best Practices"
+    icon="star"
+    href="/ai/best-practices"
+  >
+    Advanced tips and techniques
+  </Card>
+</CardGroup>

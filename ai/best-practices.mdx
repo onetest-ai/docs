@@ -1,0 +1,297 @@
+---
+title: AI Best Practices
+description: Get the most out of the OneTest AI Assistant
+icon: star
+---
+
+Learn how to write better prompts, get more accurate results, and use the AI Assistant effectively.
+
+## Writing Better Prompts
+
+<CardGroup cols={2}>
+  <Card title="Be Specific" icon="crosshairs">
+    ❌ "Create a test"
+
+    ✅ "Create a test for login with OAuth via Google on mobile"
+  </Card>
+
+  <Card title="Provide Context" icon="circle-info">
+    ❌ "Generate tests"
+
+    ✅ "Generate smoke tests for the checkout flow in our e-commerce app"
+  </Card>
+
+  <Card title="Include Requirements" icon="list-check">
+    ❌ "Test the API"
+
+    ✅ "Test the POST /users API endpoint with valid and invalid email formats"
+  </Card>
+
+  <Card title="Specify Format" icon="file-lines">
+    ❌ "Create tests for signup"
+
+    ✅ "Create 3 separate tests for signup: happy path, invalid email, and weak password"
+  </Card>
+</CardGroup>
+
+## Iteration Techniques
+
+<Steps>
+  <Step title="Start Broad">
+    Begin with a general request:
+    ```
+    Create tests for user authentication
+    ```
+  </Step>
+
+  <Step title="Review and Refine">
+    Ask the AI to adjust:
+    ```
+    Add steps for two-factor authentication
+    Include social login scenarios
+    Make the test data more specific
+    ```
+  </Step>
+
+  <Step title="Expand or Split">
+    Modify scope as needed:
+    ```
+    Split this into separate tests for each auth method
+    ```
+
+    ```
+    Expand this to cover all error scenarios
+    ```
+  </Step>
+
+  <Step title="Save Template">
+    Once you're happy with the format, use it as a reference:
+    ```
+    Create more tests like TC-0042
+    ```
+  </Step>
+</Steps>
+
+## Do's and Don'ts
+
+<Tabs>
+  <Tab title="✅ Do">
+    <Check>Provide examples of what you want</Check>
+    <Check>Mention your product type or industry</Check>
+    <Check>Specify test priorities and tags</Check>
+    <Check>Ask for explanations if unclear</Check>
+    <Check>Request test data to be included</Check>
+    <Check>Mention platform (web, mobile, API)</Check>
+    <Check>Reference user stories or requirements</Check>
+    <Check>Ask the AI to review existing tests</Check>
+  </Tab>
+
+  <Tab title="❌ Don't">
+    <Warning>Don't assume the AI knows your internal terminology</Warning>
+    <Warning>Don't skip reviewing AI-generated content</Warning>
+    <Warning>Don't use vague requests without context</Warning>
+    <Warning>Don't forget to specify test type (manual/automated)</Warning>
+    <Warning>Don't include sensitive production data in prompts</Warning>
+    <Warning>Don't expect perfect results on first try</Warning>
+  </Tab>
+</Tabs>
+
+## Advanced Techniques
+
+<AccordionGroup>
+  <Accordion title="Upload Documents" icon="file-arrow-up">
+    Upload or paste requirements directly:
+    ```
+    Generate tests from this user story:
+    [paste entire user story with acceptance criteria]
+    ```
+
+    Upload API documentation:
+    ```
+    Create API tests from these Swagger docs:
+    [attach or paste OpenAPI spec]
+    ```
+  </Accordion>
+
+  <Accordion title="Reference Existing Tests" icon="link">
+    Use existing tests as templates:
+    ```
+    Create tests similar to TC-0042 but for the signup flow
+    ```
+
+    ```
+    Update TC-0156 to include these new requirements: [paste requirements]
+    ```
+  </Accordion>
+
+  <Accordion title="Ask for Recommendations" icon="lightbulb">
+    Get suggestions:
+    ```
+    What edge cases should I test for file upload?
+    ```
+
+    ```
+    Review my checkout tests and suggest improvements
+    ```
+
+    ```
+    What tests am I missing for this feature?
+    ```
+  </Accordion>
+
+  <Accordion title="Batch Operations" icon="layer-group">
+    Work with multiple tests:
+    ```
+    Generate a complete test suite for user management including CRUD operations
+    ```
+
+    ```
+    Create tests for all error scenarios in the payment flow
+    ```
+
+    ```
+    Convert these manual tests to automated test scripts
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Common Patterns
+
+### Pattern 1: Feature-Complete Testing
+
+```
+Generate a complete test suite for [feature] including:
+- Happy path scenarios
+- Error handling
+- Edge cases
+- Performance requirements
+- Accessibility checks
+```
+
+### Pattern 2: From User Stories
+
+```
+Create tests for this user story:
+
+Title: As a [user type], I want to [action] so that [benefit]
+
+Acceptance Criteria:
+- [criterion 1]
+- [criterion 2]
+- [criterion 3]
+```
+
+### Pattern 3: API Testing
+
+```
+Generate API tests for [endpoint] including:
+- Valid request
+- Invalid parameters
+- Authentication failures
+- Rate limiting
+- Response validation
+```
+
+### Pattern 4: Regression Suite
+
+```
+Create regression tests for [feature] covering:
+- Previously reported bugs
+- Recent changes
+- Integration points
+- Critical workflows
+```
+
+## Quality Checklist
+
+Before saving AI-generated tests, verify:
+
+<Check>Title clearly describes what is being tested</Check>
+<Check>Steps are specific and actionable</Check>
+<Check>Expected results are measurable</Check>
+<Check>Preconditions are listed</Check>
+<Check>Test data is appropriate</Check>
+<Check>Tags and priority are correct</Check>
+<Check>Test is atomic (tests one thing)</Check>
+<Check>No assumptions about system state</Check>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="AI doesn't understand my request">
+    **Try:**
+    - Rephrase your question
+    - Provide more context
+    - Give an example of what you want
+    - Break complex requests into smaller parts
+  </Accordion>
+
+  <Accordion title="Generated tests are too generic">
+    **Try:**
+    - Include specific test data
+    - Mention your product/industry
+    - Reference existing tests as templates
+    - Provide acceptance criteria or requirements
+  </Accordion>
+
+  <Accordion title="Tests don't match my format">
+    **Try:**
+    - Show an example of your preferred format
+    - Specify which fields to include
+    - Ask for specific sections to be expanded
+    - Request step-by-step refinements
+  </Accordion>
+
+  <Accordion title="Need more edge cases">
+    **Try:**
+    ```
+    What edge cases am I missing for [feature]?
+    ```
+
+    ```
+    Generate negative test scenarios for [feature]
+    ```
+
+    ```
+    What error conditions should I test?
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Pro Tips
+
+<Tip>
+**Save Good Prompts:** When you craft a prompt that works well, save it for future use
+</Tip>
+
+<Tip>
+**Use Templates:** Once you have a test format you like, ask the AI to create more tests using the same structure
+</Tip>
+
+<Tip>
+**Iterate in Conversation:** Don't try to get perfect results in one prompt—refine through conversation
+</Tip>
+
+<Tip>
+**Combine with OQL:** Use the AI to help build complex OQL queries for advanced searches
+</Tip>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Generate Tests"
+    icon="wand-magic-sparkles"
+    href="/ai/generate-tests"
+  >
+    Put these practices to use
+  </Card>
+
+  <Card
+    title="Learn OQL"
+    icon="code"
+    href="/oql/overview"
+  >
+    Master advanced searches
+  </Card>
+</CardGroup>

@@ -1,0 +1,205 @@
+---
+title: Creating Tests
+description: Learn how to create effective test cases
+icon: plus
+---
+
+<Note>This page is under construction. More content coming soon!</Note>
+
+## Creating Test Cases
+
+There are multiple ways to create test cases in OneTest.
+
+## Methods
+
+<Tabs>
+  <Tab title="AI Generation (Recommended)">
+    ### Generate Tests with AI
+
+    The fastest way to create tests is using the AI Assistant:
+
+    <Steps>
+      <Step title="Open AI Chat">
+        Press `Cmd/Ctrl + K` or click the chat icon
+      </Step>
+
+      <Step title="Describe What to Test">
+        ```
+        Create a test for user login with valid credentials
+        ```
+      </Step>
+
+      <Step title="Review & Save">
+        The AI generates a complete test case. Review and click **Save**.
+      </Step>
+    </Steps>
+
+    <Tip>
+    The AI understands context and can generate multiple related tests at once:
+    ```
+    Create 5 tests for the checkout flow covering happy path and error cases
+    ```
+    </Tip>
+  </Tab>
+
+  <Tab title="Manual Creation">
+    ### Manual Test Creation
+
+    <Steps>
+      <Step title="Click New Test">
+        Navigate to Test Management and click **"+ New Test"**
+      </Step>
+
+      <Step title="Fill Basic Information">
+        - **Title**: Clear, descriptive title
+        - **Description**: What this test validates
+        - **Priority**: P0 (critical) to P4 (nice-to-have)
+        - **Type**: Manual, Automated, or API
+      </Step>
+
+      <Step title="Add Test Steps">
+        Define step-by-step instructions:
+        1. Action to perform
+        2. Expected result
+      </Step>
+
+      <Step title="Set Metadata">
+        - **Tags**: `smoke`, `regression`, `login`, etc.
+        - **Folder**: Organize by feature area
+        - **Requirements**: Link to user stories (e.g., `US-123`)
+      </Step>
+
+      <Step title="Save">
+        Click **Save** to create the test case
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Import from File">
+    ### Import Tests
+
+    <Steps>
+      <Step title="Prepare Your File">
+        Supported formats: CSV, Excel, or JSON
+      </Step>
+
+      <Step title="Click Import">
+        Go to Test Management → **Import**
+      </Step>
+
+      <Step title="Map Fields">
+        Map your columns to OneTest fields
+      </Step>
+
+      <Step title="Review & Import">
+        Review the preview and click **Import**
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Test Case Components
+
+<AccordionGroup>
+  <Accordion title="Title & Description" icon="heading">
+    **Title**: Short, clear summary of what's being tested
+    ```
+    ✅ Good: "Verify user can login with valid credentials"
+    ❌ Bad: "Login test"
+    ```
+
+    **Description**: Detailed explanation of the test purpose and scope
+  </Accordion>
+
+  <Accordion title="Test Steps" icon="list-ol">
+    Each step should have:
+    - **Action**: What the tester should do
+    - **Expected Result**: What should happen
+
+    Example:
+    ```
+    1. Navigate to login page → Login form is displayed
+    2. Enter valid username → Username field accepts input
+    3. Enter valid password → Password is masked
+    4. Click Login button → User is redirected to dashboard
+    ```
+  </Accordion>
+
+  <Accordion title="Preconditions" icon="circle-check">
+    What must be true before running this test:
+    - User account exists
+    - User is not logged in
+    - Test data is available
+  </Accordion>
+
+  <Accordion title="Test Data" icon="database">
+    Specific data needed for this test:
+    - Username: `test@example.com`
+    - Password: `Test123!`
+    - Expected role: `Admin`
+  </Accordion>
+
+  <Accordion title="Tags & Organization" icon="tags">
+    **Tags**: Categorize for easy filtering
+    - `smoke`: Critical path tests
+    - `regression`: Run before releases
+    - `feature-name`: Group by feature
+    - `priority-high`: Urgent tests
+
+    **Folders**: Hierarchical organization
+    - Authentication/Login/Valid Credentials
+    - Checkout/Payment/Credit Card
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card
+    title="Be Specific"
+    icon="bullseye"
+  >
+    Clear, unambiguous steps that anyone can follow
+  </Card>
+
+  <Card
+    title="Single Purpose"
+    icon="crosshairs"
+  >
+    One test case should verify one thing
+  </Card>
+
+  <Card
+    title="Use Tags"
+    icon="tag"
+  >
+    Tag appropriately for easy filtering and test suite creation
+  </Card>
+
+  <Card
+    title="Link Requirements"
+    icon="link"
+  >
+    Connect tests to user stories or requirements for traceability
+  </Card>
+</CardGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Running Tests"
+    icon="play"
+    href="/ui/running-tests"
+  >
+    Execute your test cases
+  </Card>
+
+  <Card
+    title="AI Best Practices"
+    icon="sparkles"
+    href="/ai/best-practices"
+  >
+    Get more from AI generation
+  </Card>
+</CardGroup>

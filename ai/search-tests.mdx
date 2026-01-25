@@ -1,0 +1,181 @@
+---
+title: Search Tests with AI
+description: Find tests instantly using natural language queries
+icon: magnifying-glass
+---
+
+Use natural language to search your test suite. The AI translates your questions into precise OQL queries automatically.
+
+## Quick Examples
+
+<CardGroup cols={2}>
+  <Card title="By Status">
+    ```
+    Show me all failed tests from yesterday
+    ```
+  </Card>
+
+  <Card title="By Feature">
+    ```
+    Find all smoke tests for login
+    ```
+  </Card>
+
+  <Card title="By Priority">
+    ```
+    List all P0 tests that haven't run yet
+    ```
+  </Card>
+
+  <Card title="Complex Queries">
+    ```
+    Show P1 tests that failed in staging but passed in dev
+    ```
+  </Card>
+</CardGroup>
+
+## How It Works
+
+<Steps>
+  <Step title="Ask in Plain English">
+    Type your search as a question or statement:
+    ```
+    Which tests haven't been run in the last 30 days?
+    ```
+  </Step>
+
+  <Step title="AI Translates to OQL">
+    The AI converts your query to OneTest Query Language:
+    ```oql
+    last_run < -30d ORDER BY title
+    ```
+  </Step>
+
+  <Step title="Get Results">
+    See matching tests with relevant details highlighted
+  </Step>
+
+  <Step title="Refine Search">
+    Ask follow-up questions to narrow down results
+  </Step>
+</Steps>
+
+## Common Search Patterns
+
+<Tabs>
+  <Tab title="By Time">
+    ```
+    Tests created this week
+    Tests that failed yesterday
+    Tests not run in the last month
+    Tests updated in the last 24 hours
+    ```
+  </Tab>
+
+  <Tab title="By Status">
+    ```
+    All failed tests
+    Passing smoke tests
+    Tests in draft status
+    Approved tests only
+    ```
+  </Tab>
+
+  <Tab title="By Feature">
+    ```
+    All login tests
+    Checkout flow tests
+    API tests for users endpoint
+    Mobile-specific tests
+    ```
+  </Tab>
+
+  <Tab title="By Owner/Team">
+    ```
+    Tests created by John
+    Tests assigned to QA team
+    My tests
+    Unassigned tests
+    ```
+  </Tab>
+</Tabs>
+
+## Advanced Searches
+
+<AccordionGroup>
+  <Accordion title="Combining Conditions">
+    ```
+    Show P1 login tests that failed in the last run
+    ```
+
+    ```
+    Find smoke tests created this sprint that haven't been run
+    ```
+
+    ```
+    List all API tests with high priority that are not automated
+    ```
+  </Accordion>
+
+  <Accordion title="Negative Searches">
+    ```
+    Tests without any tags
+    ```
+
+    ```
+    Tests that have never been run
+    ```
+
+    ```
+    Tests not in any folder
+    ```
+  </Accordion>
+
+  <Accordion title="Comparison Searches">
+    ```
+    Tests that failed in prod but passed in staging
+    ```
+
+    ```
+    Tests that take longer than 5 minutes
+    ```
+
+    ```
+    Tests with pass rate below 80%
+    ```
+  </Accordion>
+
+  <Accordion title="Pattern Matching">
+    ```
+    Tests with "auth" in the title
+    ```
+
+    ```
+    Tests starting with "TC-10"
+    ```
+
+    ```
+    Tests containing "checkout" in description
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Learn OQL"
+    icon="code"
+    href="/oql/overview"
+  >
+    Write queries manually for more control
+  </Card>
+
+  <Card
+    title="Ask Questions"
+    icon="circle-question"
+    href="/ai/ask-questions"
+  >
+    Get insights about your tests
+  </Card>
+</CardGroup>

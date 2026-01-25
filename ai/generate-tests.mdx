@@ -1,0 +1,386 @@
+---
+title: Generate Tests with AI
+description: Create complete test cases in seconds using natural language
+icon: wand-magic-sparkles
+---
+
+The AI Assistant can generate complete, detailed test cases in seconds. Just describe what you want to test, and the AI creates a fully-formed test case with steps, expected results, and tags.
+
+## Quick Start
+
+<Steps>
+  <Step title="Open the AI Chat">
+    Press `Cmd + K` (Mac) or `Ctrl + K` (Windows/Linux)
+  </Step>
+
+  <Step title="Describe What to Test">
+    Type your request in plain English:
+    ```
+    Create a test for user login with valid credentials
+    ```
+  </Step>
+
+  <Step title="Review the Generated Test">
+    The AI will create a complete test case with:
+    - Clear title
+    - Test steps with expected results
+    - Preconditions
+    - Tags
+    - Priority
+  </Step>
+
+  <Step title="Save or Refine">
+    - Click **"Save"** to add it to your test suite
+    - Or ask the AI to modify it: "Add a step for two-factor authentication"
+  </Step>
+</Steps>
+
+## Generation Patterns
+
+<Tabs>
+  <Tab title="Single Test">
+    **Create one specific test:**
+
+    ```
+    Create a test for password reset
+    ```
+
+    ```
+    Generate a test case for adding items to cart
+    ```
+
+    ```
+    Write a test for user profile update
+    ```
+
+    The AI will generate a single, focused test case.
+  </Tab>
+
+  <Tab title="Multiple Tests">
+    **Create a suite of related tests:**
+
+    ```
+    Generate smoke tests for the checkout flow
+    ```
+
+    ```
+    Create regression tests for user authentication
+    ```
+
+    ```
+    Generate API tests for the products endpoint
+    ```
+
+    The AI will create multiple test cases covering different scenarios.
+  </Tab>
+
+  <Tab title="From Requirements">
+    **Generate from user stories or requirements:**
+
+    ```
+    Create tests for this user story:
+
+    As a user, I want to filter products by price range
+    so that I can find items within my budget.
+    ```
+
+    The AI will analyze the requirement and generate appropriate tests.
+  </Tab>
+
+  <Tab title="From Documentation">
+    **Generate from API docs or specifications:**
+
+    ```
+    Generate API tests from these docs:
+
+    POST /api/users
+    Creates a new user account
+
+    Request Body:
+    - email (required): string
+    - password (required): string (min 8 chars)
+    - name (optional): string
+
+    Response: 201 Created
+    ```
+
+    The AI will create tests covering all scenarios and edge cases.
+  </Tab>
+</Tabs>
+
+## What Gets Generated
+
+When you ask the AI to create a test, it automatically generates:
+
+<CardGroup cols={2}>
+  <Card title="Test Metadata" icon="tag">
+    - Unique identifier (TC-XXXX)
+    - Clear, descriptive title
+    - Appropriate priority (P0-P4)
+    - Relevant tags
+    - Test type (manual/automated)
+  </Card>
+
+  <Card title="Test Content" icon="file-lines">
+    - Preconditions
+    - Detailed test steps
+    - Expected results for each step
+    - Overall pass/fail criteria
+    - Test data (when applicable)
+  </Card>
+
+  <Card title="Best Practices" icon="star">
+    - Follows naming conventions
+    - Includes edge cases
+    - Uses clear language
+    - Atomic test design
+  </Card>
+
+  <Card title="Context Awareness" icon="brain">
+    - Matches your product type
+    - Uses existing tags
+    - Follows team patterns
+    - Considers related tests
+  </Card>
+</CardGroup>
+
+## Example Prompts
+
+<AccordionGroup>
+  <Accordion title="E-commerce Tests" icon="cart-shopping">
+    ```
+    Generate smoke tests for e-commerce checkout
+    ```
+
+    **AI generates:**
+    - Add item to cart
+    - Update cart quantities
+    - Apply discount code
+    - Select shipping method
+    - Enter payment information
+    - Complete purchase
+    - Receive confirmation email
+  </Accordion>
+
+  <Accordion title="API Tests" icon="code">
+    ```
+    Create API tests for user CRUD operations
+    ```
+
+    **AI generates:**
+    - Create user (valid data)
+    - Create user (invalid email)
+    - Create user (duplicate email)
+    - Get user by ID
+    - Update user information
+    - Delete user
+    - Verify deletion
+  </Accordion>
+
+  <Accordion title="Mobile App Tests" icon="mobile">
+    ```
+    Generate tests for mobile app onboarding
+    ```
+
+    **AI generates:**
+    - First launch experience
+    - Permission requests
+    - Account creation
+    - Profile setup
+    - Feature introduction screens
+    - Skip onboarding flow
+    - Complete onboarding
+  </Accordion>
+
+  <Accordion title="Security Tests" icon="shield">
+    ```
+    Create security tests for login
+    ```
+
+    **AI generates:**
+    - SQL injection attempts
+    - XSS attack prevention
+    - Brute force protection
+    - Session fixation prevention
+    - CSRF token validation
+    - Password complexity enforcement
+    - Account lockout after failures
+  </Accordion>
+</AccordionGroup>
+
+## Refining Generated Tests
+
+You can iterate with the AI to refine tests:
+
+<Steps>
+  <Step title="Ask for Modifications">
+    ```
+    Add a step to verify email notification is sent
+    ```
+
+    ```
+    Make this test cover mobile view as well
+    ```
+
+    ```
+    Split this into separate positive and negative tests
+    ```
+  </Step>
+
+  <Step title="Request Different Formats">
+    ```
+    Make this more detailed with specific test data
+    ```
+
+    ```
+    Simplify this test to just the happy path
+    ```
+
+    ```
+    Convert this to an API test
+    ```
+  </Step>
+
+  <Step title="Add Context">
+    ```
+    This is for a healthcare app, add HIPAA compliance checks
+    ```
+
+    ```
+    We use Stripe for payments, update the payment steps
+    ```
+
+    ```
+    Include accessibility testing requirements
+    ```
+  </Step>
+</Steps>
+
+## Advanced Techniques
+
+<Tabs>
+  <Tab title="Batch Generation">
+    Generate many tests at once:
+
+    ```
+    Create a complete test suite for the shopping cart feature including:
+    - Adding items
+    - Updating quantities
+    - Removing items
+    - Cart persistence
+    - Checkout initiation
+    ```
+
+    The AI will create 10-15 related tests covering all aspects.
+  </Tab>
+
+  <Tab title="From Screenshots">
+    Upload UI screenshots:
+
+    ```
+    Generate tests for this login screen [attach screenshot]
+    ```
+
+    The AI analyzes the UI and creates appropriate tests.
+  </Tab>
+
+  <Tab title="Test Variations">
+    Generate test variations:
+
+    ```
+    Create the same login test but for:
+    - Desktop web
+    - Mobile web
+    - iOS app
+    - Android app
+    ```
+
+    The AI creates platform-specific test cases.
+  </Tab>
+
+  <Tab title="Edge Cases">
+    Focus on edge cases:
+
+    ```
+    What edge cases should I test for file upload?
+    ```
+
+    The AI suggests and can generate tests for:
+    - Empty file
+    - File too large
+    - Invalid file type
+    - Special characters in filename
+    - Network interruption
+    - Concurrent uploads
+  </Tab>
+</Tabs>
+
+## Quality Assurance
+
+<Note>
+**Review AI Output:** Always review generated tests to ensure they match your specific requirements and context.
+</Note>
+
+<Tip>
+**Provide Feedback:** Tell the AI what to adjust: "Make step 3 more specific" or "Add assertions for response time"
+</Tip>
+
+<Warning>
+**Test Data:** Be cautious with sensitive data. The AI generates sample data, but you should use appropriate test data for your environment.
+</Warning>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Be Specific" icon="crosshairs">
+    Instead of "create a login test," try "create a test for login with OAuth via Google"
+  </Card>
+
+  <Card title="Provide Context" icon="circle-info">
+    Mention the feature, platform, or user story: "Create a test for the new multi-factor authentication feature on mobile"
+  </Card>
+
+  <Card title="Iterate" icon="arrows-rotate">
+    Refine the test through conversation: "Add error handling scenarios" or "Include performance assertions"
+  </Card>
+
+  <Card title="Save Templates" icon="bookmark">
+    Once you get a good test format, save it as a template for consistency
+  </Card>
+</CardGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Search Your Tests"
+    icon="magnifying-glass"
+    href="/ai/search-tests"
+  >
+    Find tests using natural language
+  </Card>
+
+  <Card
+    title="Ask Questions"
+    icon="circle-question"
+    href="/ai/ask-questions"
+  >
+    Get insights about your test suite
+  </Card>
+
+  <Card
+    title="Organize Tests"
+    icon="folder-tree"
+    href="/workflows/organizing-tests"
+  >
+    Use folders and tags effectively
+  </Card>
+
+  <Card
+    title="Best Practices"
+    icon="star"
+    href="/ai/best-practices"
+  >
+    Advanced AI tips and techniques
+  </Card>
+</CardGroup>

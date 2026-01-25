@@ -1,0 +1,149 @@
+---
+title: Ask Questions
+description: Get instant insights about your tests and quality metrics
+icon: circle-question
+---
+
+The AI Assistant has access to all your test data and can answer questions about coverage, quality trends, and specific tests.
+
+## What You Can Ask
+
+<CardGroup cols={2}>
+  <Card title="Quality Metrics" icon="chart-line">
+    ```
+    What's our pass rate this sprint?
+    Are we seeing more failures than usual?
+    ```
+  </Card>
+
+  <Card title="Test Coverage" icon="shield">
+    ```
+    Which features don't have smoke tests?
+    Do we have enough regression coverage?
+    ```
+  </Card>
+
+  <Card title="Trends" icon="chart-simple">
+    ```
+    How has quality changed over time?
+    Which tests fail most often?
+    ```
+  </Card>
+
+  <Card title="Specific Tests" icon="file">
+    ```
+    Why is TC-0042 failing?
+    When was this test last updated?
+    ```
+  </Card>
+</CardGroup>
+
+## Example Questions
+
+<Tabs>
+  <Tab title="Quality">
+    ```
+    What's the pass rate for checkout tests?
+    ```
+
+    ```
+    How many tests failed in the last production run?
+    ```
+
+    ```
+    Are there any flaky tests?
+    ```
+
+    ```
+    What's the average test execution time?
+    ```
+  </Tab>
+
+  <Tab title="Coverage">
+    ```
+    Do we have tests for the new payment feature?
+    ```
+
+    ```
+    Which features have the least test coverage?
+    ```
+
+    ```
+    How many smoke tests do we have?
+    ```
+
+    ```
+    Are all critical paths covered?
+    ```
+  </Tab>
+
+  <Tab title="Trends">
+    ```
+    Is our pass rate improving?
+    ```
+
+    ```
+    Which tests started failing recently?
+    ```
+
+    ```
+    How long do smoke tests usually take?
+    ```
+
+    ```
+    What's the failure trend for login tests?
+    ```
+  </Tab>
+
+  <Tab title="Recommendations">
+    ```
+    What tests should I create next?
+    ```
+
+    ```
+    Which tests should I prioritize?
+    ```
+
+    ```
+    What's missing from our test suite?
+    ```
+
+    ```
+    Should I add more smoke tests?
+    ```
+  </Tab>
+</Tabs>
+
+## Getting Better Answers
+
+<Tip>
+**Be specific:** Instead of "how are tests doing?", ask "what's the pass rate for authentication tests in staging?"
+</Tip>
+
+<Tip>
+**Provide timeframe:** Mention "this week", "last sprint", or "since last release"
+</Tip>
+
+<Tip>
+**Ask follow-ups:** The AI remembers context, so you can drill deeper
+</Tip>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Generate Tests"
+    icon="wand-magic-sparkles"
+    href="/ai/generate-tests"
+  >
+    Create tests with AI
+  </Card>
+
+  <Card
+    title="Best Practices"
+    icon="star"
+    href="/ai/best-practices"
+  >
+    Advanced AI tips
+  </Card>
+</CardGroup>

@@ -1,0 +1,234 @@
+---
+title: Your First Test
+description: Create your first test case in OneTest in about 2 minutes
+icon: file-plus
+---
+
+Let's create your first test case in OneTest. This should take about 2 minutes.
+
+## What You'll Learn
+
+<CardGroup cols={4}>
+  <Card icon="file-plus">How to create a test case</Card>
+  <Card icon="list-ol">How to add test steps</Card>
+  <Card icon="tags">How to use tags</Card>
+  <Card icon="floppy-disk">How to save and track tests</Card>
+</CardGroup>
+
+## Create Your Test
+
+<Steps>
+  <Step title="Open Test Management">
+    1. Log in to OneTest
+    2. Click **Test Management** in the sidebar
+    3. You'll see an empty test list (that's normal!)
+  </Step>
+
+  <Step title="Click New Test Case">
+    Click the **"+ New Test Case"** button in the top right.
+
+    You'll see a form with several fields. Let's fill in the basics:
+  </Step>
+
+  <Step title="Enter Basic Information">
+    ### Title
+    Give your test a clear name that describes what it tests.
+
+    **Example:**
+    ```
+    User can view dashboard after login
+    ```
+
+    ### Description (Optional)
+    Add more details if needed.
+
+    **Example:**
+    ```
+    Verify that after successful login, the user
+    is redirected to the dashboard and can see
+    their profile information.
+    ```
+
+    ### Type
+    Select **Manual** (we'll cover automated tests later).
+
+    ### Priority
+    Choose how important this test is:
+
+    | Priority | When to Use |
+    |----------|-------------|
+    | **P0** | Critical (blocks release if fails) |
+    | **P1** | High (major feature) |
+    | **P2** | Medium (standard feature) |
+    | **P3** | Low |
+    | **P4** | Nice-to-have |
+
+    For this example, choose **P2**.
+  </Step>
+
+  <Step title="Add Test Steps">
+    Click **"+ Add Step"** to add each step of your test.
+
+    For each step, enter:
+    - **Action** - What to do
+    - **Expected Result** - What should happen
+
+    **Example Steps:**
+
+    <Tabs>
+      <Tab title="Step 1">
+        - **Action:** `Navigate to login page`
+        - **Expected:** `Login form is displayed`
+      </Tab>
+
+      <Tab title="Step 2">
+        - **Action:** `Enter valid username and password`
+        - **Expected:** `Credentials are accepted`
+      </Tab>
+
+      <Tab title="Step 3">
+        - **Action:** `Click "Login" button`
+        - **Expected:** `User is redirected to dashboard`
+      </Tab>
+
+      <Tab title="Step 4">
+        - **Action:** `Verify dashboard page`
+        - **Expected:** `Dashboard loads with user's name visible`
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Add Tags (Optional)">
+    Tags help you organize and find tests.
+
+    Add these tags:
+    ```
+    smoke, login, ui
+    ```
+
+    **Tag Usage:**
+    - **smoke** - Critical path tests
+    - **login** - Feature grouping
+    - **ui** - Test type
+  </Step>
+
+  <Step title="Save Your Test">
+    Click the **"Create"** button at the bottom.
+
+    🎉 **Congratulations!** You've created your first test case!
+
+    You should see:
+    - Test identifier (e.g., `TC-0001`)
+    - Status: `Draft`
+    - Your test details
+  </Step>
+</Steps>
+
+## What Just Happened?
+
+OneTest automatically handled several things for you:
+
+<CardGroup cols={2}>
+  <Card title="Unique ID Generated" icon="hashtag">
+    Every test gets a unique identifier like `TC-0001`
+  </Card>
+
+  <Card title="Version Tracking" icon="code-branch">
+    Created version 1 of your test for full history
+  </Card>
+
+  <Card title="Status Set" icon="circle-dot">
+    Automatically set to "Draft" status
+  </Card>
+
+  <Card title="Metadata Tracked" icon="clock">
+    Recorded who created it and when
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+Now that you've created your first test, here are some great next steps:
+
+<CardGroup cols={2}>
+  <Card
+    title="Create More Tests"
+    icon="copy"
+    href="/workflows/creating-tests"
+  >
+    Try creating tests for common workflows:
+    - User registration
+    - Password reset
+    - Checkout process
+  </Card>
+
+  <Card
+    title="Use AI to Generate Tests"
+    icon="wand-magic-sparkles"
+    href="/ai/generate-tests"
+  >
+    Let the AI create complete tests for you automatically
+  </Card>
+
+  <Card
+    title="Organize Your Tests"
+    icon="folder-tree"
+    href="/workflows/organizing-tests"
+  >
+    Learn how to use folders and tags effectively
+  </Card>
+
+  <Card
+    title="Run Your Test"
+    icon="play"
+    href="/ui/running-tests"
+  >
+    Execute your test and track results
+  </Card>
+</CardGroup>
+
+## Quick Tips
+
+<Note>
+**Keep tests atomic** - One test = One scenario
+</Note>
+
+<Tip>
+**Use clear titles** - Describe what is being tested, not how
+</Tip>
+
+<Tip>
+**Be specific in steps** - Anyone should understand what to do
+</Tip>
+
+<Tip>
+**Tag consistently** - Use the same tags across your team
+</Tip>
+
+## Need Help?
+
+Having trouble? Try these:
+
+<CardGroup cols={3}>
+  <Card title="Ask the AI" icon="robot">
+    Open the chat and type "How do I create a test?"
+  </Card>
+
+  <Card title="Watch Video" icon="video" href="https://youtube.com/@onetest">
+    Video tutorial on creating tests
+  </Card>
+
+  <Card title="Get Support" icon="envelope" href="mailto:support@onetest.ai">
+    Email our support team
+  </Card>
+</CardGroup>
+
+## What You Learned
+
+<Check>How to create a test case</Check>
+<Check>What fields to fill in</Check>
+<Check>How to add test steps</Check>
+<Check>How to use tags</Check>
+<Check>Where your test is stored</Check>
+
+Ready for more? Pick your next guide above! 👆

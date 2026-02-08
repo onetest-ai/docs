@@ -48,6 +48,31 @@ icon: circle-question
     **Plans:** Starter, Professional, Enterprise
     **Billing:** Monthly or annual
   </Accordion>
+
+  <Accordion title="How does coin-based metering work?" icon="coins">
+    OneTest uses a coin-based system for API usage tracking:
+
+    - **Browser usage is free** — all UI actions cost zero coins
+    - **API key usage is metered** — each API call costs 1 coin
+    - **Weekly budget** — each product gets 1,000 coins per week (configurable)
+    - **Budget resets** automatically each week
+
+    When coins run out, API requests are blocked until the budget resets or you top up. UI access is never affected.
+
+    See [Usage & Billing](/settings/usage-billing) for details.
+  </Accordion>
+
+  <Accordion title="How do I access OneTest programmatically?" icon="key">
+    Use **API keys** for programmatic access:
+
+    1. Go to **Settings** > **API Keys**
+    2. Create a new key (shown only once — save it!)
+    3. Include in requests: `Authorization: Bearer ak_YOUR_KEY`
+
+    API keys work with all OneTest services (test management, artifacts, receiver, etc.). Each API call costs 1 coin from your weekly budget.
+
+    See [API Keys](/getting-started/api-keys) for full documentation.
+  </Accordion>
 </AccordionGroup>
 
 ## Getting Started
@@ -79,18 +104,20 @@ icon: circle-question
     They'll receive an email invitation to join your product.
   </Accordion>
 
-  <Accordion title="Can I import existing tests?" icon="file-import">
-    **Yes!** OneTest supports importing tests from:
-    - CSV files
-    - Excel spreadsheets
-    - JSON files
+  <Accordion title="Can I import and export tests?" icon="file-import">
+    **Import:** OneTest supports importing tests from:
+    - Excel spreadsheets (XLSX)
+    - JUnit XML files (automated results)
+    - ReportPortal agents (drop-in compatible)
     - Other test management tools (contact support)
 
-    **To import:**
-    1. Go to Test Management → **Import**
-    2. Upload your file
-    3. Map columns to OneTest fields
-    4. Review and confirm import
+    **Export:** Export test cases to Excel (XLSX) with flexible options:
+    - Export all test cases
+    - Export OQL-filtered results (e.g., `priority = p1 AND status = ready`)
+    - Export selected tests (checkbox selection)
+    - Export unassigned tests (not in any folder)
+
+    See [Test Management](/ui/test-management) for export details.
   </Accordion>
 
   <Accordion title="How do I integrate with CI/CD?" icon="code-branch">

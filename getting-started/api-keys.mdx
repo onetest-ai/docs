@@ -1,0 +1,173 @@
+---
+title: API Keys
+description: Authenticate programmatic access to OneTest APIs
+icon: key
+---
+
+API keys let you access OneTest programmatically — from CI/CD pipelines, test automation frameworks, scripts, and integrations.
+
+## Overview
+
+OneTest supports two authentication methods:
+
+| Method | Use Case | Metering |
+|--------|----------|----------|
+| **Browser session** (JWT) | UI access via browser | Free |
+| **API key** | Programmatic / REST access | Metered (coins) |
+
+<Note>
+API key requests consume coins from your product's weekly budget. Browser usage is always free. See [Usage & Billing](/settings/usage-billing) for details.
+</Note>
+
+## Creating an API Key
+
+<Steps>
+  <Step title="Go to Settings">
+    Navigate to **Settings** > **API Keys** in the OneTest UI
+  </Step>
+
+  <Step title="Create New Key">
+    Click **"+ Create API Key"** and give it a descriptive name (e.g., "CI Pipeline", "Test Reporter")
+  </Step>
+
+  <Step title="Copy the Key">
+    Copy the API key immediately — it is only shown once and cannot be retrieved later
+  </Step>
+
+  <Step title="Store Securely">
+    Store the key in your CI/CD secrets, environment variables, or secrets manager
+  </Step>
+</Steps>
+
+<Warning>
+API keys are shown only once at creation. If you lose a key, you'll need to create a new one and update all integrations that use it.
+</Warning>
+
+## API Key Format
+
+OneTest API keys use the `ak_` prefix:
+
+```
+ak_R2HSAH1DBQ8Q9B8PKSR165V7W0BVDRQP
+```
+
+This prefix allows OneTest to automatically distinguish API keys from JWT session tokens.
+
+## Using API Keys
+
+Include the API key in the `Authorization` header:
+
+```bash
+curl -X GET https://tms.onetest.ai/api/gateway/api/v1/tools \
+  -H "Authorization: Bearer ak_R2HSAH1DBQ8Q9B8PKSR165V7W0BVDRQP" \
+  -H "Content-Type: application/json"
+```
+
+### Examples
+
+<Tabs>
+  <Tab title="curl">
+    ```bash
+    # List test cases
+    curl https://tms.onetest.ai/api/test-management/api/v1/products/{product_id}/test-cases \
+      -H "Authorization: Bearer ak_YOUR_KEY_HERE"
+
+    # Create a test case
+    curl -X POST https://tms.onetest.ai/api/test-management/api/v1/products/{product_id}/test-cases \
+      -H "Authorization: Bearer ak_YOUR_KEY_HERE" \
+      -H "Content-Type: application/json" \
+      -d '{"title": "Login test", "test_type": "manual", "priority": "p2"}'
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    import httpx
+
+    client = httpx.Client(
+        base_url="https://tms.onetest.ai/api/test-management",
+        headers={"Authorization": "Bearer ak_YOUR_KEY_HERE"}
+    )
+
+    # List test cases
+    response = client.get(f"/api/v1/products/{product_id}/test-cases")
+    tests = response.json()
+    ```
+  </Tab>
+
+  <Tab title="GitHub Actions">
+    ```yaml
+    - name: Import test results
+      run: |
+        curl -X POST \
+          https://tms.onetest.ai/api/receiver/api/v1/products/${{ vars.PRODUCT_ID }}/import/junit/upload \
+          -H "Authorization: Bearer ${{ secrets.ONETEST_API_KEY }}" \
+          -F "file=@test-results.xml"
+    ```
+  </Tab>
+
+  <Tab title="ReportPortal Agent">
+    ```properties
+    # reportportal.properties
+    rp.endpoint = https://tms.onetest.ai/api/receiver
+    rp.apiKey = ak_YOUR_KEY_HERE
+    rp.project = my-project
+    rp.launch = nightly-regression
+    ```
+  </Tab>
+</Tabs>
+
+## API Key vs Browser Session
+
+| Aspect | API Key | Browser Session |
+|--------|---------|-----------------|
+| **Format** | `ak_...` (opaque token) | JWT from Clerk |
+| **Duration** | Until revoked | Session-based |
+| **Metering** | Coins per request | Free |
+| **Use case** | CI/CD, scripts, agents | Interactive UI |
+| **Rate limit** | Configurable per product | None |
+
+## Revoking Keys
+
+To revoke an API key:
+
+1. Go to **Settings** > **API Keys**
+2. Find the key you want to revoke
+3. Click **Revoke**
+4. The key stops working within 5 minutes
+
+<Tip>
+Revoked keys are cached for up to 5 minutes. For immediate effect during a security incident, contact support.
+</Tip>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Use Descriptive Names" icon="tag">
+    Name keys after their purpose: "GitHub CI", "Nightly Reporter", "Jenkins Pipeline"
+  </Card>
+
+  <Card title="One Key Per Integration" icon="key">
+    Create separate keys for each integration so you can revoke them independently
+  </Card>
+
+  <Card title="Store in Secrets Manager" icon="vault">
+    Never hardcode keys in source code. Use CI/CD secrets or a vault
+  </Card>
+
+  <Card title="Monitor Usage" icon="chart-line">
+    Check the [Usage & Billing](/settings/usage-billing) page to spot unexpected consumption
+  </Card>
+</CardGroup>
+
+## Supported Services
+
+API keys work with all OneTest services:
+
+| Service | Base Path | Purpose |
+|---------|-----------|---------|
+| Gateway | `/api/gateway/` | AI assistant, tools |
+| Membership | `/api/membership/` | Products, environments, builds |
+| Test Management | `/api/test-management/` | Test cases, runs, executions |
+| Artifacts | `/api/artifacts/` | File storage, documents |
+| Receiver | `/api/receiver/` | Test result ingestion |

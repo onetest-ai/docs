@@ -1,0 +1,170 @@
+---
+title: Usage & Billing
+description: Monitor API usage, manage budgets, and track coin consumption
+icon: coins
+---
+
+OneTest uses a **coin-based** metering system to track API usage. Every API call made through an API key costs coins, while browser-based (UI) usage is always free.
+
+## How Metering Works
+
+<CardGroup cols={2}>
+  <Card title="Free: Browser Usage" icon="desktop">
+    All actions through the OneTest UI are **free** and never consume coins. This includes using the AI assistant, managing tests, and viewing results.
+  </Card>
+
+  <Card title="Metered: API Keys" icon="key">
+    Programmatic access via API keys is metered. Each API call costs coins based on the operation type.
+  </Card>
+</CardGroup>
+
+## Coin Pricing
+
+Every product starts with a **weekly budget of 1,000 coins** that resets automatically each week.
+
+| Operation | Cost | Description |
+|-----------|------|-------------|
+| REST API call | 1 coin | Any API call authenticated with an API key |
+| MCP single action | 1 coin | Single tool invocation via MCP |
+| Agent loop | 1 coin per 10 steps | AI agent operations (batched) |
+| Test ingestion | 1 coin | ReportPortal agent submissions |
+| JUnit import | 1 coin | JUnit XML file imports |
+| UI operation | Free | All browser-based actions |
+
+<Note>
+Pricing is per API call, not per data volume. A single API call that returns 100 test cases costs the same as one that returns 1.
+</Note>
+
+## Viewing Usage
+
+Navigate to **Settings** > **Usage & Billing** to see your current usage.
+
+### Activity Log
+
+The activity log shows every metered event in real-time:
+
+- **User** who made the request
+- **Operation type** (REST API, MCP action, etc.)
+- **Service** that handled the request
+- **Coin cost** for each event
+- **Timestamp** of the event
+
+Use the date filters to narrow down activity to a specific period.
+
+### Usage Summary
+
+The summary panel shows at a glance:
+
+- **Coins used** this billing cycle
+- **Coins remaining** in your weekly budget
+- **Budget cycle dates** (start and end)
+- **Usage breakdown** by operation type
+
+### Usage Breakdown
+
+See which types of operations consume the most coins:
+
+```
+REST API calls:     450 coins (45%)
+MCP actions:        300 coins (30%)
+Test ingestion:     150 coins (15%)
+JUnit imports:      100 coins (10%)
+```
+
+### Export Activity
+
+Export your activity log as CSV for reporting:
+
+1. Go to **Settings** > **Usage & Billing**
+2. Set the date range (up to 3 months)
+3. Click **Export CSV**
+
+The export includes: timestamp, user, event type, source, service, operation, and coin cost.
+
+## Managing Budgets
+
+### Weekly Budget
+
+Each product has a configurable weekly coin budget:
+
+- **Default:** 1,000 coins per week
+- **Minimum:** No minimum
+- **Maximum:** No limit
+
+The budget resets automatically at the start of each weekly cycle.
+
+### Overage Protection
+
+By default, API requests are **blocked** when the budget is exhausted. You can change this behavior:
+
+- **Block on exhaustion** (default): API calls return `429 Too Many Requests` when coins run out
+- **Allow overage**: API calls continue working beyond the budget limit
+
+### Hourly Rate Limit
+
+Set a maximum number of requests per hour to prevent runaway scripts or misconfigured integrations:
+
+- **Default:** Unlimited (0)
+- **Configurable:** 1 to 10,000 requests per hour
+
+### Adjusting Settings
+
+To change budget settings:
+
+<Steps>
+  <Step title="Go to Settings">
+    Navigate to **Settings** > **Usage & Billing**
+  </Step>
+
+  <Step title="Edit Budget">
+    Adjust the weekly coin budget, overage policy, and hourly rate limit
+  </Step>
+
+  <Step title="Save Changes">
+    Click **Save** to apply the new settings
+  </Step>
+</Steps>
+
+## Budget Top-Up
+
+If you run out of coins mid-cycle, you can add more:
+
+1. Go to **Settings** > **Usage & Billing**
+2. Click **Top Up**
+3. Enter the number of coins to add
+4. Coins are added immediately to your available balance
+
+<Tip>
+Top-up coins are added to the current cycle only. They don't carry over or change your weekly budget.
+</Tip>
+
+## Usage History
+
+View historical usage by week to identify trends:
+
+- **Weekly snapshots** showing total coins used and event counts
+- **Breakdown by operation type** for each week
+- **Up to 12 weeks** of history
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="What happens when I run out of coins?" icon="circle-exclamation">
+    By default, API requests return `429 Too Many Requests`. UI access is never affected. You can either:
+    - Wait for the weekly reset
+    - Top up coins manually
+    - Enable overage to allow continued access
+  </Accordion>
+
+  <Accordion title="Does the AI assistant cost coins?" icon="sparkles">
+    **No.** The AI assistant is accessed through the browser UI, which is always free. Only programmatic API access via API keys is metered.
+  </Accordion>
+
+  <Accordion title="When does the weekly budget reset?" icon="clock">
+    The budget resets automatically 7 days after the cycle start date. The exact dates are shown on the Usage & Billing page.
+  </Accordion>
+
+  <Accordion title="Can I see who is using the most coins?" icon="users">
+    Yes. The activity log shows which user made each request. Export to CSV and sort by user to see per-user consumption.
+  </Accordion>
+</AccordionGroup>

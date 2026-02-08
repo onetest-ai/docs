@@ -19,7 +19,8 @@
               "introduction",
               "getting-started/quickstart",
               "getting-started/what-is-onetest",
-              "getting-started/your-first-test"
+              "getting-started/your-first-test",
+              "getting-started/api-keys"
             ]
           },
           {
@@ -29,6 +30,12 @@
               "ui/creating-tests",
               "ui/running-tests",
               "ui/viewing-results"
+            ]
+          },
+          {
+            "group": "Settings",
+            "pages": [
+              "settings/usage-billing"
             ]
           },
           {

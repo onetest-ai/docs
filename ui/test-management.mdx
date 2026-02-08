@@ -4,8 +4,6 @@ description: Organize and manage your test cases
 icon: list-check
 ---
 
-<Note>This page is under construction. More content coming soon!</Note>
-
 ## Overview
 
 OneTest's test management system helps you organize, track, and maintain your test cases efficiently.
@@ -35,10 +33,24 @@ OneTest's test management system helps you organize, track, and maintain your te
   </Card>
 
   <Card
+    title="Export & Import"
+    icon="file-export"
+  >
+    Export test cases to Excel (XLSX) with flexible filtering options.
+  </Card>
+
+  <Card
     title="OQL Search"
     icon="magnifying-glass"
   >
     Find tests instantly with powerful query language.
+  </Card>
+
+  <Card
+    title="Bulk Operations"
+    icon="list-check"
+  >
+    Select multiple tests with checkboxes for bulk move, tag, and export.
   </Card>
 </CardGroup>
 
@@ -50,7 +62,7 @@ OneTest's test management system helps you organize, track, and maintain your te
   </Step>
 
   <Step title="Create Your First Test">
-    Click **"+ New Test"** to create your first test case
+    Click **"+ New Test"** to create your first test case, or use the [AI assistant](/ai/generate-tests) to generate one
   </Step>
 
   <Step title="Organize with Folders">
@@ -61,6 +73,76 @@ OneTest's test management system helps you organize, track, and maintain your te
     Select tests and click **"Run"** to execute them
   </Step>
 </Steps>
+
+## Selecting Test Cases
+
+Use checkboxes to select individual test cases for bulk operations:
+
+- **Click a checkbox** to select a single test
+- **Select multiple** tests across the list
+- **Bulk actions** appear in the toolbar: Move, Tag, Export
+
+## Exporting Test Cases
+
+Export test cases to **Excel (XLSX)** format for reporting, sharing, or offline review.
+
+### Export Options
+
+<Tabs>
+  <Tab title="Export All">
+    Export all test cases in the current product:
+
+    1. Go to the Test Cases list
+    2. Click the **Export** button in the toolbar
+    3. Choose **"All Test Cases"**
+    4. An XLSX file downloads with all test data
+  </Tab>
+
+  <Tab title="Export with OQL Filter">
+    Export a filtered subset using OQL:
+
+    1. Enter an OQL query in the search bar (e.g., `priority IN (p1, p2) AND status = ready`)
+    2. Click the **Export** button
+    3. Choose **"Filtered Results"**
+    4. Only matching test cases are exported
+  </Tab>
+
+  <Tab title="Export Selected">
+    Export specific test cases:
+
+    1. Select test cases using checkboxes
+    2. Click the **Export** button
+    3. Choose **"Selected Tests"**
+    4. Only checked test cases are exported
+  </Tab>
+
+  <Tab title="Export Unassigned">
+    Export test cases not assigned to any folder:
+
+    1. Click the **Export** button
+    2. Choose **"Unassigned Tests"**
+    3. Tests without a folder are exported
+  </Tab>
+</Tabs>
+
+### XLSX Export Contents
+
+The exported Excel file includes:
+
+| Column | Description |
+|--------|-------------|
+| Identifier | TC-0001, TC-0002, etc. |
+| Title | Test case title |
+| Type | manual, automated, exploratory |
+| Status | draft, ready, deprecated, archived |
+| Priority | p1, p2, p3, p4 |
+| Description | Full description text |
+| Preconditions | Setup requirements |
+| Steps | Action and expected result pairs |
+| Tags | Comma-separated tags |
+| Folder | Folder path |
+| Created | Creation date |
+| Updated | Last modification date |
 
 ## What's Next?
 

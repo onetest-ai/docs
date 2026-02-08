@@ -12,12 +12,14 @@ Complete reference of all fields you can query in OQL.
 
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
-| `identifier` | string | Test case ID | `identifier ^ "TC-10"` |
+| `identifier` | string | Test case ID (TC-NNN) | `identifier ^ "TC-10"` |
 | `title` | string | Test case title | `title ~ "login"` |
 | `description` | string | Test description | `description ~ "authentication"` |
-| `test_type` | string | manual, automated, api | `test_type = manual` |
-| `status` | string | draft, active, archived | `status = active` |
-| `priority` | string | p0, p1, p2, p3, p4 | `priority IN (p0, p1)` |
+| `test_type` | enum | manual, automated, exploratory | `test_type = manual` |
+| `status` | enum | draft, ready, deprecated, archived | `status = ready` |
+| `priority` | enum | p1, p2, p3, p4 | `priority IN (p1, p2)` |
+| `component` | string | Component name | `component = "checkout"` |
+| `automation_status` | enum | not_automated, candidate, automated | `automation_status = automated` |
 
 ### Dates & Times
 
@@ -25,55 +27,76 @@ Complete reference of all fields you can query in OQL.
 |-------|------|-------------|---------|
 | `created_at` | datetime | When created | `created_at >= -7d` |
 | `updated_at` | datetime | Last modified | `updated_at >= startOfMonth()` |
-| `last_run` | datetime | Last execution | `last_run >= 2024-01-01` |
-| `approved_at` | datetime | When approved | `approved_at IS NOT NULL` |
+| `archived_at` | datetime | When archived | `archived_at IS NOT NULL` |
 
 ### Organization
 
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
 | `folder_id` | uuid | Parent folder | `folder_id IS NOT NULL` |
-| `folder_path` | string | Folder path | `folder_path ~ "/auth/"` |
 | `tags` | array | Test tags | `tags CONTAINS "smoke"` |
-| `component` | string | Component name | `component = "checkout"` |
-
-### Quality Metrics
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `pass_rate` | number | 0.0 to 1.0 | `pass_rate > 0.9` |
-| `execution_count` | number | Times executed | `execution_count >= 10` |
-| `avg_duration` | number | Avg time (seconds) | `avg_duration < 300` |
-| `failure_count` | number | Times failed | `failure_count > 0` |
-| `is_flaky` | boolean | Inconsistent results | `is_flaky = true` |
 
 ### Ownership
 
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
 | `created_by` | string | Creator user ID | `created_by = "user_123"` |
-| `updated_by` | string | Last editor | `updated_by = "current_user"` |
-| `assigned_to` | string | Assignee | `assigned_to = "current_user"` |
-| `reviewer` | string | Reviewer | `reviewer IS NOT NULL` |
-| `team` | string | Team name | `team = "qa"` |
+| `owner` | string | Test case owner | `owner IS NOT NULL` |
 
-### Automation
+## Release Fields
 
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
-| `automated` | boolean | Is automated | `automated = true` |
-| `automation_status` | string | Status | `automation_status = "in_progress"` |
-| `automation_test_id` | string | External test ID | `automation_test_id ~ "selenium"` |
-| `automation_framework` | string | Framework used | `automation_framework = "playwright"` |
+| `name` | string | Release name | `name ~ "v2"` |
+| `description` | string | Release description | `description ~ "hotfix"` |
+| `scope` | string | Release scope | `scope = "backend"` |
+| `status` | enum | planned, active, released | `status = active` |
+| `start_date` | date | Planned start date | `start_date >= 2024-01-01` |
+| `end_date` | date | Planned end date | `end_date <= +30d` |
+| `created_at` | datetime | When created | `created_at >= -30d` |
+| `updated_at` | datetime | Last modified | `updated_at >= startOfWeek()` |
+| `created_by` | string | Creator user ID | `created_by = "user_123"` |
+| `sprint_count` | number | Number of sprints | `sprint_count > 0` |
+| `build_count` | number | Number of builds | `build_count >= 5` |
 
-### Requirements
+## Environment Fields
 
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
-| `requirements` | array | Requirement IDs | `requirements CONTAINS "US-123"` |
-| `dependencies` | array | Dependent tests | `dependencies IS NOT NULL` |
-| `defect_links` | array | Linked bugs | `defect_links CONTAINS "JIRA-456"` |
-| `known_issues` | array | Known issues | `known_issues IS NULL` |
+| `name` | string | Environment name | `name ~ "staging"` |
+| `description` | string | Description | `description ~ "production"` |
+| `endpoint_url` | string | Environment URL | `endpoint_url ~ "api.example.com"` |
+| `type` | enum | development, staging, production | `type = production` |
+| `created_at` | datetime | When created | `created_at >= -90d` |
+| `updated_at` | datetime | Last modified | `updated_at >= -7d` |
+| `deployment_count` | number | Number of deployments | `deployment_count > 0` |
+
+## Build Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `version` | string | Build version | `version ^ "2.1"` |
+| `git_sha` | string | Git commit SHA | `git_sha ^ "abc123"` |
+| `scope` | string | Build scope | `scope = "frontend"` |
+| `status` | enum | pending, active, archived | `status = active` |
+| `created_at` | datetime | When created | `created_at >= -7d` |
+| `updated_at` | datetime | Last modified | `updated_at >= -1d` |
+| `release` | string | Parent release name | `release ~ "v2"` |
+| `sprint` | string | Parent sprint name | `sprint ~ "Sprint 5"` |
+| `deployed_to` | array | Deployed environments | `deployed_to CONTAINS "staging"` |
+
+## Sprint Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `number` | number | Sprint number | `number >= 5` |
+| `name` | string | Sprint name | `name ~ "Sprint 10"` |
+| `scope` | string | Sprint scope | `scope = "backend"` |
+| `status` | enum | planned, active, completed | `status = active` |
+| `start_date` | date | Sprint start | `start_date >= -14d` |
+| `end_date` | date | Sprint end | `end_date <= +7d` |
+| `created_at` | datetime | When created | `created_at >= -30d` |
+| `release` | string | Parent release name | `release ~ "v3"` |
 
 ## Test Run Fields
 
@@ -81,68 +104,23 @@ Complete reference of all fields you can query in OQL.
 
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
-| `run_id` | uuid | Run identifier | `run_id = "abc123..."` |
-| `run_name` | string | Run name | `run_name ~ "nightly"` |
-| `run_status` | string | Status | `run_status = "in_progress"` |
-| `environment` | string | Environment | `environment = "staging"` |
-| `build` | string | Build version | `build = "2.1.0"` |
+| `name` | string | Run name | `name ~ "nightly"` |
+| `description` | string | Run description | `description ~ "regression"` |
+| `run_type` | enum | manual, automated | `run_type = automated` |
+| `status` | enum | planned, in_progress, completed, aborted | `status = completed` |
+| `assigned_to` | string | Assigned user | `assigned_to = "user_123"` |
+| `created_by` | string | Creator | `created_by = "user_123"` |
 
 ### Run Timing
 
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
-| `run_started_at` | datetime | Run start time | `run_started_at >= -24h` |
-| `run_completed_at` | datetime | Run end time | `run_completed_at IS NOT NULL` |
-| `run_duration` | number | Total duration (s) | `run_duration < 3600` |
-
-### Run Results
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `run_passed` | number | Tests passed | `run_passed > 0` |
-| `run_failed` | number | Tests failed | `run_failed = 0` |
-| `run_skipped` | number | Tests skipped | `run_skipped > 0` |
-| `run_blocked` | number | Tests blocked | `run_blocked = 0` |
-| `run_pass_rate` | number | Pass percentage | `run_pass_rate >= 0.95` |
-
-## Execution Fields
-
-### Execution Status
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `execution_status` | string | Result | `execution_status = "failed"` |
-| `executed_by` | string | Executor | `executed_by = "user_123"` |
-| `executed_at` | datetime | Execution time | `executed_at >= -7d` |
-| `execution_duration` | number | Duration (s) | `execution_duration > 300` |
-
-### Execution Details
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `failure_reason` | string | Why it failed | `failure_reason ~ "timeout"` |
-| `error_message` | string | Error details | `error_message IS NOT NULL` |
-| `screenshots` | array | Screenshot URLs | `screenshots IS NOT NULL` |
-| `logs` | string | Execution logs | `logs ~ "ERROR"` |
-
-## Special Fields
-
-### System Fields
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `product_id` | uuid | Product | Filtered automatically by context |
-| `version_number` | number | Test version | `version_number > 1` |
-| `is_deleted` | boolean | Soft deleted | Usually filtered automatically |
-
-### Computed Fields
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `age_days` | number | Days since creation | `age_days > 30` |
-| `days_since_run` | number | Days since last run | `days_since_run > 7` |
-| `has_failures` | boolean | Ever failed | `has_failures = true` |
-| `coverage_score` | number | Coverage metric | `coverage_score < 0.8` |
+| `planned_start` | datetime | Planned start | `planned_start >= -7d` |
+| `planned_end` | datetime | Planned end | `planned_end IS NOT NULL` |
+| `actual_start` | datetime | Actual start | `actual_start >= -24h` |
+| `actual_end` | datetime | Actual end | `actual_end IS NOT NULL` |
+| `created_at` | datetime | When created | `created_at >= startOfWeek()` |
+| `updated_at` | datetime | Last modified | `updated_at >= -1d` |
 
 ## Field Type Details
 
@@ -156,21 +134,32 @@ title ^ "TC-"            # Starts with
 title $ "test"           # Ends with
 ```
 
-### Number Fields
+### Enum Fields
 
-Support comparison and range operations:
+Use exact values or IN for multiple:
 
 ```oql
-priority < p2            # Less than
-version >= 2             # Greater or equal
-age_days BETWEEN 7 AND 30  # Range
+status = ready
+priority IN (p1, p2)
+test_type = automated
+```
+
+### Number Fields
+
+Support comparison operators:
+
+```oql
+sprint_count > 0
+build_count >= 5
+number BETWEEN 1 AND 10
 ```
 
 ### Boolean Fields
 
 ```oql
-automated = true
-is_flaky = false
+# Use IS NULL / IS NOT NULL for optional fields
+owner IS NOT NULL
+archived_at IS NULL
 ```
 
 ### Datetime Fields
@@ -181,6 +170,7 @@ Support ISO dates and relative dates:
 created_at = "2024-01-15"
 created_at >= -7d
 created_at >= startOfMonth()
+updated_at >= startOfWeek()
 ```
 
 ### Array Fields
@@ -191,34 +181,16 @@ Support contains operations:
 tags CONTAINS "smoke"
 tags CONTAINS ANY (smoke, regression)
 tags CONTAINS ALL (smoke, critical)
-requirements IS NOT NULL
+deployed_to CONTAINS "staging"
 ```
 
-## Platform-Specific Fields
+<Note>
+Custom fields are also searchable using dot notation:
 
-### Web Testing
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `browser` | string | Browser type | `browser = "chrome"` |
-| `viewport_size` | string | Screen size | `viewport_size = "1920x1080"` |
-| `responsive` | boolean | Responsive test | `responsive = true` |
-
-### Mobile Testing
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `platform` | string | ios, android | `platform = "ios"` |
-| `device` | string | Device model | `device ~ "iPhone"` |
-| `os_version` | string | OS version | `os_version ^ "15"` |
-
-### API Testing
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `endpoint` | string | API endpoint | `endpoint ~ "/users"` |
-| `http_method` | string | GET, POST, etc | `http_method = "POST"` |
-| `expected_status` | number | HTTP status | `expected_status = 200` |
+```oql
+custom_fields.jira_ticket = "PROJ-123"
+```
+</Note>
 
 ## Tips
 
@@ -231,14 +203,6 @@ What fields can I search for automated tests?
 
 The AI will suggest appropriate fields and show examples.
 </Tip>
-
-<Note>
-Custom fields are also searchable using dot notation:
-
-```oql
-custom_fields.jira_ticket = "PROJ-123"
-```
-</Note>
 
 ## What's Next?
 

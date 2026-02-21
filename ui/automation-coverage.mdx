@@ -1,0 +1,230 @@
+---
+title: Automation Coverage
+description: Understand your test automation gap and track CI/CD evidence
+icon: chart-bar
+---
+
+The Automation Coverage report answers a critical question: **are the tests you marked as "automated" actually running in CI/CD?**
+
+Many teams mark test cases as automated when they write the code, but automation can silently break — tests get renamed, CI configs change, or entire suites get disabled. The coverage report surfaces these gaps.
+
+## Accessing the Report
+
+Navigate to **Analytics** from the main navigation. The Automation Coverage dashboard loads automatically for the current product.
+
+## Dashboard Overview
+
+The report has four sections:
+
+### Summary Cards
+
+<CardGroup cols={4}>
+  <Card title="Total Test Cases" icon="hashtag">
+    All non-archived test cases in the product
+  </Card>
+
+  <Card title="Marked Automated" icon="robot">
+    Percentage of test cases with execution type set to "automated"
+  </Card>
+
+  <Card title="Linked to Results" icon="link">
+    Test cases with actual CI/CD execution evidence
+  </Card>
+
+  <Card title="Automation Gap" icon="triangle-exclamation">
+    Test cases marked automated but with no CI/CD evidence (highlighted in red when > 0)
+  </Card>
+</CardGroup>
+
+### Distribution Charts
+
+Two charts show how your test suite is composed:
+
+- **Execution Type** (pie chart) — Manual vs Automated split
+- **Test Category** (bar chart) — Breakdown by category: functional, performance, security, accessibility, exploratory
+
+### Gap Analysis Bar
+
+The most important visualization. A stacked horizontal bar that breaks down your "marked automated" test cases into three segments:
+
+| Segment | Color | Meaning |
+|---------|-------|---------|
+| **Linked to CI/CD** | Green | Test has matching execution results from your CI/CD pipeline |
+| **No test ref set** | Orange | Test is marked automated but has no `automation_test_id` configured — link is missing |
+| **Has ref, no CI/CD match** | Red | Test has an automation reference but it doesn't match any code_ref in CI/CD results |
+
+### Coverage by Priority & Category
+
+Two stacked bar charts showing automated vs manual distribution:
+
+- **By Priority** — Are your P0/P1 critical tests automated?
+- **By Category** — Which test categories have the best automation coverage?
+
+## Understanding the Gap
+
+<AccordionGroup>
+  <Accordion title="Green: Linked to CI/CD" icon="circle-check">
+    These test cases have confirmed execution evidence. OneTest matched the test case's `automation_test_id` to a `code_ref` in your CI/CD test results.
+
+    **No action needed** — these tests are running.
+  </Accordion>
+
+  <Accordion title="Orange: No Test Ref Set" icon="circle-minus">
+    These test cases are marked as automated (`execution_type = automated`) but don't have an `automation_test_id` set. Without this reference, OneTest can't match them to CI/CD results.
+
+    **Action:** Set the `automation_test_id` field on these test cases. The value should match the test's code reference in your framework:
+
+    ```
+    test_login.py:TestLogin.test_valid_login
+    ```
+
+    <Tip>
+    If you use pytest with pytest-reportportal, the code_ref is automatically sent in the format `file.py:Class.method`. Set your `automation_test_id` to match this format.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Red: Has Ref, No CI/CD Match" icon="circle-exclamation">
+    These are the real **automation gaps**. The test case has an `automation_test_id` but it doesn't match any `code_ref` in your CI/CD results. Common causes:
+
+    - **Test was renamed** — the class or method name changed but `automation_test_id` wasn't updated
+    - **Test was deleted** — the automation code was removed
+    - **Test is disabled** — skipped or excluded from CI/CD runs
+    - **Format mismatch** — `automation_test_id` uses `::` separator but CI/CD sends `:` (OneTest normalizes these, but edge cases exist)
+
+    **Action:** Investigate each red-flagged test case. Update the `automation_test_id` to match the current test name, or change `execution_type` back to "manual" if the automation was removed.
+  </Accordion>
+</AccordionGroup>
+
+## How Matching Works
+
+OneTest links test cases to CI/CD results by comparing two values:
+
+| Source | Field | Format | Example |
+|--------|-------|--------|---------|
+| **Test Case** | `automation_test_id` | `file:Class.method` | `test_login.py:TestLogin.test_valid_login` |
+| **CI/CD Results** | `code_ref` | `file:Class.method` | `test_login.py:TestLogin.test_valid_login` |
+
+When these match, the test case is "linked to results."
+
+### Format Normalization
+
+OneTest automatically normalizes common format differences:
+
+| Input Format | Normalized |
+|-------------|-----------|
+| `test_login.py::TestLogin::test_valid_login` | `test_login.py:TestLogin.test_valid_login` |
+| `test_login.py:TestLogin.test_valid_login` | `test_login.py:TestLogin.test_valid_login` |
+
+<Note>
+The `code_ref` values come from your test reporting agent (e.g., pytest-reportportal). OneTest doesn't control this format — it adapts to what your CI/CD sends.
+</Note>
+
+### Multiple References
+
+A single test case can map to multiple automated tests. When `automation_test_id` contains multiple references (one per line), a match on **any** reference counts as linked:
+
+```
+test_login.py:TestLogin.test_valid_login
+test_login.py:TestLogin.test_login_with_mfa
+test_login.py:TestLogin.test_login_rate_limit
+```
+
+## Setting Up Automation References
+
+### From the UI
+
+1. Open a test case
+2. Set **Execution Type** to "Automated"
+3. Fill in the **Automation Test ID** field with the test's code reference
+4. Save
+
+### Via API
+
+```bash
+curl -X PUT \
+  https://tms.onetest.ai/api/test-management/api/v1/test-cases/{id} \
+  -H "Authorization: Bearer ak_YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "execution_type": "automated",
+    "automation_test_id": "test_login.py:TestLogin.test_valid_login"
+  }'
+```
+
+### From CI/CD (Automatic)
+
+When using pytest-reportportal or similar agents, test results include `code_ref` automatically. OneTest matches these to test cases with matching `automation_test_id` values.
+
+## API Reference
+
+```
+GET /api/v1/products/{product_id}/test-cases/automation-coverage
+```
+
+Query parameters:
+- `no_cache=true` — Bypass the 5-minute cache for fresh data
+
+Response:
+
+```json
+{
+  "total_test_cases": 500,
+  "execution_type_distribution": {
+    "manual": 174,
+    "automated": 326
+  },
+  "marked_automated": 326,
+  "linked_to_results": 245,
+  "no_automation_ref": 46,
+  "automation_gap": 35,
+  "automation_gap_percentage": 10.7,
+  "coverage_by_priority": [
+    { "priority": "p0", "total": 45, "automated": 40, "gap_percentage": 5.0 },
+    { "priority": "p1", "total": 120, "automated": 95, "gap_percentage": 8.4 }
+  ],
+  "coverage_by_category": [
+    { "category": "functional", "total": 300, "automated": 200, "gap_percentage": 12.0 },
+    { "category": "api", "total": 100, "automated": 85, "gap_percentage": 5.9 }
+  ]
+}
+```
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Set automation_test_id early" icon="clock">
+    When you write automation code, immediately set the `automation_test_id` on the matching test case. Don't wait for CI/CD to catch up.
+  </Card>
+
+  <Card title="Review the gap weekly" icon="calendar">
+    Check the Automation Coverage report regularly. A growing red segment means automation is silently breaking.
+  </Card>
+
+  <Card title="Match the format" icon="equals">
+    Use `file.py:Class.method` format for `automation_test_id`. This matches what pytest-reportportal sends as `code_ref`.
+  </Card>
+
+  <Card title="Prioritize P0/P1 coverage" icon="arrow-up">
+    Use the Coverage by Priority chart to ensure critical tests have the highest automation coverage and lowest gap.
+  </Card>
+</CardGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="Viewing Results"
+    icon="chart-line"
+    href="/ui/viewing-results"
+  >
+    Understand test execution results and trends
+  </Card>
+
+  <Card
+    title="Running Tests"
+    icon="play"
+    href="/ui/running-tests"
+  >
+    Execute tests and report results to OneTest
+  </Card>
+</CardGroup>

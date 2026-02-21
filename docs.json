@@ -29,7 +29,9 @@
               "ui/test-management",
               "ui/creating-tests",
               "ui/running-tests",
-              "ui/viewing-results"
+              "ui/viewing-results",
+              "ui/credpool",
+              "ui/automation-coverage"
             ]
           },
           {

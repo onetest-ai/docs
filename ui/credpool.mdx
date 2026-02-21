@@ -1,0 +1,302 @@
+---
+title: CredPool
+description: Manage and distribute test credentials securely across your team
+icon: vault
+---
+
+CredPool is a credential vending machine for test environments. It lets teams register, share, and track test credentials without copying passwords into Slack or spreadsheets.
+
+## Why CredPool?
+
+Testing often requires shared accounts (staging logins, API keys, service credentials). Without a system, teams face:
+
+- **Credential collisions** — two testers use the same account simultaneously
+- **Lost passwords** — scattered across notes, chats, and wikis
+- **No audit trail** — who used what, and when?
+
+CredPool solves this with a checkout/release model: credentials are checked out exclusively (or concurrently), with automatic expiry and a full audit log.
+
+## Core Concepts
+
+<CardGroup cols={2}>
+  <Card title="Credential Types" icon="shapes">
+    Templates that define what a credential looks like — its fields (username, password, URL, API key, etc.) and which fields are sensitive.
+  </Card>
+
+  <Card title="Pools" icon="layer-group">
+    Named collections of interchangeable credentials. For example, a "Staging Jira Accounts" pool with 5 accounts that testers can check out.
+  </Card>
+
+  <Card title="Entries" icon="key">
+    Individual credentials inside a pool. Each entry has values matching its pool's credential type. Values are encrypted at rest (AES-256-GCM).
+  </Card>
+
+  <Card title="Checkout / Release" icon="right-left">
+    The core workflow: check out a credential, use it, release it when done. Locks prevent collisions. Auto-release prevents forgotten locks.
+  </Card>
+</CardGroup>
+
+## Getting Started
+
+<Steps>
+  <Step title="Create a Credential Type">
+    Go to **Test Data** > **CredPool** > **Credential Types** tab and click **Create Type**.
+
+    Define the fields your credentials need:
+
+    | Field | Type | Sensitive | Required |
+    |-------|------|-----------|----------|
+    | Username | text | No | Yes |
+    | Password | secret | Yes | Yes |
+    | Instance URL | url | No | Yes |
+    | Project Key | text | No | No |
+
+    Field types: `text`, `secret`, `url`, `email`, `number`, `textarea`, `select`
+
+    Fields marked **sensitive** are masked in the UI (shown as dots) until explicitly revealed.
+  </Step>
+
+  <Step title="Create a Pool">
+    Go back to the **Pools** tab and click **Create Pool**.
+
+    - **Name**: "Staging Jira Accounts"
+    - **Credential Type**: Select the type you just created
+    - **Environment**: staging
+    - **Allow concurrent usage**: Off (exclusive checkout)
+    - **Max lock time**: 240 minutes (4 hours)
+
+    When concurrent usage is **off**, only one person can use each credential at a time. When **on**, multiple people can check out the same credential simultaneously.
+  </Step>
+
+  <Step title="Add Entries">
+    Open the pool and click **Add Entry**. Fill in the credential values:
+
+    - **Label**: "Admin Account" (human-readable identifier)
+    - **Username**: `svc_test_01`
+    - **Password**: `xK9#mP2$vL`
+    - **Instance URL**: `https://staging.jira.example.com`
+
+    Add as many entries as you have accounts. More entries = less waiting for your team.
+  </Step>
+
+  <Step title="Check Out Credentials">
+    Click **Get Random Credentials** on any pool card. CredPool picks an available entry, locks it to you, and displays the credential values.
+
+    Copy what you need, then release when done. If you forget, auto-release kicks in after the max lock time.
+  </Step>
+</Steps>
+
+## Dashboard
+
+The CredPool dashboard shows all pools as cards with real-time availability:
+
+Each pool card shows:
+- **Pool name** and environment
+- **Availability**: e.g., "3 of 5 available"
+- **Credential type** name
+- **Get Random Credentials** button for quick checkout
+
+Below the pool grid, **My Active Checkouts** lists credentials you currently have locked, with a countdown timer until auto-release.
+
+## Checking Out Credentials
+
+<Tabs>
+  <Tab title="Random Checkout">
+    The most common way to get credentials:
+
+    1. Find your pool on the dashboard
+    2. Click **Get Random Credentials**
+    3. CredPool picks any available entry and locks it to you
+    4. A dialog shows the decrypted credential values
+    5. Copy what you need (click the copy icon next to each field)
+
+    <Tip>
+    Random checkout is the fastest path — you don't need to know which specific account to use. CredPool picks one for you.
+    </Tip>
+  </Tab>
+
+  <Tab title="Specific Checkout">
+    When you need a particular credential:
+
+    1. Open the pool detail page
+    2. Find the entry you need in the table
+    3. Click the lock icon on that row
+    4. The credential values are displayed
+
+    This is useful when a test requires a specific account (e.g., an admin vs. read-only user).
+  </Tab>
+
+  <Tab title="API Checkout">
+    For CI/CD pipelines and automation scripts:
+
+    ```bash
+    # Random checkout
+    curl -X POST \
+      https://tms.onetest.ai/api/credpool/api/v1/products/{product_id}/credpool/pools/{pool_id}/checkout \
+      -H "Authorization: Bearer ak_YOUR_KEY"
+    ```
+
+    Response:
+    ```json
+    {
+      "checkout_id": "log-uuid",
+      "pool": { "id": "pool-uuid", "name": "Staging Jira Accounts" },
+      "entry": { "id": "entry-uuid", "label": "Admin Account" },
+      "credentials": {
+        "username": "svc_test_03",
+        "password": "xK9#mP2$vL",
+        "instance_url": "https://staging.jira.example.com"
+      },
+      "lock": {
+        "locked_at": "2026-02-21T10:30:00Z",
+        "expires_at": "2026-02-21T14:30:00Z",
+        "auto_release": true
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Releasing Credentials
+
+When you're done with a credential:
+
+- **From the dashboard**: Click the release button on your active checkout
+- **From pool detail**: Click the unlock icon on the locked entry
+- **Via API**: `POST /credpool/entries/{entry_id}/release`
+- **Automatically**: Credentials auto-release after the max lock time expires
+
+<Warning>
+If you forget to release, the credential stays locked until the auto-release timer expires. Other team members will see it as unavailable during this time.
+</Warning>
+
+## Exclusive vs Concurrent Mode
+
+| Mode | Behavior | Use Case |
+|------|----------|----------|
+| **Exclusive** (default) | One person at a time per credential. Checkout locks the entry. | Accounts that break with concurrent sessions |
+| **Concurrent** | Multiple people can check out the same credential. No locking. | Read-only API keys, shared service accounts |
+
+Set the mode when creating a pool via the **Allow concurrent usage** toggle.
+
+## Credential Types
+
+Credential types are reusable templates. Create them once, use across multiple pools.
+
+### Field Types
+
+| Type | Renders As | Example |
+|------|-----------|---------|
+| `text` | Text input | Username, project key |
+| `secret` | Password input (masked) | Passwords, tokens |
+| `url` | URL input with validation | Instance URLs |
+| `email` | Email input with validation | Service account emails |
+| `number` | Numeric input | Port numbers |
+| `textarea` | Multi-line text | SSH keys, certificates |
+| `select` | Dropdown with options | Environment selector |
+
+### Sensitive Fields
+
+Fields marked **sensitive** are:
+- Masked in the UI (shown as dots until revealed)
+- Encrypted at rest alongside all other values
+- Never logged in the audit trail
+
+<Tip>
+Fields of type `secret` are automatically marked as sensitive. You can also mark `text` or `textarea` fields as sensitive for additional protection.
+</Tip>
+
+## Admin Features
+
+### Active Locks
+
+View all currently locked credentials across all pools. Useful for understanding team capacity and identifying forgotten checkouts.
+
+### Force Release
+
+Product owners and admins can force-release a locked credential when:
+- A team member is unavailable and their credential is needed
+- A CI pipeline crashed without releasing its checkout
+
+### Audit Log
+
+Every checkout and release is logged with:
+- **Who** checked out / released
+- **When** the action occurred
+- **Which** credential (pool + entry)
+- **Action type**: random checkout, specific checkout, release, force-release, auto-expired
+- **IP address** of the client
+
+## Encryption
+
+All credential values are encrypted at rest using **AES-256-GCM** (authenticated encryption). Each entry uses a unique initialization vector (IV), so identical values produce different ciphertext. Values are only decrypted when returned during a checkout response.
+
+## API Reference
+
+### Credential Types
+
+```
+POST   /api/v1/products/{id}/credpool/types           # Create type
+GET    /api/v1/products/{id}/credpool/types           # List types
+GET    /api/v1/products/{id}/credpool/types/{id}      # Get type
+PUT    /api/v1/products/{id}/credpool/types/{id}      # Update type
+DELETE /api/v1/products/{id}/credpool/types/{id}      # Delete type
+```
+
+### Pools
+
+```
+POST   /api/v1/products/{id}/credpool/pools           # Create pool
+GET    /api/v1/products/{id}/credpool/pools           # List pools
+GET    /api/v1/products/{id}/credpool/pools/{id}      # Get pool
+PUT    /api/v1/products/{id}/credpool/pools/{id}      # Update pool
+DELETE /api/v1/products/{id}/credpool/pools/{id}      # Delete pool
+```
+
+### Entries
+
+```
+POST   /api/v1/products/{id}/credpool/pools/{id}/entries   # Add entry
+GET    /api/v1/products/{id}/credpool/pools/{id}/entries   # List entries
+PUT    /api/v1/products/{id}/credpool/entries/{id}         # Update entry
+PATCH  /api/v1/products/{id}/credpool/entries/{id}/status  # Enable/disable
+DELETE /api/v1/products/{id}/credpool/entries/{id}         # Delete entry
+```
+
+### Checkout & Release
+
+```
+POST   /api/v1/products/{id}/credpool/pools/{id}/checkout         # Random checkout
+POST   /api/v1/products/{id}/credpool/entries/{id}/checkout       # Specific checkout
+POST   /api/v1/products/{id}/credpool/entries/{id}/release        # Release
+GET    /api/v1/products/{id}/credpool/me/checkouts                # My checkouts
+```
+
+### Admin
+
+```
+GET    /api/v1/products/{id}/credpool/admin/locks                        # Active locks
+POST   /api/v1/products/{id}/credpool/admin/entries/{id}/force-release   # Force release
+GET    /api/v1/products/{id}/credpool/admin/audit-log                    # Audit log
+POST   /api/v1/products/{id}/credpool/admin/release-expired              # Cleanup expired
+```
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card
+    title="API Keys"
+    icon="key"
+    href="/getting-started/api-keys"
+  >
+    Set up API keys for programmatic CredPool access
+  </Card>
+
+  <Card
+    title="Automation Coverage"
+    icon="chart-bar"
+    href="/ui/automation-coverage"
+  >
+    Track which tests are actually running in CI/CD
+  </Card>
+</CardGroup>

@@ -26,8 +26,8 @@
             "group": "Using OneTest",
             "pages": [
               "ui/test-management",
-              "ui/creating-tests",
               "ui/running-tests",
+              "ui/reporting-results",
               "ui/viewing-results",
               "ui/credpool",
               "ui/automation-coverage",
@@ -40,18 +40,12 @@
             "pages": [
               "settings/usage-billing",
               "settings/products",
-              "settings/test-agents",
+              "settings/api-integrations",
               "settings/llm-configuration",
               "settings/mcp-servers"
             ]
           },
-          {
-            "group": "Administration",
-            "pages": [
-              "admin/overview"
-            ]
-          },
-          {
+{
             "group": "Resources",
             "pages": [
               "resources/faq",

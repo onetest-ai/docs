@@ -1,220 +1,179 @@
 ---
 title: Running Tests
-description: Execute and monitor test runs
+description: Execute test runs using the OneTest Skill in Claude Code
 icon: play
 ---
 
-<Note>This page is under construction. More content coming soon!</Note>
+## Overview
 
-## Running Tests
+OneTest uses an AI-powered test execution engine through the [OneTest QA Agent](https://github.com/onetest-ai/qa-agent). Tests stored in OneTest are executed via the `/qa-onetest` skill in Claude Code, which drives a real browser, records results per step, and reports everything back to OneTest automatically.
 
-Execute individual tests or entire test suites and monitor progress in real-time.
+## Prerequisites
 
-## Execution Methods
+<Steps>
+  <Step title="Install Claude Code">
+    Install [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — the CLI tool that runs the QA agent.
+  </Step>
 
-<Tabs>
-  <Tab title="Individual Test">
-    ### Run a Single Test
+  <Step title="Install the QA Agent">
+    Clone the QA agent skills into your project:
+    ```bash
+    git clone https://github.com/onetest-ai/qa-agent.git
+    ```
+  </Step>
 
-    <Steps>
-      <Step title="Open the Test">
-        Navigate to the test case you want to run
-      </Step>
+  <Step title="Configure the OneTest MCP Server">
+    Add the `test-management` MCP server to your `.mcp.json` (project root):
+    ```json
+    {
+      "mcpServers": {
+        "test-management": {
+          "type": "http",
+          "url": "https://tms.onetest.ai/api/test-management/mcp",
+          "headers": {
+            "Authorization": "Bearer <YOUR_API_KEY>"
+          }
+        }
+      }
+    }
+    ```
+    Get your API key from **[tms.onetest.ai](https://tms.onetest.ai) -> Settings -> API Keys**.
+  </Step>
 
-      <Step title="Click Run">
-        Click the **"Run Test"** button
-      </Step>
+  <Step title="Restart Claude Code">
+    Restart Claude Code so it picks up the new MCP server configuration.
+  </Step>
+</Steps>
 
-      <Step title="Execute Steps">
-        Follow the test steps and mark results:
-        - ✅ **Pass**: Step executed successfully
-        - ❌ **Fail**: Step failed (add failure details)
-        - ⏸️ **Skip**: Step was skipped
-        - 🚫 **Blocked**: Cannot execute due to blocker
-      </Step>
+## Running a Test Run
 
-      <Step title="Complete">
-        Mark the test as complete and add any notes
-      </Step>
-    </Steps>
-  </Tab>
+Use the `/qa-onetest run` command in Claude Code to create, execute, and complete a full test run.
 
-  <Tab title="Test Run">
-    ### Create a Test Run
+```
+/qa-onetest run
+```
 
-    <Steps>
-      <Step title="Select Tests">
-        Choose tests to include in the run
-      </Step>
+The agent will prompt you for which tests to include, then automatically:
 
-      <Step title="Create Run">
-        Click **"+ New Test Run"** and configure:
-        - **Name**: `Sprint 24 Regression`
-        - **Environment**: `Staging`
-        - **Build**: `2.1.0-rc1`
-      </Step>
+<Steps>
+  <Step title="Create Run">
+    Creates a test run in OneTest with the selected test cases.
+  </Step>
 
-      <Step title="Assign Testers">
-        Assign tests to team members
-      </Step>
+  <Step title="Start Run">
+    Transitions the run from `planned` to `in_progress` and freezes the scope.
+  </Step>
 
-      <Step title="Start Run">
-        Click **"Start Run"** to begin execution
-      </Step>
+  <Step title="Execute Tests">
+    For each test case in the run:
+    - Navigates to the target URL in a real browser
+    - Executes each test step via Chrome DevTools Protocol (CDP)
+    - Captures screenshots before and after each step
+    - Checks the browser console for errors after each step
+    - Validates actual results against expected outcomes
+  </Step>
 
-      <Step title="Monitor Progress">
-        Track execution in real-time on the run dashboard
-      </Step>
-    </Steps>
-  </Tab>
+  <Step title="Record Results">
+    Records the result for each test execution:
+    - **Pass** / **Fail** / **Blocked** / **Skipped** status
+    - Step-level results with screenshots
+    - Failure reasons and classification
+    - Links to defects if applicable
+  </Step>
 
-  <Tab title="Quick Run">
-    ### Quick Run from Search
+  <Step title="Complete Run">
+    Marks the run as complete and generates analytics — pass/fail rates, completion percentage, duration, and failure breakdown.
+  </Step>
+</Steps>
 
-    <Steps>
-      <Step title="Search for Tests">
-        Use OQL or filters to find tests:
-        ```oql
-        tags CONTAINS "smoke" AND status = active
-        ```
-      </Step>
+## All Commands
 
-      <Step title="Bulk Select">
-        Select all tests you want to run
-      </Step>
+The `/qa-onetest` skill supports four commands:
 
-      <Step title="Run Now">
-        Click **"Run Selected"**
-      </Step>
-    </Steps>
-  </Tab>
-</Tabs>
+<CardGroup cols={2}>
+  <Card title="run" icon="play">
+    Create, execute, and complete a full test run. The agent drives a real browser and records all results back to OneTest.
 
-## Test Run Dashboard
-
-Monitor your test run with real-time metrics:
-
-<CardGroup cols={3}>
-  <Card
-    title="Progress"
-    icon="chart-pie"
-  >
-    Overall completion percentage and status breakdown
+    ```
+    /qa-onetest run
+    ```
   </Card>
 
-  <Card
-    title="Execution Status"
-    icon="list-check"
-  >
-    See which tests are running, passed, failed, or blocked
+  <Card title="push findings" icon="upload">
+    Convert QA audit findings into OneTest test cases. Maps priorities (p0-p3) and categories (accessibility, security, performance, etc.) automatically.
+
+    ```
+    /qa-onetest push findings
+    ```
   </Card>
 
-  <Card
-    title="Team Activity"
-    icon="users"
-  >
-    Track who is executing which tests
+  <Card title="pull tests" icon="download">
+    Fetch test cases from OneTest for local browser execution.
+
+    ```
+    /qa-onetest pull tests
+    ```
+  </Card>
+
+  <Card title="status" icon="signal">
+    Show the execution queue and any active runs.
+
+    ```
+    /qa-onetest status
+    ```
   </Card>
 </CardGroup>
+
+## How Execution Works
+
+### Browser-Based Testing
+
+The agent executes tests in a real Chrome browser using the Chrome DevTools Protocol (CDP). This means tests interact with your application exactly as a user would — clicking buttons, filling forms, navigating pages, and verifying visual output.
+
+### Exploratory Findings
+
+If the agent discovers issues during test execution that aren't covered by existing test cases, it can record them as exploratory findings using `record_exploratory_result`. These appear in your test run alongside the planned test results.
+
+### Parallel Execution
+
+Non-conflicting tests can run simultaneously using separate Chrome instances on different CDP ports. This speeds up execution when tests target different URLs or isolated user sessions.
 
 ## Recording Results
 
+Every test execution records detailed results back to OneTest:
+
 <AccordionGroup>
-  <Accordion title="Marking Steps" icon="check">
-    As you execute each step:
-    - Click **Pass** if the actual result matches expected
-    - Click **Fail** if results don't match (add screenshot/notes)
-    - Click **Skip** if step couldn't be tested
-    - Click **Blocked** if blocked by another issue
+  <Accordion title="Step-Level Results" icon="list-check">
+    Each step in a test case gets its own pass/fail status, along with:
+    - Screenshots captured before and after the step
+    - Console output from the browser
+    - Actual vs. expected result comparison
   </Accordion>
 
-  <Accordion title="Adding Evidence" icon="image">
-    Attach supporting evidence:
-    - **Screenshots**: Capture what you see
-    - **Logs**: Paste relevant error logs
-    - **Videos**: Record complex issues
-    - **Files**: Attach test data or outputs
+  <Accordion title="Failure Classification" icon="triangle-exclamation">
+    When a test fails, the agent records:
+    - **Failure reason**: What went wrong
+    - **Failure classification**: Environment issue, product defect, test data issue, etc.
+    - **Defect links**: Links to related bug tracker issues
   </Accordion>
 
-  <Accordion title="Defect Linking" icon="bug">
-    Link test failures to defects:
-    - Click **"Create Bug"** from failed test
-    - Or link to existing bug tracker issue (JIRA, GitHub, etc.)
-  </Accordion>
-
-  <Accordion title="Notes & Comments" icon="comment">
-    Add context for future reference:
-    - Observed behavior
-    - Environment specifics
-    - Workarounds tried
-    - Next steps
+  <Accordion title="Run Analytics" icon="chart-bar">
+    After the run completes, OneTest provides analytics:
+    - Pass/fail/skip/blocked rates
+    - Completion percentage
+    - Total execution duration
+    - Failure breakdown by category
   </Accordion>
 </AccordionGroup>
 
-## Test Run Configuration
+## Typical Workflow
 
-<Tabs>
-  <Tab title="Environment">
-    Select where tests will run:
-    - **Development**: Local testing
-    - **Staging**: Pre-production validation
-    - **Production**: Smoke tests in prod
-  </Tab>
+A common end-to-end workflow looks like this:
 
-  <Tab title="Build">
-    Associate run with a specific build:
-    - Links results to version
-    - Enables trend analysis
-    - Tracks regression
-  </Tab>
-
-  <Tab title="Schedule">
-    Configure when to run:
-    - **Now**: Immediate execution
-    - **Scheduled**: Future date/time
-    - **Recurring**: Automated nightly/weekly runs
-  </Tab>
-
-  <Tab title="Notifications">
-    Get notified about:
-    - Run started
-    - Run completed
-    - Test failures
-    - Blockers encountered
-  </Tab>
-</Tabs>
-
-## Best Practices
-
-<CardGroup cols={2}>
-  <Card
-    title="Clear Test Runs"
-    icon="tag"
-  >
-    Name runs descriptively: "Sprint 24 Regression" not "Test Run 42"
-  </Card>
-
-  <Card
-    title="Document Failures"
-    icon="file-lines"
-  >
-    Always add screenshots and logs for failures
-  </Card>
-
-  <Card
-    title="Link Defects"
-    icon="link"
-  >
-    Connect failures to bug tracker for traceability
-  </Card>
-
-  <Card
-    title="Regular Smoke Tests"
-    icon="fire"
-  >
-    Run smoke tests after every deployment
-  </Card>
-</CardGroup>
+1. **Audit your site** with QA specialist skills (`/qa-accessibility`, `/qa-security`, etc.)
+2. **Push findings** to OneTest as test cases with `/qa-onetest push findings`
+3. **Run tests** with `/qa-onetest run` to execute them in a real browser
+4. **View results** in the [OneTest dashboard](https://tms.onetest.ai) to analyze trends and track regressions
 
 ## What's Next?
 
@@ -224,14 +183,14 @@ Monitor your test run with real-time metrics:
     icon="chart-line"
     href="/ui/viewing-results"
   >
-    Analyze test results and trends
+    Analyze test results and trends in the dashboard
   </Card>
 
   <Card
-    title="Test Management"
-    icon="list-check"
-    href="/ui/test-management"
+    title="QA Agent on GitHub"
+    icon="github"
+    href="https://github.com/onetest-ai/qa-agent"
   >
-    Back to test management overview
+    Full documentation for the QA agent and all skills
   </Card>
 </CardGroup>

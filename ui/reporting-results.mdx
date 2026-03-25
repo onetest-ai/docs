@@ -1,0 +1,254 @@
+---
+title: Reporting Automated Results
+description: Push automated test results from CI/CD pipelines into OneTest
+icon: chart-column
+---
+
+## Overview
+
+OneTest accepts automated test results from any CI/CD pipeline. Results from your automated tests appear alongside manual and AI-driven test runs in a unified dashboard — giving you a single view of quality across all execution methods.
+
+There are three ways to report automated results:
+
+<CardGroup cols={3}>
+  <Card title="ReportPortal Agents" icon="robot">
+    Drop-in compatible with pytest-reportportal, Java agent, and other RP agents
+  </Card>
+
+  <Card title="JUnit XML Import" icon="file-code">
+    Upload JUnit XML files from any test framework
+  </Card>
+
+  <Card title="MCP API" icon="plug">
+    Use the OneTest MCP tools directly from Claude Code or any MCP client
+  </Card>
+</CardGroup>
+
+## Prerequisites
+
+Before reporting results, you need an API key:
+
+1. Go to **[tms.onetest.ai](https://tms.onetest.ai) -> Settings -> [API Integrations](/settings/api-integrations)**
+2. Click **+ Add API Key** and copy the key immediately (it is shown only once)
+3. Note your **Product UUID** displayed on the same page
+
+## Method 1: ReportPortal Agents
+
+OneTest is fully compatible with the [ReportPortal](https://reportportal.io) v2 API. If your team already uses a ReportPortal agent, just point it at OneTest — no code changes required.
+
+### Configuration
+
+Set these environment variables in your CI/CD pipeline:
+
+```bash
+RP_ENDPOINT=https://tms.onetest.ai/api/receiver
+RP_PROJECT=<your-product-uuid>
+RP_API_KEY=<your-api-key>
+```
+
+### Supported Agents
+
+Any ReportPortal agent works out of the box:
+
+| Framework | Agent |
+|-----------|-------|
+| pytest | [pytest-reportportal](https://github.com/reportportal/agent-python-pytest) |
+| JUnit 5 | [agent-java-junit5](https://github.com/reportportal/agent-java-junit5) |
+| TestNG | [agent-java-testng](https://github.com/reportportal/agent-java-testng) |
+| Cypress | [agent-js-cypress](https://github.com/reportportal/agent-js-cypress) |
+| Playwright | [agent-js-playwright](https://github.com/reportportal/agent-js-playwright) |
+| Robot Framework | [agent-Python-RobotFramework](https://github.com/reportportal/agent-Python-RobotFramework) |
+
+### Example: pytest
+
+```ini
+# pytest.ini
+[pytest]
+rp_endpoint = https://tms.onetest.ai/api/receiver
+rp_project = a1b2c3d4-e5f6-7890-abcd-ef1234567890
+rp_api_key = ak_your_api_key_here
+rp_launch = Nightly Regression
+rp_launch_attributes = env:staging build:2.1.0
+```
+
+```bash
+pytest --reportportal
+```
+
+### Example: GitHub Actions
+
+```yaml
+- name: Run tests with reporting
+  env:
+    RP_ENDPOINT: https://tms.onetest.ai/api/receiver
+    RP_PROJECT: ${{ secrets.ONETEST_PRODUCT_UUID }}
+    RP_API_KEY: ${{ secrets.ONETEST_API_KEY }}
+  run: pytest --reportportal
+```
+
+### What Gets Reported
+
+The ReportPortal agent sends a structured hierarchy:
+
+```
+Launch (test run)
+  └── Suite
+        └── Test
+              └── Step
+                    └── Log (with screenshots, console output)
+```
+
+Each test item includes:
+- **`code_ref`** — the test's fully qualified name (e.g., `test_login.py:TestLogin.test_valid_login`)
+- **Status** — passed, failed, skipped
+- **Duration** — execution time
+- **Logs** — console output, stack traces, screenshots
+
+<Tip>
+The `code_ref` value is what OneTest uses to link automated results to test cases. Set the **Automation Test ID** field on your test cases to match the `code_ref` format your agent sends. See [Automation Coverage](/ui/automation-coverage) for details.
+</Tip>
+
+## Method 2: JUnit XML Import
+
+For frameworks that don't support ReportPortal agents, upload JUnit XML results directly:
+
+```bash
+curl -X POST "https://tms.onetest.ai/api/v1/products/{product_uuid}/import/junit" \
+  -H "Authorization: Bearer {api_key}" \
+  -F "file=@test-results.xml"
+```
+
+### Example: GitHub Actions
+
+```yaml
+- name: Run tests
+  run: pytest --junitxml=results.xml
+
+- name: Upload results to OneTest
+  if: always()
+  run: |
+    curl -X POST "https://tms.onetest.ai/api/v1/products/${{ secrets.ONETEST_PRODUCT_UUID }}/import/junit" \
+      -H "Authorization: Bearer ${{ secrets.ONETEST_API_KEY }}" \
+      -F "file=@results.xml"
+```
+
+<Note>
+JUnit XML import creates a single launch with all test cases as flat items (no suite hierarchy). For hierarchical reporting, use a ReportPortal agent instead.
+</Note>
+
+## Method 3: MCP API
+
+If you use the [OneTest QA Agent](https://github.com/onetest-ai/qa-agent) or any MCP-compatible client, you can record results directly through MCP tools.
+
+### Setup
+
+Add the MCP server to your `.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "test-management": {
+      "type": "http",
+      "url": "https://tms.onetest.ai/api/test-management/mcp",
+      "headers": {
+        "Authorization": "Bearer <YOUR_API_KEY>"
+      }
+    }
+  }
+}
+```
+
+### Recording Results
+
+Use `/qa-onetest run` in Claude Code to execute and record a full test run, or call the MCP tools directly:
+
+```python
+# 1. Create a run with test cases
+run = create_run(
+    name="Sprint 5 Regression",
+    identifiers=["TC-0001", "TC-0005", "TC-0012"]
+)
+
+# 2. Start the run
+start_run(run_id=run["id"])
+
+# 3. Get executions and record results
+items = get_run_items(run_id=run["id"])
+for item in items["items"]:
+    record_test_result(
+        execution_id=item["id"],
+        status="passed",
+        step_results=[
+            {"step_number": 1, "status": "passed", "actual_result": "Page loaded"}
+        ]
+    )
+
+# 4. Complete the run
+complete_run(run_id=run["id"])
+```
+
+See [Running Tests](/ui/running-tests) for the full `/qa-onetest` workflow.
+
+## API Endpoints Reference
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/v2/{product_uuid}/launch` | POST | Start a new test launch |
+| `/api/v2/{product_uuid}/item` | POST | Report a test item |
+| `/api/v2/{product_uuid}/log` | POST | Add a log entry (text, screenshot, etc.) |
+| `/api/v1/products/{product_uuid}/import/junit` | POST | Import JUnit XML results |
+
+## Viewing Automated Results
+
+Once results are reported, they appear in the **Test Runs** section alongside manual and AI-driven runs. You can filter by source:
+
+- **All runs** — see everything together
+- **Automated** — only CI/CD results
+- **Manual** — only manual/AI-driven runs
+
+Each automated run shows:
+- **Pass/fail/skip breakdown** with percentages
+- **Hierarchical test items** — drill into suites, tests, and steps
+- **Logs and screenshots** — console output, stack traces, failure screenshots
+- **Duration and timing** — per-test and total execution time
+
+### Linking to Test Cases
+
+When a `code_ref` from an automated result matches a test case's `automation_test_id`, OneTest links them automatically. This enables:
+- Tracking automated vs. manual coverage on the [Automation Coverage](/ui/automation-coverage) dashboard
+- Seeing automated results directly on the test case detail page
+- Identifying automation gaps (tests marked automated but not running in CI/CD)
+
+## Cost
+
+<Note>
+Each API call costs 1 coin from your weekly budget. Browser UI usage is always free. See [Usage & Billing](/settings/usage-billing) for details.
+</Note>
+
+## What's Next?
+
+<CardGroup cols={3}>
+  <Card
+    title="API Integrations"
+    icon="plug"
+    href="/settings/api-integrations"
+  >
+    Manage API keys and view your Product UUID
+  </Card>
+
+  <Card
+    title="Automation Coverage"
+    icon="chart-bar"
+    href="/ui/automation-coverage"
+  >
+    Track which automated tests are actually running
+  </Card>
+
+  <Card
+    title="Viewing Results"
+    icon="chart-line"
+    href="/ui/viewing-results"
+  >
+    Analyze results and trends in the dashboard
+  </Card>
+</CardGroup>

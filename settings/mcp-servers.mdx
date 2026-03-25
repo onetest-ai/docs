@@ -1,0 +1,80 @@
+---
+title: "MCP Servers"
+description: "Connect external AI tools to extend the AI Assistant via Model Context Protocol"
+icon: puzzle-piece
+---
+
+MCP (Model Context Protocol) servers extend the AI Assistant's capabilities by connecting external tools and data sources. This allows the AI to interact with Jira, GitHub, Slack, and other services directly from the chat.
+
+<img src="/images/screenshots/mcp-servers.png" alt="MCP Servers page" />
+
+## Installing from Registry
+
+The easiest way to add MCP servers is through the built-in registry.
+
+<Steps>
+  <Step title="Browse the Registry">
+    Go to **Settings** > **MCP Servers** and click the **Browse Registry** tab. Search for servers by name (e.g., "atlassian", "github", "slack").
+
+    <img src="/images/screenshots/mcp-search-results.png" alt="Searching for Atlassian Rovo in the MCP registry" />
+  </Step>
+
+  <Step title="Install a Server">
+    Click **Install** on the server you want. Review the server details including the endpoint URL and transport type, then confirm.
+
+    <img src="/images/screenshots/mcp-install-dialog.png" alt="MCP server installation dialog" />
+  </Step>
+
+  <Step title="Authenticate (if required)">
+    Some servers require OAuth authentication. After installing, go to the **Installed** tab and click the **Test** button — it will detect OAuth and show an **Authorize** button if needed.
+  </Step>
+</Steps>
+
+## Adding Custom Servers
+
+For internal or custom MCP servers, use the **Add Custom** tab.
+
+<img src="/images/screenshots/mcp-add-custom.png" alt="Add Custom MCP server form" />
+
+**Required fields:**
+- **Server Name** — Unique identifier (e.g., `my-internal-tool`)
+- **Server URL** — The MCP endpoint (e.g., `https://mcp.example.com/sse`)
+- **Transport Type** — HTTP (Streamable HTTP) or SSE (Server-Sent Events)
+
+**Optional:**
+- **Headers** — Add custom headers for authentication (API keys, Bearer tokens)
+
+<Tip>
+For servers that support OAuth, you can skip the headers and use the Test button on the Installed tab to trigger the OAuth flow.
+</Tip>
+
+## Managing Servers
+
+On the **Installed** tab, you can:
+
+| Action | Description |
+|--------|-------------|
+| **Enable/Disable** | Toggle the server on or off |
+| **Test** | Verify the server connection |
+| **Remove** | Uninstall the server |
+
+## How MCP Extends the AI
+
+When MCP servers are connected, the AI Assistant gains new tools. For example:
+
+- **Atlassian Rovo** — Search Jira issues, read Confluence pages
+- **GitHub** — Browse repositories, read issues and PRs
+- **Slack** — Search messages, post updates
+
+The AI automatically discovers available tools from connected servers and uses them when relevant during conversations.
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="AI Assistant" icon="sparkles" href="/ai/overview">
+    Use the AI with your connected tools
+  </Card>
+  <Card title="LLM Configuration" icon="microchip-ai" href="/settings/llm-configuration">
+    Configure the AI provider powering the assistant
+  </Card>
+</CardGroup>

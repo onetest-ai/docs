@@ -30,13 +30,25 @@
               "ui/running-tests",
               "ui/viewing-results",
               "ui/credpool",
-              "ui/automation-coverage"
+              "ui/automation-coverage",
+              "ui/import-export",
+              "ui/pipelines"
             ]
           },
           {
             "group": "Settings",
             "pages": [
-              "settings/usage-billing"
+              "settings/usage-billing",
+              "settings/products",
+              "settings/test-agents",
+              "settings/llm-configuration",
+              "settings/mcp-servers"
+            ]
+          },
+          {
+            "group": "Administration",
+            "pages": [
+              "admin/overview"
             ]
           },
           {
@@ -87,84 +99,6 @@
               "workflows/regression-tests",
               "workflows/organizing-tests",
               "workflows/team-collaboration"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Octo",
-        "groups": [
-          {
-            "group": "Get Started",
-            "pages": [
-              "octo/introduction",
-              "octo/getting-started/quickstart",
-              "octo/getting-started/configuration",
-              "octo/getting-started/telegram-setup"
-            ]
-          },
-          {
-            "group": "Features",
-            "pages": [
-              "octo/features/multi-agent",
-              "octo/features/background-workers",
-              "octo/features/proactive-ai",
-              "octo/features/context-management",
-              "octo/features/skills",
-              "octo/features/mcp-servers",
-              "octo/features/memory",
-              "octo/features/sessions",
-              "octo/features/voice",
-              "octo/features/virtual-persona",
-              "octo/features/swarm"
-            ]
-          },
-          {
-            "group": "Resources",
-            "pages": [
-              "octo/resources/faq",
-              "octo/resources/contributing"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Octo Guides",
-        "groups": [
-          {
-            "group": "Agent Development",
-            "pages": [
-              "octo/guides/creating-agents",
-              "octo/guides/creating-skills"
-            ]
-          },
-          {
-            "group": "Configuration",
-            "pages": [
-              "octo/guides/model-profiles",
-              "octo/guides/slash-commands"
-            ]
-          },
-          {
-            "group": "Integrations",
-            "pages": [
-              "octo/guides/teams-integration",
-              "octo/guides/virtual-persona-setup",
-              "octo/guides/langfuse-integration"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Octo Architecture",
-        "groups": [
-          {
-            "group": "Internals",
-            "pages": [
-              "octo/architecture/overview",
-              "octo/architecture/tool-architecture",
-              "octo/architecture/model-factory",
-              "octo/architecture/embedding"
             ]
           }
         ]

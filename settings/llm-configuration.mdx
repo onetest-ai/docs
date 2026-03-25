@@ -1,0 +1,111 @@
+---
+title: "LLM Configuration"
+description: "Configure AI providers and model tiers for the OneTest AI Assistant"
+icon: microchip-ai
+---
+
+The AI Assistant requires an LLM provider to be configured before it can generate tests, answer questions, or perform analysis. OneTest supports multiple providers so you can use your existing AI infrastructure.
+
+<img src="/images/screenshots/llm-configuration.png" alt="LLM Configuration page showing AWS Bedrock setup" />
+
+<Warning>
+The AI Assistant will not work until you configure an LLM provider. This is the first step to enabling AI features in OneTest.
+</Warning>
+
+## Supported Providers
+
+<Tabs>
+  <Tab title="AWS Bedrock">
+    **Required fields:**
+    - Access Key ID
+    - Secret Access Key
+    - Region (e.g., `us-east-1`, `eu-central-1`)
+
+    **Recommended models:**
+    - High-Tier: `anthropic.claude-sonnet-4-5-20250929-v1:0`
+    - Default: `anthropic.claude-sonnet-4-5-20250929-v1:0`
+    - Low-Tier: `anthropic.claude-haiku-4-5-20251001-v1:0`
+  </Tab>
+
+  <Tab title="OpenAI">
+    **Required fields:**
+    - API Key
+
+    **Recommended models:**
+    - High-Tier: `gpt-4o`
+    - Default: `gpt-4o`
+    - Low-Tier: `gpt-4o-mini`
+  </Tab>
+
+  <Tab title="Anthropic">
+    **Required fields:**
+    - API Key
+
+    **Recommended models:**
+    - High-Tier: `claude-sonnet-4-5-20250929`
+    - Default: `claude-sonnet-4-5-20250929`
+    - Low-Tier: `claude-haiku-4-5-20251001`
+  </Tab>
+
+  <Tab title="Azure OpenAI">
+    **Required fields:**
+    - API Key
+    - Endpoint URL
+    - Deployment Name
+
+    Use your Azure OpenAI deployment names for each model tier.
+  </Tab>
+</Tabs>
+
+## Model Tiers
+
+OneTest uses three model tiers for different task complexities:
+
+| Tier | Purpose | Examples |
+|------|---------|----------|
+| **High-Tier** (reasoning) | Complex analysis, test generation from requirements | Generating comprehensive test suites, analyzing coverage gaps |
+| **Default** (balanced) | General-purpose tasks | Answering questions, searching tests, simple generation |
+| **Low-Tier** (fast) | Quick, simple operations | Summarization, classification, simple lookups |
+
+## Setup Steps
+
+<Steps>
+  <Step title="Navigate to LLM Configuration">
+    Go to **Settings** > **LLM Configuration** from the sidebar.
+  </Step>
+
+  <Step title="Select Provider">
+    Click your preferred provider (Azure, AWS Bedrock, OpenAI, or Anthropic).
+  </Step>
+
+  <Step title="Enter Credentials">
+    Fill in the required credentials for your chosen provider.
+  </Step>
+
+  <Step title="Configure Model Tiers">
+    Enter model identifiers for each tier. Use the recommended models above or your own deployments.
+  </Step>
+
+  <Step title="Test Connection">
+    Click **Test Connection** to validate your credentials and model access.
+  </Step>
+
+  <Step title="Save Configuration">
+    Click **Save Configuration** to activate the AI Assistant.
+  </Step>
+</Steps>
+
+<Tip>
+Once configured, you can manage your LLM setup with **Revalidate** (test again), **Edit** (change settings), or **Delete** (remove configuration).
+</Tip>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="AI Assistant" icon="sparkles" href="/ai/overview">
+    Start using the AI Assistant to generate and search tests
+  </Card>
+  <Card title="MCP Servers" icon="puzzle-piece" href="/settings/mcp-servers">
+    Extend AI capabilities with external tool integrations
+  </Card>
+</CardGroup>

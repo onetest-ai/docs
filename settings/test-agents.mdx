@@ -1,0 +1,87 @@
+---
+title: "Test Agents"
+description: "Configure API keys for CI/CD pipelines to push automated test results"
+icon: robot
+---
+
+Test Agents allow external tools like **ReportPortal agents**, **JUnit reporters**, and **CI/CD pipelines** to push test results directly into OneTest. They're fully compatible with the ReportPortal v2 API.
+
+<img src="/images/screenshots/test-agents.png" alt="Test Agent API Keys page" />
+
+## Setting Up Test Agents
+
+<Steps>
+  <Step title="Navigate to Settings">
+    Go to **Settings** > **Test Agents** from the sidebar.
+  </Step>
+
+  <Step title="Create an API Key">
+    Click **+ Add API Key**, give it a name (e.g., "CI Pipeline" or "Staging"), and save. The key is shown only once — copy it immediately.
+  </Step>
+
+  <Step title="Configure Your Pipeline">
+    Use the generated API key in your CI/CD configuration:
+
+    ```bash
+    # ReportPortal Agent Configuration
+    RP_ENDPOINT=https://tms.onetest.ai/api/receiver
+    RP_PROJECT=<your-product-uuid>
+    RP_API_KEY=<your-api-key>
+    ```
+
+    Your **Product UUID** is displayed on the Test Agents page and can be copied with one click.
+  </Step>
+
+  <Step title="Run Tests">
+    Execute your automated tests. Results will automatically appear in your **Test Runs** dashboard alongside manual test runs.
+  </Step>
+</Steps>
+
+## API Endpoints
+
+OneTest provides ReportPortal v2 compatible endpoints:
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /api/v2/{product_uuid}/launch` | Start a new test launch |
+| `POST /api/v2/{product_uuid}/item` | Report a test item |
+| `POST /api/v2/{product_uuid}/log` | Add a log entry |
+| `POST /api/v1/products/{product_uuid}/import/junit` | Import JUnit XML results |
+
+## Managing API Keys
+
+Each API key has:
+- **Status** — Active or expired
+- **Retention period** — How long test results are kept (default: 90 days)
+- **Expiration date** — When the key expires
+
+You can **regenerate** or **delete** keys at any time. Deleting a key immediately revokes access for any pipelines using it.
+
+<Warning>
+API keys are shown only once when created. Store them securely in your CI/CD secrets (e.g., GitHub Secrets, GitLab CI Variables).
+</Warning>
+
+## JUnit XML Import
+
+For frameworks that don't support ReportPortal agents, you can import JUnit XML files directly:
+
+```bash
+curl -X POST "https://tms.onetest.ai/api/v1/products/{product_uuid}/import/junit" \
+  -H "Authorization: Bearer {api_key}" \
+  -F "file=@test-results.xml"
+```
+
+<Note>
+Each API call costs 1 coin from your weekly budget. Browser UI usage is always free. See [Usage & Billing](/settings/usage-billing) for details.
+</Note>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="View Test Runs" icon="play-circle" href="/ui/running-tests">
+    See your automated test results alongside manual runs
+  </Card>
+  <Card title="Usage & Billing" icon="coins" href="/settings/usage-billing">
+    Monitor API usage and coin consumption
+  </Card>
+</CardGroup>

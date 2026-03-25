@@ -1,0 +1,80 @@
+---
+title: "Product Settings"
+description: "Manage environments, releases, sprints, builds, and integrations"
+icon: box
+---
+
+Product settings let you configure the context around your testing: environments where tests run, releases being tested, sprint cycles, and external integrations.
+
+<img src="/images/screenshots/product-settings.png" alt="Product Settings page" />
+
+Navigate to **Settings** > **Manage Products** to access these settings.
+
+## Environments
+
+Environments define where your tests are executed (e.g., Development, Staging, Production).
+
+<Steps>
+  <Step title="Create an Environment">
+    Click **+ Environment** and provide a name and URL.
+  </Step>
+  <Step title="Use in Test Runs">
+    When creating test runs, select the target environment to track which environment was tested.
+  </Step>
+</Steps>
+
+## Releases
+
+Releases track software versions being tested.
+
+- Click **+ Release** to create a new release
+- Assign a version number and description
+- Link test runs to releases for coverage tracking
+
+## Sprints
+
+Sprints help organize testing around agile development cycles.
+
+- Sprints are created under a release
+- Track test progress per sprint
+- View sprint-level quality metrics
+
+<Note>
+Sprint and Build creation buttons become active after you create at least one Release.
+</Note>
+
+## Builds
+
+Builds track specific CI/CD build versions.
+
+- Created under a sprint
+- Link automated test results to specific builds
+- Track quality trends across builds
+
+## Integrations
+
+### Langfuse
+
+Connect [Langfuse](https://langfuse.com) for LLM observability — monitor AI Assistant usage, track token consumption, and analyze conversation quality.
+
+**Required fields:**
+- Langfuse Host URL
+- Public Key
+- Secret Key
+
+## Danger Zone
+
+<Warning>
+The Danger Zone contains irreversible actions like deleting the product and all its data. Use with extreme caution.
+</Warning>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Running Tests" icon="play-circle" href="/ui/running-tests">
+    Create test runs linked to environments and releases
+  </Card>
+  <Card title="Usage & Billing" icon="coins" href="/settings/usage-billing">
+    Monitor product usage and billing
+  </Card>
+</CardGroup>

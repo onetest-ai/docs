@@ -4,8 +4,6 @@ description: Common questions about OneTest
 icon: circle-question
 ---
 
-<Note>This page is under construction. More content coming soon!</Note>
-
 ## General Questions
 
 <AccordionGroup>
@@ -104,33 +102,37 @@ icon: circle-question
 
   <Accordion title="Can I import and export tests?" icon="file-import">
     **Import:** OneTest supports importing tests from:
-    - Excel spreadsheets (XLSX)
-    - JUnit XML files (automated results)
-    - ReportPortal agents (drop-in compatible)
-    - Other test management tools (contact support)
+    - **Excel spreadsheets (XLSX)** — direct import with collision handling (skip, overwrite, or assign new IDs)
+    - **ZIP archives** — full backup with folders, tags, and markdown files
+    - **AI-powered Pipelines** — multi-phase ingestion for large imports with field mapping and decision gates
+    - **JUnit XML files** — automated results via Test Agents
+    - **ReportPortal agents** — drop-in compatible
 
-    **Export:** Export test cases to Excel (XLSX) with flexible options:
+    **Export:** Export test cases to Excel (XLSX) or ZIP with flexible options:
     - Export all test cases
     - Export OQL-filtered results (e.g., `priority = p1 AND status = ready`)
     - Export selected tests (checkbox selection)
     - Export unassigned tests (not in any folder)
 
-    See [Test Management](/ui/test-management) for export details.
+    See [Import & Export](/ui/import-export) and [Pipelines](/ui/pipelines) for details.
   </Accordion>
 
   <Accordion title="How do I integrate with CI/CD?" icon="code-branch">
-    OneTest provides REST APIs and webhooks for CI/CD integration:
+    OneTest provides **Test Agents** — ReportPortal-compatible API keys for CI/CD integration:
 
-    **Example (GitHub Actions):**
-    ```yaml
-    - name: Run Tests
-      run: |
-        curl -X POST https://api.onetest.ai/v1/runs \
-          -H "Authorization: Bearer ${{ secrets.ONETEST_TOKEN }}" \
-          -d '{"filters": "tags CONTAINS smoke"}'
+    1. Go to **Settings** > **Test Agents**
+    2. Click **+ Add API Key**
+    3. Configure your CI/CD pipeline:
+
+    ```bash
+    RP_ENDPOINT=https://tms.onetest.ai/api/receiver
+    RP_PROJECT=<your-product-uuid>
+    RP_API_KEY=<your-api-key>
     ```
 
-    See API documentation for details.
+    OneTest also supports JUnit XML import via `POST /api/v1/products/{product_uuid}/import/junit`.
+
+    See [Test Agents](/settings/test-agents) for detailed setup.
   </Accordion>
 </AccordionGroup>
 
@@ -316,12 +318,37 @@ icon: circle-question
 
   <Accordion title="AI Assistant is not responding" icon="circle-exclamation">
     **Check:**
-    1. Internet connection
-    2. Browser console for errors
-    3. Try refreshing the page
-    4. Check system status page
+    1. **LLM Configuration** — ensure you've set up an AI provider in [Settings > LLM Configuration](/settings/llm-configuration)
+    2. Internet connection
+    3. Browser console for errors
+    4. Try refreshing the page
+    5. Check system status page
 
     If problem persists, contact support.
+  </Accordion>
+
+  <Accordion title="How do I configure the AI provider?" icon="microchip-ai">
+    The AI Assistant requires an LLM provider:
+
+    1. Go to **Settings** > **LLM Configuration**
+    2. Select a provider: **Azure OpenAI**, **AWS Bedrock**, **OpenAI**, or **Anthropic**
+    3. Enter your API credentials
+    4. Configure model tiers (High for reasoning, Default for general, Low for fast tasks)
+    5. Click **Test Connection** then **Save Configuration**
+
+    See [LLM Configuration](/settings/llm-configuration) for detailed instructions.
+  </Accordion>
+
+  <Accordion title="What are MCP servers?" icon="puzzle-piece">
+    **MCP (Model Context Protocol)** servers extend the AI Assistant's capabilities by connecting external tools.
+
+    For example, you can connect to Jira, GitHub, Slack, or custom internal tools so the AI can interact with them during conversations.
+
+    1. Go to **Settings** > **MCP Servers**
+    2. Browse the registry or add a custom server
+    3. Enable the server
+
+    See [MCP Servers](/settings/mcp-servers) for details.
   </Accordion>
 
   <Accordion title="How do I reset my password?" icon="key">

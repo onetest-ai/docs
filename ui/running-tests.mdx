@@ -23,13 +23,17 @@ OneTest uses an AI-powered test execution engine through the [OneTest QA Agent](
   </Step>
 
   <Step title="Configure the OneTest MCP Server">
-    Add the `test-management` MCP server to your `.mcp.json` (project root):
+    <Tip>
+    **Tip:** Run `npx github:onetest-ai/qa-agent init` and choose "Connect via browser" for one-click setup — it configures the MCP connection automatically.
+    </Tip>
+
+    Or add the `test-management` MCP server manually to your `.mcp.json` (project root):
     ```json
     {
       "mcpServers": {
         "test-management": {
           "type": "http",
-          "url": "https://tms.onetest.ai/api/test-management/mcp",
+          "url": "https://tms.onetest.ai/mcp/test-management",
           "headers": {
             "Authorization": "Bearer <YOUR_API_KEY>"
           }

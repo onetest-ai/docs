@@ -175,7 +175,7 @@ icon: circle-question
     - **Naming style**: Your preferred test naming conventions
     - **Prompt templates**: Save prompts for common scenarios
 
-    Go to **Settings** → **AI Preferences** to customize.
+    AI behavior is configured through **LLM Configuration** in Settings. Go to [Settings → LLM Configuration](/settings/llm-configuration) to customize.
   </Accordion>
 
   <Accordion title="What if the AI generates incorrect tests?" icon="triangle-exclamation">
@@ -340,15 +340,16 @@ icon: circle-question
   </Accordion>
 
   <Accordion title="What are MCP servers?" icon="puzzle-piece">
-    **MCP (Model Context Protocol)** servers extend the AI Assistant's capabilities by connecting external tools.
+    **MCP (Model Context Protocol)** is a protocol that lets AI coding assistants (like Cursor, Windsurf, or Claude Code) connect to OneTest services directly from your editor.
 
-    For example, you can connect to Jira, GitHub, Slack, or custom internal tools so the AI can interact with them during conversations.
+    OneTest exposes MCP endpoints for each of its services (test management, artifacts, credpool, etc.). You configure your AI assistant to connect to these endpoints using your OneTest API key.
 
-    1. Go to **Settings** > **MCP Servers**
-    2. Browse the registry or add a custom server
-    3. Enable the server
+    **Setup options:**
 
-    See [MCP Servers](/settings/mcp-servers) for details.
+    1. **Automatic (recommended):** Run `npx github:onetest-ai/qa-agent init` and follow the browser-connect flow — it configures everything for you.
+    2. **Manual:** Edit your `.mcp.json` file directly to add the OneTest MCP endpoints.
+
+    See [MCP Connectivity](/settings/mcp-servers) for configuration details and endpoint reference.
   </Accordion>
 
   <Accordion title="How do I reset my password?" icon="key">

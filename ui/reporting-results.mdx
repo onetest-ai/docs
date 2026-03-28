@@ -149,7 +149,7 @@ Add the MCP server to your `.mcp.json`:
   "mcpServers": {
     "test-management": {
       "type": "http",
-      "url": "https://tms.onetest.ai/api/test-management/mcp",
+      "url": "https://tms.onetest.ai/mcp/test-management",
       "headers": {
         "Authorization": "Bearer <YOUR_API_KEY>"
       }
@@ -160,32 +160,11 @@ Add the MCP server to your `.mcp.json`:
 
 ### Recording Results
 
-Use `/qa-onetest run` in Claude Code to execute and record a full test run, or call the MCP tools directly:
+Use `/qa-onetest run` in Claude Code to execute and record a full test run.
 
-```python
-# 1. Create a run with test cases
-run = create_run(
-    name="Sprint 5 Regression",
-    identifiers=["TC-0001", "TC-0005", "TC-0012"]
-)
-
-# 2. Start the run
-start_run(run_id=run["id"])
-
-# 3. Get executions and record results
-items = get_run_items(run_id=run["id"])
-for item in items["items"]:
-    record_test_result(
-        execution_id=item["id"],
-        status="passed",
-        step_results=[
-            {"step_number": 1, "status": "passed", "actual_result": "Page loaded"}
-        ]
-    )
-
-# 4. Complete the run
-complete_run(run_id=run["id"])
-```
+<Note>
+MCP tools focus on test case management and search (creating, finding, and updating test cases). For the full run lifecycle — creating runs, recording execution results, and completing runs — use the REST API (see Method 1 and Method 2 above) or the ReportPortal integration.
+</Note>
 
 See [Running Tests](/ui/running-tests) for the full `/qa-onetest` workflow.
 

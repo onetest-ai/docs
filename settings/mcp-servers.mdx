@@ -1,72 +1,66 @@
 ---
-title: "MCP Servers"
-description: "Connect external AI tools to extend the AI Assistant via Model Context Protocol"
+title: "MCP Connectivity"
+description: "Connect AI coding assistants to OneTest services via Model Context Protocol"
 icon: puzzle-piece
+sidebarTitle: "MCP Connectivity"
 ---
 
-MCP (Model Context Protocol) servers extend the AI Assistant's capabilities by connecting external tools and data sources. This allows the AI to interact with Jira, GitHub, Slack, and other services directly from the chat.
+OneTest exposes MCP (Model Context Protocol) endpoints so AI coding assistants — such as Cursor, Windsurf, Claude Code, or any MCP-compatible tool — can interact with OneTest services directly from your editor.
 
-<img src="/images/screenshots/mcp-servers.png" alt="MCP Servers page" />
+## Available Endpoints
 
-## Installing from Registry
+Each OneTest service has its own MCP endpoint at `/mcp/{service-name}`:
 
-The easiest way to add MCP servers is through the built-in registry.
+| Service | Endpoint |
+|---------|----------|
+| Test Management | `https://tms.onetest.ai/mcp/test-management` |
+| Artifacts | `https://tms.onetest.ai/mcp/artifacts` |
+| Membership | `https://tms.onetest.ai/mcp/membership` |
+| Metering | `https://tms.onetest.ai/mcp/metering` |
+| Credential Pool | `https://tms.onetest.ai/mcp/credpool` |
 
-<Steps>
-  <Step title="Browse the Registry">
-    Go to **Settings** > **MCP Servers** and click the **Browse Registry** tab. Search for servers by name (e.g., "atlassian", "github", "slack").
+## Authentication
 
-    <img src="/images/screenshots/mcp-search-results.png" alt="Searching for Atlassian Rovo in the MCP registry" />
-  </Step>
+All MCP endpoints authenticate via API key using a Bearer token. Include your OneTest API key in the `Authorization` header:
 
-  <Step title="Install a Server">
-    Click **Install** on the server you want. Review the server details including the endpoint URL and transport type, then confirm.
+```
+Authorization: Bearer ak_YOUR_API_KEY
+```
 
-    <img src="/images/screenshots/mcp-install-dialog.png" alt="MCP server installation dialog" />
-  </Step>
+To get an API key, go to **Settings** > **API Keys**.
 
-  <Step title="Authenticate (if required)">
-    Some servers require OAuth authentication. After installing, go to the **Installed** tab and click the **Test** button — it will detect OAuth and show an **Authorize** button if needed.
-  </Step>
-</Steps>
+## Setup
 
-## Adding Custom Servers
+### Option 1: Automatic (Recommended)
 
-For internal or custom MCP servers, use the **Add Custom** tab.
+Run the QA Agent init command and follow the browser-connect flow. It detects your editor, authenticates you, and writes the MCP configuration automatically:
 
-<img src="/images/screenshots/mcp-add-custom.png" alt="Add Custom MCP server form" />
+```bash
+npx github:onetest-ai/qa-agent init
+```
 
-**Required fields:**
-- **Server Name** — Unique identifier (e.g., `my-internal-tool`)
-- **Server URL** — The MCP endpoint (e.g., `https://mcp.example.com/sse`)
-- **Transport Type** — HTTP (Streamable HTTP) or SSE (Server-Sent Events)
+### Option 2: Manual `.mcp.json`
 
-**Optional:**
-- **Headers** — Add custom headers for authentication (API keys, Bearer tokens)
+Add OneTest endpoints directly to your `.mcp.json` configuration file. The example below connects to the Test Management service:
+
+```json
+{
+  "mcpServers": {
+    "onetest": {
+      "url": "https://tms.onetest.ai/mcp/test-management",
+      "headers": {
+        "Authorization": "Bearer ak_YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+Add additional entries for other services (artifacts, credpool, etc.) as needed.
 
 <Tip>
-For servers that support OAuth, you can skip the headers and use the Test button on the Installed tab to trigger the OAuth flow.
+The `npx github:onetest-ai/qa-agent init` flow is the easiest way to get started — it handles authentication and writes the correct `.mcp.json` entries for all services.
 </Tip>
-
-## Managing Servers
-
-On the **Installed** tab, you can:
-
-| Action | Description |
-|--------|-------------|
-| **Enable/Disable** | Toggle the server on or off |
-| **Test** | Verify the server connection |
-| **Remove** | Uninstall the server |
-
-## How MCP Extends the AI
-
-When MCP servers are connected, the AI Assistant gains new tools. For example:
-
-- **Atlassian Rovo** — Search Jira issues, read Confluence pages
-- **GitHub** — Browse repositories, read issues and PRs
-- **Slack** — Search messages, post updates
-
-The AI automatically discovers available tools from connected servers and uses them when relevant during conversations.
 
 ## What's Next?
 

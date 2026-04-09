@@ -1,170 +1,219 @@
 ---
 title: Usage & Billing
-description: Monitor API usage, manage budgets, and track coin consumption
+description: Plans, coins, storage limits, and how billing works in OneTest
 icon: coins
 ---
 
-OneTest uses a **coin-based** metering system to track API usage. Every API call made through an API key costs coins, while browser-based (UI) usage is always free.
+OneTest uses a **coin-based** system to meter AI-powered operations. Creating test cases, running tests, and managing your product through the UI is always free — coins only apply to AI operations like pipeline runs, MCP tool calls, and file uploads.
 
-## How Metering Works
+## Plans
 
-<CardGroup cols={2}>
-  <Card title="Free: Browser Usage" icon="desktop">
-    All actions through the OneTest UI are **free** and never consume coins. This includes using the AI assistant, managing tests, and viewing results.
-  </Card>
+OneTest is billed **per product** — each product you create can be on its own plan. Upgrade individual products as your team grows.
 
-  <Card title="Metered: API Keys" icon="key">
-    Programmatic access via API keys is metered. Each API call costs coins based on the operation type.
-  </Card>
-</CardGroup>
-
-## Coin Pricing
-
-Every product starts with a **weekly budget of 1,000 coins** that resets automatically each week.
-
-| Operation | Cost | Description |
-|-----------|------|-------------|
-| REST API call | 1 coin | Any API call authenticated with an API key |
-| MCP single action | 1 coin | Single tool invocation via MCP |
-| Agent loop | 1 coin per 10 steps | AI agent operations (batched) |
-| Test ingestion | 1 coin | ReportPortal agent submissions |
-| JUnit import | 1 coin | JUnit XML file imports |
-| UI operation | Free | All browser-based actions |
+| | **Free** | **Pro** | **Team** | **Enterprise** |
+|---|---|---|---|---|
+| **Price** | $0 | $9 / product / mo | $19 / product / mo | Custom |
+| **Members included** | 3 | 10 | 30 | Custom |
+| **Extra members** | — | +5 seats = $4/mo | +10 seats = $6/mo | Custom |
+| **Coins / month** | 500 | 5,000 | 15,000 | Custom |
+| **Coin top-ups** | — | $5 / 500 coins | $5 / 500 coins | Custom |
+| **Max file size** | 10 MB | 10 MB | 10 MB | 10 MB |
+| **Storage per product** | 100 MB | 5 GB | 15 GB | Custom |
+| **Extra storage** | — | $1 / GB / mo | $1 / GB / mo | Custom |
+| **Data retention** | 90 days | 90 days | 90 days | 90 days + archival |
+| **Audit logs** | — | — | ✅ | ✅ |
+| **SSO (SAML/OIDC)** | — | — | — | ✅ |
+| **Self-hosted** | — | — | — | ✅ |
+| **Support** | Community | Email | Priority email | Dedicated SLA |
 
 <Note>
-Pricing is per API call, not per data volume. A single API call that returns 100 test cases costs the same as one that returns 1.
+Billing is per product, not per workspace. A team working on three products on the Pro plan pays $27/month total.
 </Note>
 
-## Viewing Usage
+### Why Team is Better Value
 
-Navigate to **Settings** > **Usage & Billing** to see your current usage.
-
-### Activity Log
-
-The activity log shows every metered event in real-time:
-
-- **User** who made the request
-- **Operation type** (REST API, MCP action, etc.)
-- **Service** that handled the request
-- **Coin cost** for each event
-- **Timestamp** of the event
-
-Use the date filters to narrow down activity to a specific period.
-
-### Usage Summary
-
-The summary panel shows at a glance:
-
-- **Coins used** this billing cycle
-- **Coins remaining** in your weekly budget
-- **Budget cycle dates** (start and end)
-- **Usage breakdown** by operation type
-
-### Usage Breakdown
-
-See which types of operations consume the most coins:
+The Team plan gives you the same resources as three stacked Pro products at a lower price:
 
 ```
-REST API calls:     450 coins (45%)
-MCP actions:        300 coins (30%)
-Test ingestion:     150 coins (15%)
-JUnit imports:      100 coins (10%)
+3 × Pro  = $27/mo  →  30 members, 15,000 coins, 15 GB storage
+1 × Team = $19/mo  →  30 members, 15,000 coins, 15 GB storage
 ```
 
-### Export Activity
+### Extra Member Packs
 
-Export your activity log as CSV for reporting:
+If you need more members without upgrading your plan, you can add member packs:
 
-1. Go to **Settings** > **Usage & Billing**
-2. Set the date range (up to 3 months)
-3. Click **Export CSV**
+- **Pro:** +5 members for $4/month per pack
+- **Team:** +10 members for $6/month per pack
 
-The export includes: timestamp, user, event type, source, service, operation, and coin cost.
+The math is designed so that stacking packs naturally becomes more expensive than upgrading:
 
-## Managing Budgets
+```
+Pro + 3 packs = $21/mo (25 members)  →  upgrade to Team at $19 makes more sense
+```
 
-### Weekly Budget
+---
 
-Each product has a configurable weekly coin budget:
+## Coins
 
-- **Default:** 1,000 coins per week
-- **Minimum:** No minimum
-- **Maximum:** No limit
+Coins are the unit of AI consumption in OneTest. Your monthly coin balance resets at the start of each billing cycle.
 
-The budget resets automatically at the start of each weekly cycle.
+### What Costs Coins
 
-### Overage Protection
+| Operation | Cost |
+|---|---|
+| MCP AI tool call | 1 coin |
+| File upload (screenshot, artifact, attachment) | 1 coin |
+| Pipeline run — ≤ 50 test cases extracted | 100 coins |
+| Pipeline run — ~100 test cases extracted | 200 coins |
+| Pipeline run — ~200 test cases extracted | 400 coins |
+| Pipeline run — ~500 test cases extracted | 1,000 coins |
 
-By default, API requests are **blocked** when the budget is exhausted. You can change this behavior:
+### What is Always Free
 
-- **Block on exhaustion** (default): API calls return `429 Too Many Requests` when coins run out
-- **Allow overage**: API calls continue working beyond the budget limit
+- All UI operations (create, edit, view, search)
+- Test run execution and result viewing
+- MCP server access (connection setup)
+- REST API reads (non-AI)
+- Member management
 
-### Hourly Rate Limit
+### Monthly Coin Budget
 
-Set a maximum number of requests per hour to prevent runaway scripts or misconfigured integrations:
+| Plan | Coins / month | Approximate pipeline capacity |
+|---|---|---|
+| Free | 500 | ~2 runs of 100 TCs |
+| Pro | 5,000 | ~25 runs of 100 TCs |
+| Team | 15,000 | ~75 runs of 100 TCs |
 
-- **Default:** Unlimited (0)
-- **Configurable:** 1 to 10,000 requests per hour
+<Tip>
+Coins are shared across all users on a product. A product owner can monitor consumption and top up at any time from **Settings → Usage & Billing**.
+</Tip>
 
-### Adjusting Settings
+### Topping Up Coins
 
-To change budget settings:
+When you run out of coins mid-cycle, you can top up without waiting for the reset:
 
 <Steps>
   <Step title="Go to Settings">
-    Navigate to **Settings** > **Usage & Billing**
+    Navigate to **Settings** → **Usage & Billing** for your product.
   </Step>
-
-  <Step title="Edit Budget">
-    Adjust the weekly coin budget, overage policy, and hourly rate limit
+  <Step title="Click Top Up">
+    Select the number of coin packs to add. Each pack is **500 coins for $5**.
   </Step>
-
-  <Step title="Save Changes">
-    Click **Save** to apply the new settings
+  <Step title="Confirm Purchase">
+    Coins are added immediately to your available balance and expire at the end of the current billing cycle.
   </Step>
 </Steps>
 
-## Budget Top-Up
+<Note>
+Top-up coins are available on Pro and Team plans only. Free plan users must upgrade to access top-ups.
+</Note>
 
-If you run out of coins mid-cycle, you can add more:
+---
 
-1. Go to **Settings** > **Usage & Billing**
-2. Click **Top Up**
-3. Enter the number of coins to add
-4. Coins are added immediately to your available balance
+## Storage
 
-<Tip>
-Top-up coins are added to the current cycle only. They don't carry over or change your weekly budget.
-</Tip>
+Each product has a storage quota for uploaded files — screenshots, attachments, test artifacts, and pipeline input files.
 
-## Usage History
+| Plan | Storage per product | Extra storage |
+|---|---|---|
+| Free | 100 MB | — (upgrade required) |
+| Pro | 5 GB | $1 / GB / month |
+| Team | 15 GB | $1 / GB / month |
+| Enterprise | Custom | Custom |
 
-View historical usage by week to identify trends:
+**File size limit: 10 MB per file** across all plans.
 
-- **Weekly snapshots** showing total coins used and event counts
-- **Breakdown by operation type** for each week
-- **Up to 12 weeks** of history
+Storage is consumed by:
+- Files uploaded via the UI or API
+- Screenshots captured during test runs
+- Pipeline input files (Excel, CSV)
+- Test result attachments
+
+<Warning>
+Uploads that exceed the product storage quota will be rejected. Free plan products cannot purchase additional storage — upgrade to Pro or Team to expand.
+</Warning>
+
+---
+
+## Data Retention
+
+All plans retain data for **90 days**. After 90 days, test runs, executions, activity logs, and uploaded files are permanently deleted.
+
+Enterprise plans can configure extended archival retention on custom terms.
+
+<Note>
+Test cases, releases, environments, and product configuration are **never deleted** — only time-series data like runs, executions, and activity logs age out.
+</Note>
+
+---
+
+## Viewing Usage
+
+Navigate to **Settings** → **Usage & Billing** to monitor your product's consumption.
+
+### Coin Balance
+
+At a glance you can see:
+- **Coins used** this billing cycle
+- **Coins remaining**
+- **Cycle reset date**
+- **Breakdown by operation type**
+
+### Activity Log
+
+Every coin-consuming event is logged in real-time:
+
+- **User** who triggered the operation
+- **Operation type** (pipeline run, MCP call, file upload)
+- **Coin cost**
+- **Timestamp**
+
+Use date filters to narrow activity to a specific period. Export to CSV for reporting:
+
+1. Go to **Settings** → **Usage & Billing**
+2. Set the date range (up to 90 days)
+3. Click **Export CSV**
+
+The export includes: timestamp, user, operation type, service, and coin cost.
+
+### Storage Usage
+
+The storage panel shows:
+- **Total used** vs your plan quota
+- **Top consumers** by file type
+- **Recent uploads** with individual file sizes
+
+---
 
 ## FAQ
 
 <AccordionGroup>
   <Accordion title="What happens when I run out of coins?" icon="circle-exclamation">
-    By default, API requests return `429 Too Many Requests`. UI access is never affected. You can either:
-    - Wait for the weekly reset
-    - Top up coins manually
-    - Enable overage to allow continued access
+    Pipeline runs and MCP AI tool calls will be blocked until you either top up coins or wait for the monthly reset. UI access, test execution, and result viewing are never affected. Free plan users must upgrade to top up — there is no overage on Free.
   </Accordion>
 
-  <Accordion title="Does the AI assistant cost coins?" icon="sparkles">
-    **No.** The AI assistant is accessed through the browser UI, which is always free. Only programmatic API access via API keys is metered.
+  <Accordion title="Do coins carry over to the next month?" icon="clock">
+    No. Your coin balance resets at the start of each billing cycle. Top-up coins also expire at the end of the cycle in which they were purchased.
   </Accordion>
 
-  <Accordion title="When does the weekly budget reset?" icon="clock">
-    The budget resets automatically 7 days after the cycle start date. The exact dates are shown on the Usage & Billing page.
+  <Accordion title="How are pipeline coins calculated?" icon="sparkles">
+    Pipeline coins are based on the number of test cases **extracted** from your file, not the file size. After the pipeline analyses your file, it shows you the estimated coin cost before processing begins so you can confirm.
   </Accordion>
 
-  <Accordion title="Can I see who is using the most coins?" icon="users">
-    Yes. The activity log shows which user made each request. Export to CSV and sort by user to see per-user consumption.
+  <Accordion title="Can I add more storage on Free?" icon="hard-drive">
+    No. Free products are capped at 100 MB with no option to purchase more. Upgrade to Pro ($9/product/month) to get 5 GB and the option to add extra storage at $1/GB/month.
+  </Accordion>
+
+  <Accordion title="Is billing per user or per product?" icon="building">
+    Billing is **per product**. Each product is its own billing unit with its own plan, coin balance, and storage quota. Members themselves are not billed — only the product owner is charged.
+  </Accordion>
+
+  <Accordion title="Can I see which team member used the most coins?" icon="users">
+    Yes. The activity log records the user behind every coin-consuming event. Export to CSV and filter by user to see individual consumption.
+  </Accordion>
+
+  <Accordion title="What is Enterprise / self-hosted?" icon="server">
+    Enterprise is OneTest deployed on your own infrastructure. You control the data, retention policies, and user limits. Pricing is custom based on team size and usage. [Contact us](mailto:hello@onetest.ai) to discuss.
   </Accordion>
 </AccordionGroup>

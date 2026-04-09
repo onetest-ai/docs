@@ -51,6 +51,14 @@
               "resources/faq",
               "resources/best-practices"
             ]
+          },
+          {
+            "group": "Legal",
+            "pages": [
+              "legal/terms",
+              "legal/privacy",
+              "legal/refund"
+            ]
           }
         ]
       },
@@ -123,6 +131,25 @@
   "footer": {
     "socials": {
       "github": "https://github.com/onetest-ai"
-    }
+    },
+    "links": [
+      {
+        "header": "Legal",
+        "links": [
+          {
+            "label": "Terms of Service",
+            "href": "/legal/terms"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "/legal/privacy"
+          },
+          {
+            "label": "Refund Policy",
+            "href": "/legal/refund"
+          }
+        ]
+      }
+    ]
   }
 }

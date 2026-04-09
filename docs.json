@@ -51,14 +51,6 @@
               "resources/faq",
               "resources/best-practices"
             ]
-          },
-          {
-            "group": "Legal",
-            "pages": [
-              "legal/terms",
-              "legal/privacy",
-              "legal/refund"
-            ]
           }
         ]
       },
@@ -138,15 +130,15 @@
         "items": [
           {
             "label": "Terms of Service",
-            "href": "/legal/terms"
+            "href": "legal/terms"
           },
           {
             "label": "Privacy Policy",
-            "href": "/legal/privacy"
+            "href": "legal/privacy"
           },
           {
             "label": "Refund Policy",
-            "href": "/legal/refund"
+            "href": "legal/refund"
           }
         ]
       }

@@ -130,15 +130,15 @@
         "items": [
           {
             "label": "Terms of Service",
-            "href": "legal/terms"
+            "href": "/legal/terms"
           },
           {
             "label": "Privacy Policy",
-            "href": "legal/privacy"
+            "href": "/legal/privacy"
           },
           {
             "label": "Refund Policy",
-            "href": "legal/refund"
+            "href": "/legal/refund"
           }
         ]
       }

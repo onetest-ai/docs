@@ -45,11 +45,20 @@
               "settings/mcp-servers"
             ]
           },
-{
+          {
             "group": "Resources",
             "pages": [
               "resources/faq",
               "resources/best-practices"
+            ]
+          },
+          {
+            "group": "Legal",
+            "hidden": true,
+            "pages": [
+              "legal/terms",
+              "legal/privacy",
+              "legal/refund"
             ]
           }
         ]

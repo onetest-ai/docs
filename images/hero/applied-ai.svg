@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
+  <title id="title">OneTest Applied AI product studio</title>
+  <desc id="desc">A premium bento layout showing OneTest tools for GitHub-native testing, desktop AI, presentation creation, and repository-native project execution.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#09070f"/>
+      <stop offset=".48" stop-color="#120b20"/>
+      <stop offset="1" stop-color="#07151a"/>
+    </linearGradient>
+    <radialGradient id="brandGlow" cx="24%" cy="45%" r="55%">
+      <stop stop-color="#7c22ce" stop-opacity=".42"/>
+      <stop offset=".55" stop-color="#501190" stop-opacity=".13"/>
+      <stop offset="1" stop-color="#160825" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c084fc"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#79f2dc"/><stop offset="1" stop-color="#20bfa5"/></linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd08a"/><stop offset="1" stop-color="#f59e42"/></linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b3c2ff"/><stop offset="1" stop-color="#6f8cff"/></linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".11"/><stop offset="1" stop-color="#fff" stop-opacity=".045"/></linearGradient>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="#fff" stroke-opacity=".035"/></pattern>
+    <filter id="shadow"><feDropShadow dx="0" dy="20" stdDeviation="26" flood-color="#000" flood-opacity=".45"/></filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="36"/></filter>
+  </defs>
+
+  <rect width="1600" height="820" rx="36" fill="url(#bg)"/>
+  <rect width="1600" height="820" rx="36" fill="url(#grid)"/>
+  <ellipse cx="360" cy="400" rx="430" ry="390" fill="url(#brandGlow)" filter="url(#soft)"/>
+
+  <!-- Brand zone: the real PNG logo is overlaid by introduction.mdx. -->
+  <g transform="translate(88 102)">
+    <rect width="508" height="616" rx="34" fill="#ffffff" fill-opacity=".035" stroke="#fff" stroke-opacity=".1"/>
+    <path d="M40 184h428" stroke="#fff" stroke-opacity=".1"/>
+    <text x="42" y="238" fill="#f8f4ff" font-family="system-ui, sans-serif" font-size="44" font-weight="720">Applied AI,</text>
+    <text x="42" y="291" fill="#f8f4ff" font-family="system-ui, sans-serif" font-size="44" font-weight="720">built for real work.</text>
+    <text x="42" y="341" fill="#b9b0c8" font-family="system-ui, sans-serif" font-size="20">Tools for people and agents,</text>
+    <text x="42" y="371" fill="#b9b0c8" font-family="system-ui, sans-serif" font-size="20">living where the work happens.</text>
+
+    <g transform="translate(42 430)">
+      <rect width="134" height="36" rx="18" fill="#a855f7" fill-opacity=".15" stroke="#a855f7" stroke-opacity=".38"/>
+      <circle cx="20" cy="18" r="5" fill="#c084fc"/><text x="34" y="24" fill="#e9d5ff" font-family="system-ui" font-size="14" font-weight="650">OPEN SOURCE</text>
+      <rect x="146" width="150" height="36" rx="18" fill="#43e5c5" fill-opacity=".1" stroke="#43e5c5" stroke-opacity=".32"/>
+      <circle cx="166" cy="18" r="5" fill="#43e5c5"/><text x="180" y="24" fill="#c9fff5" font-family="system-ui" font-size="14" font-weight="650">REPO NATIVE</text>
+      <rect y="50" width="140" height="36" rx="18" fill="#8aa4ff" fill-opacity=".12" stroke="#8aa4ff" stroke-opacity=".32"/>
+      <circle cx="20" cy="68" r="5" fill="#8aa4ff"/><text x="34" y="74" fill="#dbe3ff" font-family="system-ui" font-size="14" font-weight="650">AGENT READY</text>
+    </g>
+
+    <g transform="translate(42 555)" fill="none" stroke-linecap="round">
+      <path d="M0 0h260" stroke="#fff" stroke-opacity=".1"/>
+      <path d="M0 0h104" stroke="url(#violet)" stroke-width="3"/>
+      <circle cx="282" cy="0" r="4" fill="#43e5c5"/>
+      <circle cx="300" cy="0" r="4" fill="#8aa4ff"/>
+      <circle cx="318" cy="0" r="4" fill="#f59e42"/>
+    </g>
+  </g>
+
+  <!-- Product bento -->
+  <g transform="translate(634 102)" filter="url(#shadow)">
+    <!-- TMS -->
+    <g>
+      <rect width="390" height="292" rx="28" fill="#151020" stroke="#a855f7" stroke-opacity=".42"/>
+      <rect x="22" y="22" width="346" height="248" rx="20" fill="url(#glass)"/>
+      <circle cx="48" cy="49" r="8" fill="#a855f7"/>
+      <text x="69" y="56" fill="#fff" font-family="system-ui" font-size="18" font-weight="720">TMS</text>
+      <text x="286" y="55" fill="#c8a7ef" font-family="system-ui" font-size="12" font-weight="650">GITHUB NATIVE</text>
+      <path d="M44 80h302" stroke="#fff" stroke-opacity=".1"/>
+      <g transform="translate(43 104)">
+        <path d="M0 14h105M0 48h82M0 82h118" stroke="#c7a5ee" stroke-width="9" stroke-linecap="round" opacity=".66"/>
+        <circle cx="139" cy="14" r="8" fill="#43e5c5"/><circle cx="139" cy="48" r="8" fill="#43e5c5"/><circle cx="139" cy="82" r="8" fill="#f59e42"/>
+        <rect x="180" y="0" width="122" height="110" rx="15" fill="#241738"/>
+        <path d="M202 27h76M202 52h54M202 77h68" stroke="#f0e4ff" stroke-width="8" stroke-linecap="round" opacity=".58"/>
+      </g>
+      <rect x="43" y="234" width="138" height="8" rx="4" fill="#fff" fill-opacity=".1"/>
+      <rect x="43" y="234" width="108" height="8" rx="4" fill="url(#violet)"/>
+    </g>
+
+    <!-- Desktop -->
+    <g transform="translate(410 0)">
+      <rect width="468" height="292" rx="28" fill="#0d181c" stroke="#43e5c5" stroke-opacity=".36"/>
+      <rect x="22" y="22" width="424" height="248" rx="20" fill="url(#glass)"/>
+      <circle cx="48" cy="49" r="8" fill="#43e5c5"/>
+      <text x="69" y="56" fill="#fff" font-family="system-ui" font-size="18" font-weight="720">HARNESS DESKTOP</text>
+      <text x="375" y="55" fill="#8bd7ca" font-family="system-ui" font-size="12" font-weight="650">MACOS</text>
+      <path d="M44 80h380" stroke="#fff" stroke-opacity=".1"/>
+      <g transform="translate(42 102)">
+        <rect width="116" height="126" rx="14" fill="#16282d"/>
+        <circle cx="24" cy="25" r="8" fill="url(#mint)"/>
+        <path d="M43 24h48M18 54h72M18 79h54M18 104h78" stroke="#d6fff7" stroke-width="7" stroke-linecap="round" opacity=".5"/>
+        <rect x="132" width="144" height="126" rx="14" fill="#131c24"/>
+        <path d="M153 25h82M153 51h102M153 77h70M153 103h91" stroke="#cbd7e8" stroke-width="7" stroke-linecap="round" opacity=".52"/>
+        <rect x="290" width="92" height="126" rx="14" fill="#14252a"/>
+        <path d="M309 25h55M309 51h37M309 77h58M309 103h44" stroke="#75dec9" stroke-width="7" stroke-linecap="round" opacity=".65"/>
+      </g>
+      <path d="M42 247h196" stroke="#43e5c5" stroke-width="7" stroke-linecap="round" opacity=".46"/>
+    </g>
+
+    <!-- Octodeck -->
+    <g transform="translate(0 312)">
+      <rect width="390" height="304" rx="28" fill="#1b1210" stroke="#f59e42" stroke-opacity=".38"/>
+      <rect x="22" y="22" width="346" height="260" rx="20" fill="url(#glass)"/>
+      <circle cx="48" cy="49" r="8" fill="#f59e42"/>
+      <text x="69" y="56" fill="#fff" font-family="system-ui" font-size="18" font-weight="720">OCTODECK</text>
+      <text x="283" y="55" fill="#e4b77d" font-family="system-ui" font-size="12" font-weight="650">DECK AS CODE</text>
+      <path d="M44 80h302" stroke="#fff" stroke-opacity=".1"/>
+      <g transform="translate(43 103)">
+        <rect x="14" y="10" width="236" height="126" rx="15" fill="#291a17" transform="rotate(-4 132 73)"/>
+        <rect x="51" y="27" width="252" height="140" rx="16" fill="#352019" stroke="#f59e42" stroke-opacity=".35"/>
+        <circle cx="84" cy="66" r="16" fill="url(#amber)"/>
+        <path d="M112 59h153M112 80h102M76 116h189" stroke="#ffe2bd" stroke-width="8" stroke-linecap="round" opacity=".67"/>
+        <rect x="76" y="139" width="78" height="7" rx="3.5" fill="#f59e42"/>
+      </g>
+      <text x="43" y="264" fill="#d3a875" font-family="system-ui" font-size="13">TYPESCRIPT  ·  INTERACTIVE  ·  EXPORTABLE</text>
+    </g>
+
+    <!-- Octobots -->
+    <g transform="translate(410 312)">
+      <rect width="468" height="304" rx="28" fill="#101426" stroke="#8aa4ff" stroke-opacity=".38"/>
+      <rect x="22" y="22" width="424" height="260" rx="20" fill="url(#glass)"/>
+      <circle cx="48" cy="49" r="8" fill="#8aa4ff"/>
+      <text x="69" y="56" fill="#fff" font-family="system-ui" font-size="18" font-weight="720">OCTOBOTS</text>
+      <text x="335" y="55" fill="#aebcff" font-family="system-ui" font-size="12" font-weight="650">MISSIONS</text>
+      <path d="M44 80h380" stroke="#fff" stroke-opacity=".1"/>
+      <g transform="translate(42 103)">
+        <path d="M19 8v130M19 35h28M19 82h28M19 129h28" stroke="#6c789d" stroke-width="3"/>
+        <circle cx="19" cy="8" r="8" fill="#8aa4ff"/>
+        <rect x="47" y="16" width="146" height="38" rx="10" fill="#18203a"/>
+        <rect x="47" y="63" width="146" height="38" rx="10" fill="#1d1832"/>
+        <rect x="47" y="110" width="146" height="38" rx="10" fill="#15242b"/>
+        <path d="M66 35h94M66 82h78M66 129h104" stroke="#dce3ff" stroke-width="7" stroke-linecap="round" opacity=".56"/>
+        <rect x="219" y="8" width="163" height="140" rx="15" fill="#151b31"/>
+        <path d="M239 34h103M239 63h79M239 92h96" stroke="#dce3ff" stroke-width="7" stroke-linecap="round" opacity=".56"/>
+        <path d="M327 123l12 12 25-31" fill="none" stroke="#43e5c5" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <g transform="translate(43 269)"><circle r="5" fill="#43e5c5"/><circle cx="18" r="5" fill="#a855f7"/><circle cx="36" r="5" fill="#f59e42"/><path d="M55 0h177" stroke="#fff" stroke-opacity=".12"/></g>
+    </g>
+  </g>
+
+  <rect x="634" y="102" width="878" height="616" rx="34" fill="none" stroke="#fff" stroke-opacity=".055"/>
+</svg>

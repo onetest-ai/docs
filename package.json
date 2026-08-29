@@ -1,0 +1,17 @@
+{
+  "name": "@onetest/docs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OneTest website and product documentation",
+  "scripts": {
+    "dev": "mintlify dev",
+    "dev:no-open": "mintlify dev --no-open"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "mintlify": "^4.2.850"
+  }
+}
+

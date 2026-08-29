@@ -1,0 +1,55 @@
+---
+title: OneTest TMS
+description: GitHub-native test management for people and agents
+icon: list-check
+---
+
+# Test management that belongs in the repository
+
+OneTest TMS is a GitHub-native system for managing test cases, test runs, automated results, coverage, and reports without introducing a separate backend.
+
+Test assets remain as files. Runs and coordination use GitHub Issues and Projects. Automation uses GitHub Actions, while an MCP server gives coding agents a structured way to operate the same workflow.
+
+<CardGroup cols={2}>
+  <Card title="View the repository" icon="github" href="https://github.com/onetest-ai/tms">
+    Read the documentation, inspect the implementation, and follow development.
+  </Card>
+  <Card title="Open the current TMS" icon="arrow-up-right-from-square" href="https://tms.onetest.ai">
+    Access the existing OneTest test-management application.
+  </Card>
+</CardGroup>
+
+## How it works
+
+<CardGroup cols={2}>
+  <Card title="Tests as files" icon="file-code">
+    Test cases live in `tests/`, with project configuration in `.onetest/`. They can be reviewed, versioned, and changed with the product code.
+  </Card>
+  <Card title="GitHub as the workflow" icon="github">
+    Issues and Projects provide coordination, while committed reports preserve results and history.
+  </Card>
+  <Card title="MCP and CLI operation" icon="terminal">
+    The `onetest-tms` MCP server turns agent and CLI actions into GitHub operations and committed artifacts.
+  </Card>
+  <Card title="Automation-ready" icon="gears">
+    Ingest automated results, correlate them with test assets, and report coverage through standard developer workflows.
+  </Card>
+</CardGroup>
+
+## Requirements
+
+The GitHub-native TMS uses tools already common in development environments:
+
+- Node.js 20 or newer
+- GitHub CLI (`gh`), authenticated
+- Git
+- Bash
+- Python 3
+
+## Try it
+
+```bash
+npx -y @onetest/tms
+```
+
+The project works today through its MCP server and CLI. See the [repository documentation](https://github.com/onetest-ai/tms) for provisioning, authoring cases, creating runs, recording results, and reporting coverage.

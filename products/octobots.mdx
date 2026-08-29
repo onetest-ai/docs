@@ -1,0 +1,54 @@
+---
+title: Octobots
+sidebarTitle: Octobots / Octoshell
+description: Repository-native planning and execution for AI coding teams
+icon: diagram-project
+---
+
+# A project board that lives with the code
+
+Octobots is a VS Code extension for planning and running AI coding work. It turns a repository's `.octobots/` directory into a project board made of campaigns, missions, tasks, bugs, and workflows.
+
+There is no database or separate server. The YAML files are the board, making plans diffable, reviewable, portable across machines, and accessible to both people and CLI agents.
+
+<Note>
+  The public repository is currently named `octoshell`, while the product and README use the name **Octobots**. This page follows the product name and links to the existing repository.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="View the repository" icon="github" href="https://github.com/onetest-ai/octoshell">
+    Explore the VS Code extension, board model, workflows, architecture graph, and tokenomics packages.
+  </Card>
+  <Card title="Read the project guide" icon="book-open" href="https://github.com/onetest-ai/octoshell#readme">
+    Learn how campaigns, missions, tasks, workflows, and agent gates fit together.
+  </Card>
+</CardGroup>
+
+## What it provides
+
+<CardGroup cols={2}>
+  <Card title="Durable plans" icon="folder-tree">
+    Campaigns, missions, tasks, bugs, and attached documents remain in the repository instead of a temporary chat transcript.
+  </Card>
+  <Card title="Acceptance criteria" icon="list-check">
+    Every task carries a checkable definition of done that planning, QA, review, and completion gates can enforce.
+  </Card>
+  <Card title="Agent workflows" icon="robot">
+    Install skills and hooks that let CLI agents plan work, execute tasks, record provenance, and run completion gates.
+  </Card>
+  <Card title="Architecture and cost insight" icon="chart-line">
+    Octograph finds files that change together, while Tokenomics reports tokens, cost, turns, and activity per mission.
+  </Card>
+</CardGroup>
+
+## Board structure
+
+```text
+.octobots/campaigns/<campaign>/campaign.yaml
+                              /missions/<mission>/mission.yaml
+                                                /tasks/<task>/task.yaml
+                                                /bugs/<bug>/bug.yaml
+                                                /workflows/<name>/workflow.js
+```
+
+Because children are derived from folders and status belongs to each entity, multiple agents can add or update separate work without rewriting a shared index.

@@ -5,25 +5,45 @@
   "colors": {
     "primary": "#6704DE",
     "light": "#DFC5FE",
-    "dark": "#5003B8"
+    "dark": "#A855F7"
   },
   "favicon": "/favicon.png",
   "navigation": {
     "tabs": [
       {
-        "tab": "Documentation",
+        "tab": "OneTest",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "introduction",
+              "about"
+            ]
+          },
+          {
+            "group": "Products",
+            "pages": [
+              "products/tms",
+              "products/dsh-desktop",
+              "products/octodeck",
+              "products/octobots"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "TMS Documentation",
         "groups": [
           {
             "group": "Get Started",
             "pages": [
-              "introduction",
-              "getting-started/quickstart",
               "getting-started/what-is-onetest",
+              "getting-started/quickstart",
               "getting-started/your-first-test"
             ]
           },
           {
-            "group": "Using OneTest",
+            "group": "Test Management",
             "pages": [
               "ui/test-management",
               "ui/running-tests",
@@ -33,6 +53,34 @@
               "ui/automation-coverage",
               "ui/import-export",
               "ui/pipelines"
+            ]
+          },
+          {
+            "group": "AI Assistant",
+            "pages": [
+              "ai/overview",
+              "ai/generate-tests",
+              "ai/search-tests",
+              "ai/ask-questions",
+              "ai/best-practices"
+            ]
+          },
+          {
+            "group": "OQL Query Language",
+            "pages": [
+              "oql/overview",
+              "oql/syntax",
+              "oql/examples",
+              "oql/field-reference"
+            ]
+          },
+          {
+            "group": "Common Workflows",
+            "pages": [
+              "workflows/smoke-tests",
+              "workflows/regression-tests",
+              "workflows/organizing-tests",
+              "workflows/team-collaboration"
             ]
           },
           {
@@ -50,58 +98,6 @@
             "pages": [
               "resources/faq",
               "resources/best-practices"
-            ]
-          },
-          {
-            "group": "Legal",
-            "hidden": true,
-            "pages": [
-              "legal/terms",
-              "legal/privacy",
-              "legal/refund"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "AI Assistant",
-        "groups": [
-          {
-            "group": "AI Assistant",
-            "pages": [
-              "ai/overview",
-              "ai/generate-tests",
-              "ai/search-tests",
-              "ai/ask-questions",
-              "ai/best-practices"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "OQL",
-        "groups": [
-          {
-            "group": "OQL Query Language",
-            "pages": [
-              "oql/overview",
-              "oql/syntax",
-              "oql/examples",
-              "oql/field-reference"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Workflows",
-        "groups": [
-          {
-            "group": "Common Workflows",
-            "pages": [
-              "workflows/smoke-tests",
-              "workflows/regression-tests",
-              "workflows/organizing-tests",
-              "workflows/team-collaboration"
             ]
           }
         ]
@@ -122,11 +118,16 @@
     "dark": "/logo/dark.png"
   },
   "navbar": {
-    "links": [],
+    "links": [
+      {
+        "label": "Open TMS",
+        "href": "https://tms.onetest.ai"
+      }
+    ],
     "primary": {
       "type": "button",
-      "label": "Get Started",
-      "href": "https://tms.onetest.ai"
+      "label": "Explore GitHub",
+      "href": "https://github.com/onetest-ai"
     }
   },
   "footer": {
@@ -134,6 +135,27 @@
       "github": "https://github.com/onetest-ai"
     },
     "links": [
+      {
+        "header": "Projects",
+        "items": [
+          {
+            "label": "OneTest TMS",
+            "href": "/products/tms"
+          },
+          {
+            "label": "DeepSeek Harness Desktop",
+            "href": "/products/dsh-desktop"
+          },
+          {
+            "label": "Octodeck",
+            "href": "/products/octodeck"
+          },
+          {
+            "label": "Octobots",
+            "href": "/products/octobots"
+          }
+        ]
+      },
       {
         "header": "Legal",
         "items": [

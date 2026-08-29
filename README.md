@@ -7,15 +7,14 @@ This directory contains the OneTest documentation built with [Mintlify](https://
 To run the documentation locally:
 
 ```bash
-# Install Mintlify CLI
-npm install -g mintlify
+# Install project dependencies locally
+npm install
 
-# Start the dev server
-cd docs
-mintlify dev
+# Start the local Mintlify preview
+npm run dev
 ```
 
-The documentation will be available at `http://localhost:3000`.
+The documentation will be available at `http://localhost:3000`. Use `npm run dev:no-open` when you do not want the CLI to open a browser automatically.
 
 ## Deployment
 
@@ -29,28 +28,30 @@ To deploy:
 
 ```
 docs/
-├── ai/                    # AI Assistant documentation
-├── getting-started/       # Getting Started guides
-├── oql/                   # OQL query language docs
-├── ui/                    # UI feature documentation
-├── workflows/             # Workflow guides
-├── resources/             # FAQ and best practices
+├── products/              # Applied AI product overviews
+├── ai/                    # TMS AI Assistant documentation
+├── getting-started/       # TMS getting-started guides
+├── oql/                   # TMS query language docs
+├── ui/                    # TMS feature documentation
+├── workflows/             # TMS workflow guides
+├── resources/             # TMS FAQ and best practices
 ├── logo/                  # Logo files
-├── introduction.mdx       # Home page
-├── favicon.png           # Site favicon
-└── mint.json             # Mintlify configuration
+├── introduction.mdx       # OneTest home page
+├── about.mdx              # Product principles and background
+├── favicon.png            # Site favicon
+└── docs.json              # Mintlify configuration
 ```
 
 ## Making Changes
 
 1. Edit MDX files directly
-2. Test locally with `mintlify dev`
+2. Test locally with `npm run dev`
 3. Commit and push to trigger deployment
 4. Changes will be live in ~1 minute
 
 ## Configuration
 
-All documentation settings are in `mint.json`:
+All documentation settings are in `docs.json`:
 - Navigation structure
 - Branding (colors, logo)
 - Social links

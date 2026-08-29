@@ -1,0 +1,47 @@
+---
+title: Octodeck
+description: Typed, interactive presentations for people and AI agents
+icon: presentation
+---
+
+# Deck-as-code for people and agents
+
+Octodeck is a TypeScript and Vite framework for building presentation-like webpages. Slides are typed components, so they are hot-reloadable, interactive, version-controlled, and programmable like the rest of a software project.
+
+A DeepSeek Harness plugin lets an agent create and edit a deck while it renders live beside the conversation.
+
+<CardGroup cols={2}>
+  <Card title="View the repository" icon="github" href="https://github.com/onetest-ai/octodeck">
+    Explore the framework, examples, themes, and Harness plugin.
+  </Card>
+  <Card title="Build with DeepSeek Harness" icon="wand-magic-sparkles" href="https://github.com/onetest-ai/octodeck/tree/main/packages/dsh-deck">
+    Use the `@onetest/dsh-deck` plugin to author presentations in a Harness session.
+  </Card>
+</CardGroup>
+
+## What makes it different
+
+<CardGroup cols={2}>
+  <Card title="Typed slides" icon="code">
+    Slides are ordinary TypeScript components rather than opaque objects stored in a presentation file.
+  </Card>
+  <Card title="Interactive by default" icon="bolt">
+    Use events, timers, fetched data, diagrams, fragments, and custom components directly in a slide.
+  </Card>
+  <Card title="Reusable design system" icon="swatchbook">
+    Compose templates, layouts, content components, diagrams, and themes through a shared visual contract.
+  </Card>
+  <Card title="Portable output" icon="file-export">
+    Export a deck as one self-contained HTML file with its scripts, styles, fonts, and assets included.
+  </Card>
+</CardGroup>
+
+## Quick start
+
+```bash
+npm install
+npm run dev
+npm run new:deck -- my-deck
+```
+
+The development server provides live reloading. A single-deck build can produce an offline HTML artifact that opens in any browser.
